@@ -17,7 +17,7 @@ class CreatePoktansTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->integer('gapoktan_id')->unsigned();
-            $table->integer('foto_id')->unsigned();
+            $table->integer('foto_id')->unsigned()->nullable();
             $table->string('nama');
             $table->string('ketua');
             $table->string('kota');

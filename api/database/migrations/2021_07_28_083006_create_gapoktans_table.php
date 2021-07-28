@@ -16,7 +16,7 @@ class CreateGapoktansTable extends Migration
         Schema::create('gapoktans', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
-            $table->integer('foto_id')->unsigned();
+            $table->integer('foto_id')->unsigned()->nullable();
             $table->string('nama');
             $table->string('ketua');
             $table->string('kota');

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateThubnaiProduksTable extends Migration
+class CreateThubnailProduksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,14 +14,8 @@ class CreateThubnaiProduksTable extends Migration
     public function up()
     {
         Schema::create('thubnail_produks', function (Blueprint $table) {
-            $table->integer('produk_id')->unsigned();
-            $table->string('path');
-            $table->string('nama');
-            $table->string('extension');
-            $table->string('size');
+            $table->id();
             $table->timestamps();
-
-            $table->foreign('produk_id')->references('id')->on('produks');
         });
     }
 
@@ -32,6 +26,6 @@ class CreateThubnaiProduksTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('thubnai_produks');
+        Schema::dropIfExists('thubnail_produks');
     }
 }

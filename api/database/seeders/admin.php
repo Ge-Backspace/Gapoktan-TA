@@ -3,8 +3,9 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
-class DatabaseSeeder extends Seeder
+class admin extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,8 +14,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call(user::class);
-        $this->call(admin::class);
-
+        DB::table('admins')->insert([
+            'user_id' => 1,
+            'nama' => 'Test Admin'
+        ]);
     }
 }

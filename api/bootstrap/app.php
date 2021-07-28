@@ -60,6 +60,10 @@ $app->singleton(
 */
 
 $app->configure('app');
+$app->configure('jwt');
+$app->configure('mail');
+$app->configure('services');
+$app->configure('dompdf');
 
 /*
 |--------------------------------------------------------------------------
@@ -72,13 +76,13 @@ $app->configure('app');
 |
 */
 
-// $app->middleware([
-//     App\Http\Middleware\ExampleMiddleware::class
-// ]);
+$app->middleware([
+    App\Http\Middleware\ExampleMiddleware::class
+]);
 
-// $app->routeMiddleware([
-//     'auth' => App\Http\Middleware\Authenticate::class,
-// ]);
+$app->routeMiddleware([
+    'auth' => App\Http\Middleware\Authenticate::class,
+]);
 
 /*
 |--------------------------------------------------------------------------
@@ -91,9 +95,11 @@ $app->configure('app');
 |
 */
 
-// $app->register(App\Providers\AppServiceProvider::class);
-// $app->register(App\Providers\AuthServiceProvider::class);
+$app->register(App\Providers\AppServiceProvider::class);
+$app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
+$app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
+
 
 /*
 |--------------------------------------------------------------------------
@@ -111,5 +117,16 @@ $app->router->group([
 ], function ($router) {
     require __DIR__.'/../routes/web.php';
 });
+
+$routers = glob(__DIR__ . '/../routes/*.router.php');
+foreach($routers as $requiredRouter){
+    $app->router->group([
+        'namespace' => 'App\Http\Controllers',
+    ], function($router) use ($requiredRouter){
+        require $requiredRouter;
+    });
+}
+
 $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
+
 return $app;

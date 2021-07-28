@@ -16,3 +16,10 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
+$router->get('/test', 'tests@lihatTest');
+$router->post('/addTest', 'tests@inputTest');
+$router->delete('/deleteTest', 'tests@deleteTest');
+$router->post('/updateTest', 'tests@updateTest');
+
+$router->get('/tests', 'TestController@index');

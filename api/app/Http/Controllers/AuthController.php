@@ -8,7 +8,6 @@ use App\Models\Admin;
 use App\Models\Costumer;
 use App\Models\Gapoktan;
 use App\Models\Poktan;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;

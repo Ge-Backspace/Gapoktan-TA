@@ -14,8 +14,15 @@ class CreateThubnailProduksTable extends Migration
     public function up()
     {
         Schema::create('thubnail_produks', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
+            $table->integer('produk_id')->unsigned();
+            $table->string('path');
+            $table->string('nama');
+            $table->string('extension');
+            $table->string('size');
             $table->timestamps();
+
+            $table->foreign('produk_id')->references('id')->on('produks');
         });
     }
 

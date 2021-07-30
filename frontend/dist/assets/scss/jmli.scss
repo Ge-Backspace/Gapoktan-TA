@@ -1,0 +1,252 @@
+$primary: #1771c5;
+$success: #67C23A;
+$warning: #E6A23C;
+$danger: #F56C6C;
+$info: #909399;
+
+body {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+.breadcump {
+  margin-bottom: 10px;
+}
+
+.el-card {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border-radius: 10px;
+}
+
+.el-dialog {
+  border-radius: 10px;
+}
+
+.bg-gradient-primary {
+  background: linear-gradient(90deg, rgba(29, 116, 253, 1) 16%, rgba(69, 242, 252, 1) 100%);
+}
+
+.bg-gradient-success {
+  background: linear-gradient(90deg, rgba(29, 253, 145, 1) 16%, rgba(199, 252, 69, 1) 100%);
+}
+
+.bg-gradient-danger {
+  background: linear-gradient(90deg, rgba(253, 47, 29, 1) 16%, rgba(252, 201, 69, 1) 100%);
+}
+
+.bg-gradient-secondarya {
+  background: linear-gradient(90deg, rgba(92, 29, 253, 1) 16%, rgba(204, 69, 252, 1) 100%);
+}
+
+.card-panel {
+  border: none;
+  color: white;
+
+  .el-card__header {
+    border: none;
+  }
+
+  .info {
+    font-size: 30px;
+    // font-weight: bold;
+  }
+}
+
+.el-col {
+  margin-bottom: 20px;
+}
+
+.color-primary {
+  color: $primary !important;
+}
+
+.color-success {
+  color: $success !important;
+}
+
+.color-danger {
+  color: $danger !important;
+}
+
+.color-warning {
+  color: $warning !important;
+}
+
+.color-info {
+  color: $info !important;
+}
+
+.el-button--primary,
+.el-pagination.is-background .el-pager li:not(.disabled).active {
+  background-color: $primary;
+  border-color: $primary;
+}
+
+.el-tabs__item.is-active,
+.el-link.el-link--primary {
+  color: $primary !important
+}
+
+.float {
+  position: fixed;
+  width: 60px;
+  height: 60px;
+  bottom: 40px;
+  right: 40px;
+  background-color: $primary;
+  color: white !important;
+  border-radius: 50px;
+  text-align: center;
+  z-index: 99;
+  box-shadow: 2px 2px 3px #999;
+  cursor: pointer;
+}
+
+.my-float {
+  margin-top: 23px;
+}
+
+.cropper {
+  height: 100%;
+  width: 100%;
+  background: #DDD;
+}
+
+.content {
+  padding: 20px;
+}
+
+label {
+  font-size: 13px !important;
+}
+
+.header {
+  border-radius: 0 0 50px 50px;
+}
+
+.avatar {
+  vertical-align: middle;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.shadow {
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.shadow-md {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.shadow-lg {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(78, 53, 53, 0.05);
+}
+
+.shadow-xl {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.shadow-2xl {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.shadow-inner {
+  box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+}
+
+.shadow-outline {
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+}
+
+.shadow-none {
+  box-shadow: none;
+}
+
+.dialog-custom .el-dialog__body {
+  background-color: #e8e8e8 !important
+}
+
+.btn-primary {
+  color:white !important
+}
+.el-collapse {
+  border-top:none;
+  // border-bottom: none;
+}
+.collapse-item-section .el-collapse-item__wrap {
+  border:none !important;
+}
+.collapse-item-section .el-collapse-item__header {
+  border: none;
+}
+.collapse-item-section {
+  border: 1px solid gray;
+  border-radius: 10px;
+  padding: 10px;
+}
+.title-section {
+  // margin-top: 15px;
+  width: 100%;
+  h3 {
+      margin-top:35px;
+  }
+  h1 {
+      margin-top:30px;
+  }
+}
+hr {
+  margin-top:5px;
+  margin-bottom:5px;
+  // border-color: gray;
+}
+
+.card-lesson {
+  background-color: #F8F8F8;
+  border-radius: 10px;
+  padding:20px;
+}
+
+.fullheight {
+    height: 100%;
+}
+
+.ohide {
+    overflow: hidden !important;
+}
+
+.bg-putih {
+    background-color: #fff !important;
+}
+
+.el-button--primary, .el-pagination.is-background .el-pager li:not(.disabled).active {
+  background-color: $primary;
+  border-color: $primary;
+}
+.el-table td, .el-table th {
+  padding: 5px;
+}
+.el-tabs__active-bar {
+  background-color: $primary;
+}
+.el-tabs__item.is-active, .el-link.el-link--primary {
+  color: $primary !important;
+}
+.el-tabs__item:hover  {
+  color: $primary;
+}
+*:focus {
+  outline: none !important;
+}
+.vs-card__group .vs-card__group-cards {
+  overflow-x: hidden !important;
+}
+.navbar-vertical .navbar-brand-img, .navbar-vertical .navbar-brand>img {
+  max-height: 4rem;
+  margin-left: 40px;
+  margin-top:15px
+}
+
+td, th {
+  width: 1px;
+  white-space: nowrap;
+}

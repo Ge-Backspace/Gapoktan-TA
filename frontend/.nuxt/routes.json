@@ -1,0 +1,37 @@
+[
+  {
+    "name": "login",
+    "path": "/login",
+    "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\login.vue",
+    "chunkName": "pages/login",
+    "_name": "_573690d2"
+  },
+  {
+    "name": "profile",
+    "path": "/profile",
+    "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\profile.vue",
+    "chunkName": "pages/profile",
+    "_name": "_49420457"
+  },
+  {
+    "name": "register",
+    "path": "/register",
+    "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\register.vue",
+    "chunkName": "pages/register",
+    "_name": "_32e1a5e5"
+  },
+  {
+    "name": "test",
+    "path": "/test",
+    "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\test.vue",
+    "chunkName": "pages/test",
+    "_name": "_c71a5d58"
+  },
+  {
+    "name": "index",
+    "path": "/",
+    "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\index.vue",
+    "chunkName": "pages/index",
+    "_name": "_0abd1480"
+  }
+]

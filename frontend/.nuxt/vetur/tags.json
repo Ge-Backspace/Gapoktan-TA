@@ -1,0 +1,110 @@
+{
+  "Logo": {
+    "description": "Auto imported from D:/TA/App/frontend/components/Logo.vue"
+  },
+  "LazyLogo": {
+    "description": "Auto imported from D:/TA/App/frontend/components/Logo.vue"
+  },
+  "MenuAdmin": {
+    "description": "Auto imported from D:/TA/App/frontend/components/MenuAdmin.js"
+  },
+  "LazyMenuAdmin": {
+    "description": "Auto imported from D:/TA/App/frontend/components/MenuAdmin.js"
+  },
+  "MenuSuperAdmin": {
+    "description": "Auto imported from D:/TA/App/frontend/components/MenuSuperAdmin.js"
+  },
+  "LazyMenuSuperAdmin": {
+    "description": "Auto imported from D:/TA/App/frontend/components/MenuSuperAdmin.js"
+  },
+  "MenuUser": {
+    "description": "Auto imported from D:/TA/App/frontend/components/MenuUser.js"
+  },
+  "LazyMenuUser": {
+    "description": "Auto imported from D:/TA/App/frontend/components/MenuUser.js"
+  },
+  "SidebarAdmin": {
+    "description": "Auto imported from D:/TA/App/frontend/components/SidebarAdmin.vue"
+  },
+  "LazySidebarAdmin": {
+    "description": "Auto imported from D:/TA/App/frontend/components/SidebarAdmin.vue"
+  },
+  "SidebarSuperAdmin": {
+    "description": "Auto imported from D:/TA/App/frontend/components/SidebarSuperAdmin.vue"
+  },
+  "LazySidebarSuperAdmin": {
+    "description": "Auto imported from D:/TA/App/frontend/components/SidebarSuperAdmin.vue"
+  },
+  "SidebarUser": {
+    "description": "Auto imported from D:/TA/App/frontend/components/SidebarUser.vue"
+  },
+  "LazySidebarUser": {
+    "description": "Auto imported from D:/TA/App/frontend/components/SidebarUser.vue"
+  },
+  "UploadService": {
+    "description": "Auto imported from D:/TA/App/frontend/components/UploadService.js"
+  },
+  "LazyUploadService": {
+    "description": "Auto imported from D:/TA/App/frontend/components/UploadService.js"
+  },
+  "ChartBar": {
+    "description": "Auto imported from D:/TA/App/frontend/components/chart/chart-bar.vue"
+  },
+  "LazyChartBar": {
+    "description": "Auto imported from D:/TA/App/frontend/components/chart/chart-bar.vue"
+  },
+  "ChartDoughnut": {
+    "description": "Auto imported from D:/TA/App/frontend/components/chart/chart-doughnut.vue"
+  },
+  "LazyChartDoughnut": {
+    "description": "Auto imported from D:/TA/App/frontend/components/chart/chart-doughnut.vue"
+  },
+  "ChartLine": {
+    "description": "Auto imported from D:/TA/App/frontend/components/chart/chart-line.vue"
+  },
+  "LazyChartLine": {
+    "description": "Auto imported from D:/TA/App/frontend/components/chart/chart-line.vue"
+  },
+  "FooterAfsen": {
+    "description": "Auto imported from D:/TA/App/frontend/components/LandingPage/FooterAfsen.vue"
+  },
+  "LazyFooterAfsen": {
+    "description": "Auto imported from D:/TA/App/frontend/components/LandingPage/FooterAfsen.vue"
+  },
+  "HeaderAfsen": {
+    "description": "Auto imported from D:/TA/App/frontend/components/LandingPage/HeaderAfsen.vue"
+  },
+  "LazyHeaderAfsen": {
+    "description": "Auto imported from D:/TA/App/frontend/components/LandingPage/HeaderAfsen.vue"
+  },
+  "HelloWorld": {
+    "description": "Auto imported from D:/TA/App/frontend/components/LandingPage/HelloWorld.vue"
+  },
+  "LazyHelloWorld": {
+    "description": "Auto imported from D:/TA/App/frontend/components/LandingPage/HelloWorld.vue"
+  },
+  "HeroAfsen": {
+    "description": "Auto imported from D:/TA/App/frontend/components/LandingPage/HeroAfsen.vue"
+  },
+  "LazyHeroAfsen": {
+    "description": "Auto imported from D:/TA/App/frontend/components/LandingPage/HeroAfsen.vue"
+  },
+  "InstaAfsen": {
+    "description": "Auto imported from D:/TA/App/frontend/components/LandingPage/InstaAfsen.vue"
+  },
+  "LazyInstaAfsen": {
+    "description": "Auto imported from D:/TA/App/frontend/components/LandingPage/InstaAfsen.vue"
+  },
+  "MidAfsen": {
+    "description": "Auto imported from D:/TA/App/frontend/components/LandingPage/MidAfsen.vue"
+  },
+  "LazyMidAfsen": {
+    "description": "Auto imported from D:/TA/App/frontend/components/LandingPage/MidAfsen.vue"
+  },
+  "PartnerAfsen": {
+    "description": "Auto imported from D:/TA/App/frontend/components/LandingPage/PartnerAfsen.vue"
+  },
+  "LazyPartnerAfsen": {
+    "description": "Auto imported from D:/TA/App/frontend/components/LandingPage/PartnerAfsen.vue"
+  }
+}

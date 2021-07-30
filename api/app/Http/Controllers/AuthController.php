@@ -28,20 +28,20 @@ class AuthController extends Controller
         $token = app('auth')->attempt($request->only('email', 'password'));
         if ($token) {
             $user = JWTAuth::user();
-            $account = null;
+            $account = [];
             if (Admin::where('user_id', $user['id'])) {
-                $account = Admin::where('user_id', $user['id']);
+                $account = ['level' => 1, 'account' => 'Admin'];
             } elseif (Gapoktan::where('user_id', $user['id'])) {
-                $account = Gapoktan::where('user_id', $user['id']);
+                $account = ['level' => 2, 'account' => 'Gapoktan'];
             } elseif (Poktan::where('user_id', $user['id'])) {
-                $account = Poktan::where('user_id', $user['id']);
+                $account = ['level' => 3, 'account' => 'Poktan'];
             } elseif (Costumer::where('user_id', $user['id'])) {
-                $account = Costumer::where('user_id', $user['id']);
+                $account = ['level' => 4, 'account' => 'Costumer'];
             }
             return $this->resp([
                 'token' => $token,
                 'user' => $user,
-                'account' => $account->get()
+                'account' => $account
             ]);
         } else {
             return $this->resp(null, Variable::LOGIN_NOT_MATCH, false, 401);

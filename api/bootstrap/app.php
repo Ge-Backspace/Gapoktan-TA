@@ -65,6 +65,9 @@ $app->configure('mail');
 $app->configure('services');
 $app->configure('dompdf');
 
+$app->alias('mail.manager', Illuminate\Mail\MailManager::class);
+$app->alias('mail.manager', Illuminate\Contracts\Mail\Factory::class);
+
 /*
 |--------------------------------------------------------------------------
 | Register Middleware
@@ -77,11 +80,13 @@ $app->configure('dompdf');
 */
 
 $app->middleware([
-    App\Http\Middleware\ExampleMiddleware::class
+    // App\Http\Middleware\ExampleMiddleware::class,
+    App\Http\Middleware\Cors::class,
 ]);
 
 $app->routeMiddleware([
     'auth' => App\Http\Middleware\Authenticate::class,
+    'superadmin' => App\Http\Middleware\SuperAdmin::class,
 ]);
 
 /*
@@ -99,7 +104,13 @@ $app->register(App\Providers\AppServiceProvider::class);
 $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
-
+$app->register(Illuminate\Mail\MailServiceProvider::class);
+$app->register(Illuminate\Auth\Passwords\PasswordResetServiceProvider::class);
+$app->register(Illuminate\Notifications\NotificationServiceProvider::class);
+$app->register(Maatwebsite\Excel\ExcelServiceProvider::class);
+$app->register(\Barryvdh\DomPDF\ServiceProvider::class);
+$app->register(Spatie\Geocoder\GeocoderServiceProvider::class);
+$app->alias('Geocoder', Spatie\Geocoder\Facades\Geocoder::class);
 
 /*
 |--------------------------------------------------------------------------
@@ -128,5 +139,6 @@ foreach($routers as $requiredRouter){
 }
 
 $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
+
 
 return $app;

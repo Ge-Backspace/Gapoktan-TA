@@ -12,28 +12,39 @@
 <script>
 export default {
   mounted() {
-    let account = JSON.parse(JSON.stringify(this.$auth.account));
-    // if (user) {
-    //   if (!user.aktif) {
-    //     this.$auth.logout()
-    //     this.$router.push('/login')
-    //     this.$notify.error({
-    //       title: "Error",
-    //       message: "Akun Anda Tidak Aktif"
-    //     })
-    //   }else {
-    //     let roles = user.role_id;
-    //     if (roles == 1) {
-    //       this.$router.push('/superadmin/beranda');
-    //     } else if (roles == 2) {
-    //       this.$router.push('/admin/beranda');
-    //     } else if (roles == 3) {
-    //       this.$router.push('/user/beranda');
-    //     }
-    //   }
-    // } else {
-    //   this.$router.push('/login')
-    // }
+    this.$notify.success({
+      title: 'Berhasil Login',
+      message: 'Selamat Datang Admin! :)'
+    });
+    let user = JSON.parse(JSON.stringify(this.$auth.user))
+    if (user) {
+      this.$axios.get('/account/'+ user.id)
+      .then((resp) => {
+        let account = resp.data.data
+        if (account == 1) {
+          this.$router.push('/admin/')
+        } else if (account == 2) {
+          this.$router.push('/gapoktan/')
+        } else if (account == 3) {
+          this.$router.push('/poktan/')
+        } else if (account == 4) {
+          this.$router.push('/costumer/')
+        } else {
+          this.$router.push('/')
+        }
+      })
+      .catch((err) => {
+        let error = err.response.data.data;
+        if (error) {
+          this.showErrorField(error);
+        } else {
+          this.$notify.error({
+            title: "Error",
+            message: err.response.data.message,
+          });
+        }
+      })
+    }
   },
 };
 </script>

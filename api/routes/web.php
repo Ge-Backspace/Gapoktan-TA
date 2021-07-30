@@ -2,6 +2,9 @@
 
 /** @var \Laravel\Lumen\Routing\Router $router */
 
+use App\Http\Controllers\Auth\AuthController;
+use Illuminate\Support\Facades\Artisan;
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -17,14 +20,7 @@ $router->get('/', function () use ($router) {
     return $router->app->version();
 });
 
-$router->get('/test', 'tests@lihatTest');
-$router->post('/addTest', 'tests@inputTest');
-$router->delete('/deleteTest', 'tests@deleteTest');
-$router->post('/updateTest', 'tests@updateTest');
-
-$router->get('/tests', 'TestController@index');
-$router->get('/testUser', 'TestController@user');
-$router->get('/testProduk', 'TestController@getProduk');
-$router->post('/addProduk', 'TestController@addProduk');
-$router->post('/updateProduk/{id}', 'TestController@updateProduk');
-$router->delete('deleteProduk/{id}', 'testController@deleteProduk');
+//migrate
+// $router->get('/migrate', function(){
+//     Artisan::call('migrate');
+// });

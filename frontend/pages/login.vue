@@ -91,10 +91,6 @@
           });
           this.showLoading = false;
           if (this.$auth.loggedIn) {
-            this.$notify.success({
-              title: 'Berhasil Login',
-              message: 'Selamat Datang! :)'
-            });
             this.$router.push('/')
           }
         } catch (e) {

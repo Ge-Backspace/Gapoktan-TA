@@ -7,21 +7,23 @@ use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Tymon\JWTAuth\Contracts\JWTSubject;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Lumen\Auth\Authorizable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class User extends Model implements AuthenticatableContract, AuthorizableContract, JWTSubject
+class User extends Model implements AuthenticatableContract, AuthorizableContract, JWTSubject, CanResetPasswordContract
 {
-    use Authenticatable, Authorizable, HasFactory, SoftDeletes;
-
+    use Authenticatable, Authorizable, HasFactory, Notifiable, CanResetPassword, SoftDeletes;
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'email'
+        'email', 'password'
     ];
 
     /**
@@ -51,25 +53,5 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     public function getJWTCustomClaims()
     {
         return [];
-    }
-
-    public function admin()
-    {
-        return $this->hasMany('App/Models/Admin');
-    }
-
-    public function gapoktan()
-    {
-        return $this->hasMany('App/Models/Gapoktan');
-    }
-
-    public function poktan()
-    {
-        return $this->hasMany('App/Models/Poktan');
-    }
-
-    public function costumer()
-    {
-        return $this->hasMany('App/Models/Costumer');
     }
 }

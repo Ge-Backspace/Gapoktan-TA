@@ -4,7 +4,11 @@ import { normalizeURL, decode } from '@nuxt/ufo'
 import { interopDefault } from './utils'
 import scrollBehavior from './router.scrollBehavior.js'
 
+const _2fd3d565 = () => interopDefault(import('..\\pages\\admin\\index.vue' /* webpackChunkName: "pages/admin/index" */))
+const _a17ae0a4 = () => interopDefault(import('..\\pages\\costumer\\index.vue' /* webpackChunkName: "pages/costumer/index" */))
+const _c473121e = () => interopDefault(import('..\\pages\\gapoktan\\index.vue' /* webpackChunkName: "pages/gapoktan/index" */))
 const _573690d2 = () => interopDefault(import('..\\pages\\login.vue' /* webpackChunkName: "pages/login" */))
+const _14e1220b = () => interopDefault(import('..\\pages\\poktan\\index.vue' /* webpackChunkName: "pages/poktan/index" */))
 const _49420457 = () => interopDefault(import('..\\pages\\profile.vue' /* webpackChunkName: "pages/profile" */))
 const _32e1a5e5 = () => interopDefault(import('..\\pages\\register.vue' /* webpackChunkName: "pages/register" */))
 const _c71a5d58 = () => interopDefault(import('..\\pages\\test.vue' /* webpackChunkName: "pages/test" */))
@@ -27,9 +31,25 @@ export const routerOptions = {
   scrollBehavior,
 
   routes: [{
+    path: "/admin",
+    component: _2fd3d565,
+    name: "admin"
+  }, {
+    path: "/costumer",
+    component: _a17ae0a4,
+    name: "costumer"
+  }, {
+    path: "/gapoktan",
+    component: _c473121e,
+    name: "gapoktan"
+  }, {
     path: "/login",
     component: _573690d2,
     name: "login"
+  }, {
+    path: "/poktan",
+    component: _14e1220b,
+    name: "poktan"
   }, {
     path: "/profile",
     component: _49420457,

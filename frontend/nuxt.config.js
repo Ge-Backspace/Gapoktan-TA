@@ -66,7 +66,7 @@ export default {
   */
  loading: {
     name: 'chasing-dots',
-    color: '#E6A23C',
+    color: '#0275D8',
     background: 'white',
     height: '4px'
  },

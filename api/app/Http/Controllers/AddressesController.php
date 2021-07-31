@@ -16,8 +16,7 @@ class AddressesController extends Controller
     {
         $data = Address::where('costumer_id', $request->costumer_id)
         ->join('costomers', 'costomer.id', '=', 'Addresses.costomer_id')
-        ->select(DB::raw('costomers.*, costomers.nama as nama'))
-        ->get();
+        ->select(DB::raw('costomers.*, costomers.nama as nama'));
         return $this->getPaginate($data, $request, ['adresses.nama', 'adresses.nomor_hp', 'addresses.alamat']);
     }
 

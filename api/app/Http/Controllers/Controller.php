@@ -204,9 +204,8 @@ class Controller extends BaseController
         }
     }
 
-    public function fotoProfil($file)
+    public function storeFile($model, $file, $type)
     {
-        $type = Variable::USER;
         $basePath = base_path('storage/app/public/' . $type);
         $extension = $file->getClientOriginalExtension();
         if (empty($extension)) {
@@ -219,7 +218,7 @@ class Controller extends BaseController
             'size' => $file->getSize(),
             'extension' => $extension,
         ];
-        $dataFile = FotoProfil::create($newFile);
+        $dataFile = $model->create($newFile);
         $file->move($basePath, $fileName);
         return $dataFile->id;
     }

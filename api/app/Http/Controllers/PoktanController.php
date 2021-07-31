@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
 use App\Helpers\Variable;
+use App\Models\FotoProfil;
 use App\Models\Poktan;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -11,7 +12,6 @@ use Illuminate\Support\Facades\Validator;
 
 class PoktanController extends Controller
 {
-    //
     public function lihatPoktan(Request $request)
     {
 
@@ -40,7 +40,7 @@ class PoktanController extends Controller
         ]);
         $foto_id = 0;
         if(!empty($request->foto)){
-            $foto_id = $this->fotoProfil($request->foto);
+            $foto_id = $this->storeFile(new FotoProfil(), $request->foto, Variable::USER);
         }
         $poktan = Poktan::create([
             'user_id' => $user->id,
@@ -81,7 +81,7 @@ class PoktanController extends Controller
         ]);
         $foto_id = 0;
         if(!empty($request->foto)){
-            $foto_id = $this->fotoProfil($request->foto);
+            $foto_id = $this->storeFile(new FotoProfil(), $request->foto, Variable::USER);
         }
         if ($foto_id) {
             $gapoktan->update([

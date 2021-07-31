@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\Helper;
 use App\Helpers\Variable;
 use App\Models\Admin;
+use App\Models\FotoProfil;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -37,7 +38,7 @@ class AdminsController extends Controller
         ]);
         $foto_id = 0;
         if(!empty($request->foto)){
-            $foto_id = $this->fotoProfil($request->foto);
+            $foto_id = $this->storeFile(new FotoProfil(), $request->foto, Variable::USER);
         }
         $admin = Admin::create([
             'user_id' => $user->id,
@@ -70,7 +71,7 @@ class AdminsController extends Controller
         ]);
         $foto_id = 0;
         if(!empty($request->foto)){
-            $foto_id = $this->fotoProfil($request->foto);
+            $foto_id = $this->storeFile(new FotoProfil(), $request->foto, Variable::USER);
         }
         if ($foto_id) {
             $admin->update([
@@ -91,7 +92,7 @@ class AdminsController extends Controller
         try {
             Admin::find($id)->delete();
         } catch (\Throwable $e) {
-            return $this->resp(null, $e->getMessage(), false, 404);
+            return $this->resp(null, $e->getMessage(), false, 406);
         }
         return $this->resp();
     }

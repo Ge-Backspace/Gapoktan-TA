@@ -20,7 +20,8 @@ class user extends Seeder
     {
         $admin = ModelsUser::create([
             'email' => 'admin@test.com',
-            'password' => app('hash')->make('testadmin')
+            'password' => app('hash')->make('testadmin'),
+            'aktif' => true
         ]);
 
         Admin::create([
@@ -30,7 +31,8 @@ class user extends Seeder
 
         $gapoktan = ModelsUser::create([
             'email' => 'gapoktan@test.com',
-            'password' => app('hash')->make('testgapoktan')
+            'password' => app('hash')->make('testgapoktan'),
+            'aktif' => true
         ]);
 
         $gapoktanTable = Gapoktan::create([
@@ -43,7 +45,8 @@ class user extends Seeder
 
         $poktan = ModelsUser::create([
             'email' => 'poktan@test.com',
-            'password' => app('hash')->make('testpoktan')
+            'password' => app('hash')->make('testpoktan'),
+            'aktif' => true
         ]);
 
         Poktan::create([
@@ -57,7 +60,8 @@ class user extends Seeder
 
         $costumer = ModelsUser::create([
             'email' => 'costumer@test.com',
-            'password' => app('hash')->make('testcostumer')
+            'password' => app('hash')->make('testcostumer'),
+            'aktif' => true
         ]);
 
         Costumer::create([

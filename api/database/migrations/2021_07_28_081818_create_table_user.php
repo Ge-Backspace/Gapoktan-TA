@@ -17,6 +17,7 @@ class CreateTableUser extends Migration
             $table->increments('id');
             $table->string('email')->unique();
             $table->string('password');
+            $table->boolean('aktif')->default(false);
             $table->softDeletes();
             $table->timestamps();
         });

@@ -2,41 +2,55 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Helper;
+use App\Helpers\Variable;
 use App\Models\Kategori;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class KategoriController extends Controller
 {
-    public function lihatKategori()
+    public function lihatKategori(Request $request)
     {
-        # code...
-        return $this->resp(Kategori::all());
+        return $this->getPaginate(Kategori::all(), $request, ['nama']);
     }
 
     public function tambahKategori(Request $request)
     {
-        # code...
-        $tambah = $request->only('nama');
-        $tambahKategori = Kategori::create($tambah);
-        return $this->resp($tambahKategori);
+        $input = $request->only('nama');
+        $validator = Validator::make($input, [
+            'nama' => 'required|string|min:4|max:100',
+            'email' => 'required',
+            'password' => 'required',
+            'foto' => 'mimes:jpeg,png,jpg|max:2048'
+        ], Helper::messageValidation());
+        if ($validator->fails()) {
+            return $this->resp(Helper::generateErrorMsg($validator->errors()->getMessages()), Variable::FAILED, false, 406);
+        }
+        $add = Kategori::create($input);
+        return $this->resp($add);
     }
 
     public function ubahKategori(Request $request, $id)
     {
-        # code...
-        $ubah = $request->only(['nama']);
+        $input = $request->only(['nama']);
+        $validator = Validator::make($input, [
+            'nama' => 'required',
+        ], Helper::messageValidation());
+        if ($validator->fails()) {
+            return $this->resp(Helper::generateErrorMsg($validator->errors()->getMessages()), Variable::FAILED, false, 406);
+        }
         $cari = Kategori::find($id);
         if(!$cari){
             return $this->resp(null, 'kategori tidak ditemukan', false, 404);
         }
-        $ubahData = ['nama' => $ubah['nama']];
-        $update = $cari->update($ubahData);
+        $inputUpdate = ['nama' => $input['nama']];
+        $update = $cari->update($inputUpdate);
         return $this->resp($update);
     }
 
     public function hapusKategori($id)
     {
-        # code...
         try {
             Kategori::find($id)->delete();
         } catch (\Throwable $e) {

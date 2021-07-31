@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
 use App\Helpers\Variable;
+use App\Models\FotoProfil;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Lumen\Routing\Controller as BaseController;
 use Spatie\Geocoder\Geocoder;
@@ -201,5 +202,25 @@ class Controller extends BaseController
         } else {
             return $this->resp(null, Variable::NOT_FOUND, false, 404);
         }
+    }
+
+    public function fotoProfil($file)
+    {
+        $type = Variable::USER;
+        $basePath = base_path('storage/app/public/' . $type);
+        $extension = $file->getClientOriginalExtension();
+        if (empty($extension)) {
+            $extension = $file->clientExtension();
+        }
+        $fileName = $type . '-' . time() . '.' . $extension;
+        $newFile = [
+            'file_name' => $fileName,
+            'path' => $fileName,
+            'size' => $file->getSize(),
+            'extension' => $extension,
+        ];
+        $dataFile = FotoProfil::create($newFile);
+        $file->move($basePath, $fileName);
+        return $dataFile->id;
     }
 }

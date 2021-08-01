@@ -29,4 +29,9 @@ class Produk extends Model
     {
         return $this->hasOne('App/Models/ThubnailProduk');
     }
+
+    public function orderdetail()
+    {
+        return $this->hasMany('App/Models/OrderDetail');
+    }
 }

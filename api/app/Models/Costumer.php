@@ -24,4 +24,9 @@ class Costumer extends Model
     {
         return $this->hasMany('App/Models/Address');
     }
+
+    public function order()
+    {
+        return $this->hasMany('App/Models/Order');
+    }
 }

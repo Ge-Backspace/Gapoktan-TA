@@ -17,12 +17,13 @@ class CreateOrdersTable extends Migration
             $table->increments('id');
             $table->integer('costumer_id')->unsigned();
             $table->integer('address_id')->unsigned();
+            $table->string('kd_order')->unique();
             $table->integer('total_harga');
-            $table->boolean('status_payment');
+            $table->boolean('status_payment')->default(false);
             $table->text('deskripsi');
-            $table->date('tanggal_bayar');
+            $table->date('tanggal_bayar')->nullable();
             $table->string('no_rek');
-            $table->string('bukti_pembayaran');
+            $table->string('bukti_pembayaran')->nullable();
             $table->timestamps();
 
             $table->foreign('costumer_id')->references('id')->on('costumers');

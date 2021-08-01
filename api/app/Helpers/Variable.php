@@ -25,4 +25,7 @@ class Variable
     public const GPDK = 'GAMBARPRODUK';
     // Thumbnail Produk
     public const TPDK = 'THUBNAILPRODUK';
+    //Bukti Pembayaran
+    public const BPYR = 'BUKTIPEMBAYARAN';
+
 }

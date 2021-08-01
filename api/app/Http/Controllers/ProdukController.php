@@ -13,7 +13,7 @@ class ProdukController extends Controller
 {
     public function lihatProdukGapoktan(Request $request)
     {
-        return $this->getPaginate(Produk::where('gapoktan_id', $request->gapoktan_id), $request, [
+        return $this->getPaginate(Produk::where('gapoktan_id', $request->gapoktan_id)->orderBy('id', 'DESC'), $request, [
             'kategori_id', 'nama', 'kode', 'stok', 'harga', 'deskripsi', 'status'
         ]);
     }

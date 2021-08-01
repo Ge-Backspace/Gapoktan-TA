@@ -14,7 +14,7 @@ class CostumersController extends Controller
 {
     public function lihatCostumer(Request $request)
     {
-        return $this->getPaginate(Costumer::all(), $request, ['nama']);
+        return $this->getPaginate(Costumer::orderBy('id', 'DESC'), $request, ['nama']);
     }
 
     public function tambahCostumer(Request $request)
@@ -35,7 +35,7 @@ class CostumersController extends Controller
             'email' => $input['email'],
             'password' => app('hash')->make($input['password'])
         ]);
-        $foto_id = 0;
+        $foto_id = null;
         if(!empty($request->foto)){
             $foto_id = $this->storeFile(new FotoProfil(),$request->foto, Variable::USER);
         }
@@ -68,7 +68,7 @@ class CostumersController extends Controller
         $user->update([
             'email' => $input['email'],
         ]);
-        $foto_id = 0;
+        $foto_id = null;
         if(!empty($request->foto)){
             $foto_id = $this->storeFile(new FotoProfil(), $request->foto, Variable::USER);
         }

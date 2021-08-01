@@ -14,8 +14,7 @@ class AdminsController extends Controller
 {
     public function lihatAdmin(Request $request)
     {
-
-        return $this->getPaginate(Admin::all(),$request, ['nama']);
+        return $this->getPaginate(Admin::orderBy('id', 'DESC'), $request, ['nama']);
     }
 
     public function tambahAdmin(Request $request)
@@ -36,7 +35,7 @@ class AdminsController extends Controller
             'email' => $input['email'],
             'password' => app('hash')->make($input['password'])
         ]);
-        $foto_id = 0;
+        $foto_id = null;
         if(!empty($request->foto)){
             $foto_id = $this->storeFile(new FotoProfil(), $request->foto, Variable::USER);
         }
@@ -58,7 +57,7 @@ class AdminsController extends Controller
             'email', 'nama', 'foto'
         ]);
         $validator = Validator::make($input, [
-            'nama' => 'required|string|min:4|max:100',
+            'nama' => 'required|string',
             'email' => 'required',
             'foto' => 'mimes:jpeg,png,jpg|max:2048'
         ], Helper::messageValidation());
@@ -69,7 +68,7 @@ class AdminsController extends Controller
         $user->update([
             'email' => $input['email'],
         ]);
-        $foto_id = 0;
+        $foto_id = null;
         if(!empty($request->foto)){
             $foto_id = $this->storeFile(new FotoProfil(), $request->foto, Variable::USER);
         }
@@ -80,11 +79,10 @@ class AdminsController extends Controller
             ]);
         } else {
             $admin->update([
-                'user_id' => $user->id,
                 'nama' => $input['nama'],
             ]);
         }
-        return $this->resp($admin);
+        return $this->resp(['user' => $user, 'admin' => $admin]);
     }
 
     public function hapusAdmin($id)

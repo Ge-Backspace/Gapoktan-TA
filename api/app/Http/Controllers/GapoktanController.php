@@ -14,7 +14,7 @@ class GapoktanController extends Controller
 {
     public function lihatGapoktan(Request $request)
     {
-        return $this->getPaginate(Gapoktan::all(), $request, ['nama', 'ketua', 'kota', 'alamat']);
+        return $this->getPaginate(Gapoktan::orderBy('id', 'DESC'), $request, ['nama', 'ketua', 'kota', 'alamat']);
     }
 
     public function tambahGapoktan(Request $request)
@@ -38,7 +38,7 @@ class GapoktanController extends Controller
             'email' => $input['email'],
             'password' => app('hash')->make($input['password'])
         ]);
-        $foto_id = 0;
+        $foto_id = null;
         if(!empty($request->foto)){
             $foto_id = $this->storeFile(new FotoProfil(), $request->foto, Variable::USER);
         }
@@ -77,7 +77,7 @@ class GapoktanController extends Controller
         $user->update([
             'email' => $input['email']
         ]);
-        $foto_id = 0;
+        $foto_id = null;
         if(!empty($request->foto)){
             $foto_id = $this->storeFile(new FotoProfil(), $request->foto, Variable::USER);
         }

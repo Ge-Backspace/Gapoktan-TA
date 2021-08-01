@@ -8,9 +8,11 @@ use App\Models\Admin;
 use App\Models\Costumer;
 use App\Models\Gapoktan;
 use App\Models\Poktan;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
+
 class AuthController extends Controller
 {
     public function login (Request $request){
@@ -54,5 +56,30 @@ class AuthController extends Controller
             $account = 4;
         }
         return $this->resp($account);
+    }
+
+    public function register(Request $request)
+    {
+        $input = $request->only([
+            'nama', 'email', 'password'
+        ]);
+        $validator = Validator::make($input, [
+            'nama' => 'required|string|min:4|max:100',
+            'email' => 'required',
+            'password' => 'required',
+        ], Helper::messageValidation());
+        if ($validator->fails()) {
+            return $this->resp(Helper::generateErrorMsg($validator->errors()->getMessages()), Variable::FAILED, false, 406);
+        }
+        $user = User::create([
+            'email' => $input['email'],
+            'password' => app('hash')->make($input['password']),
+            'aktif' => true
+        ]);
+        $costumer = Costumer::create([
+            'user_id' => $user->id,
+            'nama' => $input['nama'],
+        ]);
+        return $this->resp($costumer);
     }
 }

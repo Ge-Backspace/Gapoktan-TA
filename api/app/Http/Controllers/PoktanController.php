@@ -15,7 +15,7 @@ class PoktanController extends Controller
     public function lihatPoktan(Request $request)
     {
 
-        return $this->getPaginate(Poktan::where('gapoktan_id', $request->gapoktan_id)->get(), $request, [
+        return $this->getPaginate(Poktan::where('gapoktan_id', $request->gapoktan_id)->orderBy('id', 'DESC'), $request, [
             'nama', 'ketua', 'kota', 'alamat'
         ]);
     }
@@ -38,7 +38,7 @@ class PoktanController extends Controller
             'email' => $input['email'],
             'password' => app('hash')->make($input['password'])
         ]);
-        $foto_id = 0;
+        $foto_id = null;
         if(!empty($request->foto)){
             $foto_id = $this->storeFile(new FotoProfil(), $request->foto, Variable::USER);
         }
@@ -79,7 +79,7 @@ class PoktanController extends Controller
         $user->update([
             'email' => $input['email']
         ]);
-        $foto_id = 0;
+        $foto_id = null;
         if(!empty($request->foto)){
             $foto_id = $this->storeFile(new FotoProfil(), $request->foto, Variable::USER);
         }

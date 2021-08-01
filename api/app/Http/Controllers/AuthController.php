@@ -8,6 +8,7 @@ use App\Models\Admin;
 use App\Models\Costumer;
 use App\Models\Gapoktan;
 use App\Models\Poktan;
+use App\Models\RegisterGapoktan;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -58,13 +59,13 @@ class AuthController extends Controller
         return $this->resp($account);
     }
 
-    public function register(Request $request)
+    public function registerCostumer(Request $request)
     {
         $input = $request->only([
             'nama', 'email', 'password'
         ]);
         $validator = Validator::make($input, [
-            'nama' => 'required|string|min:4|max:100',
+            'nama' => 'required',
             'email' => 'required',
             'password' => 'required',
         ], Helper::messageValidation());
@@ -81,5 +82,49 @@ class AuthController extends Controller
             'nama' => $input['nama'],
         ]);
         return $this->resp($costumer);
+    }
+
+    public function registerGapoktan(Request $request)
+    {
+        $input = $request->only([
+            'nama', 'email', 'alamat', 'no_hp', 'ketua', 'sk_gapoktan', 'foto_gapoktan', 'foto_ketua'
+        ]);
+        $validator = Validator::make($input, [
+            'nama' => 'required|string',
+            'alamat' => 'required|string',
+            'email' => 'required|string',
+            'no_hp' => 'required|string',
+            'ketua' => 'required|string',
+            'sk_gapoktan' => 'required',
+            'foto_gapoktan' => 'mimes:jpeg,png,jpg|max:2048',
+            'foto_ketua' => 'mimes:jpeg,png,jpg|max:2048',
+        ], Helper::messageValidation());
+        if ($validator->fails()) {
+            return $this->resp(Helper::generateErrorMsg($validator->errors()->getMessages()), Variable::FAILED, false, 406);
+        }
+        $file1 = $request->sk_gapoktan;
+        $basePath = base_path('storage/app/public/' . Variable::RGPK);
+        $extension1 = $file1->getClientOriginalExtension();
+        $extension2 = $request->foto_gapoktan->getClientOriginalExtension();
+        $extension3 = $request->foto_ketua->getClientOriginalExtension();
+        if (empty($extension1)) {
+            $extension1 = $$request->sk_gapoktan->clientExtension();
+        } if (empty($extension2)) {
+            $extension2 = $$request->foto_gapoktan->clientExtension();
+        } if (empty($extension2)) {
+            $extension3 = $$request->foto_ketua->clientExtension();
+        }
+        $fileName1 = Variable::RGPK . '-' . time() . '.' . $extension;
+        $fileName2 = Variable::RGPK . '-' . time() . '.' . $extension;
+        $fileName3 = Variable::RGPK . '-' . time() . '.' . $extension;
+        $file->move($basePath, $fileName);
+        RegisterGapoktan::create([
+            'nama' => $input['nama'],
+            'email' => $input['email'],
+            'alamat' => $input['alamat'],
+            'no_hp' => $input['no_hp'],
+            'ketua' => $input['ketua'],
+            'sk_gapoktan' => ,
+        ]);
     }
 }

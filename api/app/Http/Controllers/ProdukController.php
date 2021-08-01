@@ -35,9 +35,6 @@ class ProdukController extends Controller
         if ($validator->fails()) {
             return $this->resp(Helper::generateErrorMsg($validator->errors()->getMessages()), Variable::FAILED, false, 406);
         }
-        if(!empty($request->foto)){
-            $this->storeFile(new ThubnailProduk(), $request->foto, Variable::TPDK);
-        }
         $produk = Produk::create([
             'gapoktan_id' => $input['gapoktan_id'],
             'kategori_id' => $input['kategori_id'],
@@ -48,6 +45,9 @@ class ProdukController extends Controller
             'deskripsi' => $input['deskripsi'],
             'status' => $input['status']
         ]);
+        if(!empty($request->foto)){
+            $this->storeFile(new ThubnailProduk(), $request->foto, Variable::TPDK, $produk->id);
+        }
         return $this->resp($produk);
     }
 
@@ -72,9 +72,6 @@ class ProdukController extends Controller
         if ($validator->fails()) {
             return $this->resp(Helper::generateErrorMsg($validator->errors()->getMessages()), Variable::FAILED, false, 406);
         }
-        if(!empty($request->foto)){
-            $this->storeFile(new ThubnailProduk(), $request->foto, Variable::TPDK);
-        }
         $produk->update([
             'gapoktan_id' => $input['gapoktan_id'],
             'kategori_id' => $input['kategori_id'],
@@ -85,6 +82,9 @@ class ProdukController extends Controller
             'deskripsi' => $input['deskripsi'],
             'status' => $input['status']
         ]);
+        if(!empty($request->foto)){
+            $this->storeFile(new ThubnailProduk(), $request->foto, Variable::TPDK, $id);
+        }
         return $this->resp($produk);
     }
 

@@ -4,10 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
 use App\Helpers\Variable;
-use App\Models\FotoProfil;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Lumen\Routing\Controller as BaseController;
-use Spatie\Geocoder\Geocoder;
 
 class Controller extends BaseController
 {
@@ -204,7 +202,7 @@ class Controller extends BaseController
         }
     }
 
-    public function storeFile($model, $file, $type)
+    public function storeFile($model, $file, $type, $produk_id = null)
     {
         $basePath = base_path('storage/app/public/' . $type);
         $extension = $file->getClientOriginalExtension();
@@ -212,12 +210,22 @@ class Controller extends BaseController
             $extension = $file->clientExtension();
         }
         $fileName = $type . '-' . time() . '.' . $extension;
-        $newFile = [
-            'file_name' => $fileName,
-            'path' => $fileName,
-            'size' => $file->getSize(),
-            'extension' => $extension,
-        ];
+        if ($produk_id) {
+            $newFile = [
+                'file_name' => $fileName,
+                'path' => $fileName,
+                'size' => $file->getSize(),
+                'extension' => $extension,
+                'produk_id' => $produk_id
+            ];
+        } else {
+            $newFile = [
+                'file_name' => $fileName,
+                'path' => $fileName,
+                'size' => $file->getSize(),
+                'extension' => $extension,
+            ];
+        }
         $dataFile = $model->create($newFile);
         $file->move($basePath, $fileName);
         return $dataFile->id;

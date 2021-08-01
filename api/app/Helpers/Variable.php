@@ -25,7 +25,8 @@ class Variable
     public const GPDK = 'GAMBARPRODUK';
     // Thumbnail Produk
     public const TPDK = 'THUBNAILPRODUK';
-    //Bukti Pembayaran
+    // Bukti Pembayaran
     public const BPYR = 'BUKTIPEMBAYARAN';
-
+    // Register Gapoktan
+    public const RGPK = 'REGISTERGAPOKTAN';
 }

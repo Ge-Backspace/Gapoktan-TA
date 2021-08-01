@@ -15,7 +15,8 @@ class ArtikelController extends Controller
     public function lihatArtikel(Request $request)
     {
         $table = Artikel::join('gapoktans', 'gapoktans.id', '=', 'artikels.gapoktan_id')
-        ->select(DB::raw('artikels.*, gapoktan.nama as published'));
+        ->select(DB::raw('artikels.*, gapoktan.nama as published'))
+        ->orderBy('artikel.id', 'DESC');
         return $this->getPaginate($table, $request, ['artikels.judul', 'artikel.isi']);
     }
 

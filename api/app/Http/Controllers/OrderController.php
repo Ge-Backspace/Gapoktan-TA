@@ -87,13 +87,15 @@ class OrderController extends Controller
             return $this->resp(Helper::generateErrorMsg($validator->errors()->getMessages()), Variable::FAILED, false, 406);
         }
         $file = $request->bukti_pembayaran;
-        $basePath = base_path('storage/app/public/' . Variable::BPYR);
-        $extension = $file->getClientOriginalExtension();
-        if (empty($extension)) {
-            $extension = $file->clientExtension();
+        if ($file) {
+            $basePath = base_path('storage/app/public/' . Variable::BPYR);
+            $extension = $file->getClientOriginalExtension();
+            if (empty($extension)) {
+                $extension = $file->clientExtension();
+            }
+            $fileName = Variable::BPYR . '-' . time() . '.' . $extension;
+            $file->move($basePath, $fileName);
         }
-        $fileName = Variable::BPYR . '-' . time() . '.' . $extension;
-        $file->move($basePath, $fileName);
         $order->update([
             'costumer_id' => $input['costumer_id'],
             'kd_order' => $input['kd_order'],
@@ -103,7 +105,7 @@ class OrderController extends Controller
             'deskripsi' => $input['deskripsi'],
             'no_rek' => $input['no_rek'],
             'tanggal_bayar' => $input['tanggal_bayar'],
-            'bukti_pembayaran' => $fileName,
+            'bukti_pembayaran' => $file ? $fileName : null,
         ]);
     }
 

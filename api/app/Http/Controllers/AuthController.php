@@ -103,28 +103,34 @@ class AuthController extends Controller
             return $this->resp(Helper::generateErrorMsg($validator->errors()->getMessages()), Variable::FAILED, false, 406);
         }
         $file1 = $request->sk_gapoktan;
+        $file2 = $request->foto_gapoktan;
+        $file3 = $request->foto_ketua;
         $basePath = base_path('storage/app/public/' . Variable::RGPK);
         $extension1 = $file1->getClientOriginalExtension();
-        $extension2 = $request->foto_gapoktan->getClientOriginalExtension();
-        $extension3 = $request->foto_ketua->getClientOriginalExtension();
+        $extension2 = $file2->getClientOriginalExtension();
+        $extension3 = $file3->getClientOriginalExtension();
         if (empty($extension1)) {
-            $extension1 = $$request->sk_gapoktan->clientExtension();
+            $extension1 = $file1->clientExtension();
         } if (empty($extension2)) {
-            $extension2 = $$request->foto_gapoktan->clientExtension();
+            $extension2 = $file2->clientExtension();
         } if (empty($extension2)) {
-            $extension3 = $$request->foto_ketua->clientExtension();
+            $extension3 = $file3->clientExtension();
         }
-        $fileName1 = Variable::RGPK . '-' . time() . '.' . $extension;
-        $fileName2 = Variable::RGPK . '-' . time() . '.' . $extension;
-        $fileName3 = Variable::RGPK . '-' . time() . '.' . $extension;
-        $file->move($basePath, $fileName);
+        $fileName1 = 'SK'.Variable::RGPK . '-' . time() . '.' . $extension1;
+        $fileName2 = 'FTGPKTN'.Variable::RGPK . '-' . time() . '.' . $extension2;
+        $fileName3 = 'FTKETUA'.Variable::RGPK . '-' . time() . '.' . $extension3;
+        $file1->move($basePath, $fileName1);
+        $file2->move($basePath, $fileName2);
+        $file3->move($basePath, $fileName3);
         RegisterGapoktan::create([
             'nama' => $input['nama'],
             'email' => $input['email'],
             'alamat' => $input['alamat'],
             'no_hp' => $input['no_hp'],
             'ketua' => $input['ketua'],
-            'sk_gapoktan' => ,
+            'sk_gapoktan' => $fileName1,
+            'foto_gapoktan' => $fileName2,
+            'foto_ketua' => $fileName3
         ]);
     }
 }

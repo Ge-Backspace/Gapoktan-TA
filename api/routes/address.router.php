@@ -1,6 +1,6 @@
 <?php
 
-$router -> get('/lihatAddress', 'AddressController@lihatAddress');
-$router-> post('/tambahAddress', 'AddressController@tambahAddress');
-$router-> post('/ubahAddress/{id}', 'AddressController@ubahAddress');
-$router-> delete('/hapusAddress/{id}', 'AddressController@hapusAddress');
+$router -> get('/lihat_address', 'AddressesController@lihatAddress');
+$router-> post('/tambah_address', 'AddressesController@tambahAddress');
+$router-> post('/ubah_address/{id}', 'AddressesController@ubahAddress');
+$router-> delete('/hapus_address/{id}', 'AddressesController@hapusAddress');

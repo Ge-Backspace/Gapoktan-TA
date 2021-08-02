@@ -1,6 +1,6 @@
 <?php
 
-$router -> get('/lihatAdmin', 'AdminsController@lihatAdmin');
-$router-> post('/tambahAdmin', 'AdminsController@tambahAdmin');
-$router-> post('/ubahAdmin/{id}', 'AdminsController@ubahAdmin');
-$router-> delete('/hapusAdmin/{id}', 'AdminsController@hapusAdmin');
+$router -> get('/lihat_admin', 'AdminsController@lihatAdmin');
+$router -> post('/tambah_admin', 'AdminsController@tambahAdmin');
+$router -> post('/ubah_admin/{id}', 'AdminsController@ubahAdmin');
+$router -> delete('/hapus_admin/{id}', 'AdminsController@hapusAdmin');

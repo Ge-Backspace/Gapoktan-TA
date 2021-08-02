@@ -29,4 +29,9 @@ class Costumer extends Model
     {
         return $this->hasMany('App/Models/Order');
     }
+
+    public function chart()
+    {
+        return $this->hasMany('App/Models/Chart');
+    }
 }

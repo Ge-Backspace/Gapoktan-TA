@@ -34,4 +34,9 @@ class Produk extends Model
     {
         return $this->hasMany('App/Models/OrderDetail');
     }
+
+    public function chart()
+    {
+        return $this->hasMany('App/Models/Chart');
+    }
 }

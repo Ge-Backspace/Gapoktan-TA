@@ -14,7 +14,8 @@ class OrderDetailController extends Controller
     {
         return $this->getPaginate(
             OrderDetail::where('order_id', $request->order_id)
-            ->join('produks', 'produks.id', '=', 'order_details.produk_id'),
+            ->join('produks', 'produks.id', '=', 'order_details.produk_id')
+            ->orderBy('order_details.id', 'DESC'),
             $request, ['produks.nama']
         );
     }

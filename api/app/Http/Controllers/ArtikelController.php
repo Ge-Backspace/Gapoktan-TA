@@ -15,9 +15,9 @@ class ArtikelController extends Controller
     public function lihatArtikel(Request $request)
     {
         $table = Artikel::join('gapoktans', 'gapoktans.id', '=', 'artikels.gapoktan_id')
-        ->select(DB::raw('artikels.*, gapoktan.nama as published'))
-        ->orderBy('artikel.id', 'DESC');
-        return $this->getPaginate($table, $request, ['artikels.judul', 'artikel.isi']);
+        ->select(DB::raw('artikels.*, gapoktans.nama as published'))
+        ->orderBy('artikels.id', 'DESC');
+        return $this->getPaginate($table, $request, ['artikels.judul', 'artikels.isi']);
     }
 
     public function tambahArtikel(Request $request)
@@ -64,7 +64,6 @@ class ArtikelController extends Controller
 
     public function hapusArtikel($id)
     {
-        # code...
         $data = Artikel::find($id);
         if(!$data){
             return $this->resp(null, 'failed to delete data because id '.$id.' not found', false, 404);

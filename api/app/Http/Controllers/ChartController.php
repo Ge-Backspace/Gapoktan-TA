@@ -13,9 +13,19 @@ class ChartController extends Controller
 {
     public function lihatChart(Request $request)
     {
+        $input = $request->only([
+            'costumer_id'
+        ]);
+        $validator = Validator::make($input, [
+            'costumer_id' => 'required|numeric'
+        ], Helper::messageValidation());
+        if ($validator->fails()) {
+            return $this->resp(Helper::generateErrorMsg($validator->errors()->getMessages()), Variable::FAILED, false, 406);
+        }
         return $this->getPaginate(Chart::where('costumer_id', $request->costumer_id)
         ->join('produks', 'produks.id', '=', 'charts.produk_id')
         ->select(DB::raw('charts.*, produks.*'))
+        ->orderBy('charts.id', 'DESC')
         , $request, ['produks.nama']);
     }
 
@@ -32,11 +42,11 @@ class ChartController extends Controller
             return $this->resp(Helper::generateErrorMsg($validator->errors()->getMessages()), Variable::FAILED, false, 406);
         }
         try {
-            Chart::create($input);
+            $chart = Chart::create($input);
         } catch (\Throwable $e) {
             return $this->resp(null, $e->getMessage(), false, 406);
         }
-        return $this->resp();
+        return $this->resp($chart);
     }
 
     public function ubahChart(Request $request, $id)
@@ -63,7 +73,7 @@ class ChartController extends Controller
         return $this->resp();
     }
 
-    public function delete($id)
+    public function hapusChart($id)
     {
         try {
             Chart::find($id)->delete();

@@ -23,7 +23,7 @@ class GapoktanController extends Controller
             'nama', 'email', 'password', 'ketua', 'kota', 'alamat', 'foto'
         ]);
         $validator = Validator::make($input, [
-            'nama' => 'required|string|min:4|max:100',
+            'nama' => 'required|string',
             'email' => 'required',
             'password' => 'required',
             'ketua' => 'required',
@@ -63,7 +63,7 @@ class GapoktanController extends Controller
             'nama', 'email', 'ketua', 'kota', 'alamat', 'foto'
         ]);
         $validator = Validator::make($input, [
-            'nama' => 'required|string|min:4|max:100',
+            'nama' => 'required|string',
             'email' => 'required',
             'ketua' => 'required',
             'kota' => 'required',
@@ -96,13 +96,16 @@ class GapoktanController extends Controller
                 'kota' => $input['kota'],
                 'alamat' => $input['alamat'],
             ]);
+            return $this->resp($gapoktan);
         }
     }
 
     public function hapusGapoktan($id)
     {
         try {
-            Gapoktan::find($id)->delete();
+            $gapoktan = Gapoktan::find($id);
+            User::find($gapoktan->user_id)->delete();
+            $gapoktan->delete();
         } catch (\Throwable $e) {
             return $this->resp(null, $e->getMessage(), false, 404);
         }

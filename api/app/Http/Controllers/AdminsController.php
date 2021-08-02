@@ -88,7 +88,9 @@ class AdminsController extends Controller
     public function hapusAdmin($id)
     {
         try {
-            Admin::find($id)->delete();
+            $admin = Admin::find($id);
+            User::find($admin->user_id)->delete();
+            $admin->delete();
         } catch (\Throwable $e) {
             return $this->resp(null, $e->getMessage(), false, 406);
         }

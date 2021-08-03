@@ -19,10 +19,7 @@ class KategoriController extends Controller
     {
         $input = $request->only('nama');
         $validator = Validator::make($input, [
-            'nama' => 'required|string|min:4|max:100',
-            'email' => 'required',
-            'password' => 'required',
-            'foto' => 'mimes:jpeg,png,jpg|max:2048'
+            'nama' => 'required|string',
         ], Helper::messageValidation());
         if ($validator->fails()) {
             return $this->resp(Helper::generateErrorMsg($validator->errors()->getMessages()), Variable::FAILED, false, 406);

@@ -14,8 +14,17 @@ class PoktanController extends Controller
 {
     public function lihatPoktan(Request $request)
     {
-
-        return $this->getPaginate(Poktan::where('gapoktan_id', $request->gapoktan_id)->orderBy('id', 'DESC'), $request, [
+        $input = $request->only([
+            'gapoktan_id'
+        ]);
+        $validator = Validator::make($input, [
+            'gapoktan_id' => 'required|numeric'
+        ], Helper::messageValidation());
+        if ($validator->fails()) {
+            return $this->resp(Helper::generateErrorMsg($validator->errors()->getMessages()), Variable::FAILED, false, 406);
+        }
+        return $this->getPaginate(Poktan::where('gapoktan_id', $request->gapoktan_id)
+        ->orderBy('id', 'DESC'), $request, [
             'nama', 'ketua', 'kota', 'alamat'
         ]);
     }
@@ -23,11 +32,15 @@ class PoktanController extends Controller
     public function tambahPoktan(Request $request)
     {
         $input = $request->only([
-            'email', 'password', 'nama', 'foto', 'gapoktan_id'
+            'email', 'password', 'nama', 'ketua', 'kota', 'alamat', 'foto', 'gapoktan_id'
         ]);
         $validator = Validator::make($input, [
-            'nama' => 'required|string|min:4|max:100',
+            'nama' => 'required|string',
             'email' => 'required',
+            'gapoktan_id' => 'required|numeric',
+            'ketua' => 'required',
+            'kota' => 'required',
+            'alamat' => 'required',
             'password' => 'required',
             'foto' => 'mimes:jpeg,png,jpg|max:2048'
         ], Helper::messageValidation());

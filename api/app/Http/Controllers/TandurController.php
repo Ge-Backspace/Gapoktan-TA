@@ -14,10 +14,19 @@ class TandurController extends Controller
 {
     public function lihatTandur(Request $request)
     {
+        $input = $request->only([
+            'poktan_id'
+        ]);
+        $validator = Validator::make($input, [
+            'poktan_id' => 'required|numeric'
+        ], Helper::messageValidation());
+        if ($validator->fails()) {
+            return $this->resp(Helper::generateErrorMsg($validator->errors()->getMessages()), Variable::FAILED, false, 406);
+        }
         $data = Tandur::where('poktan_id', $request->poktan_id)
         ->join('poktans', 'poktans.id', '=', 'tandurs.poktan_id')
-        ->select(DB::raw('poktans.*, poktan.nama as diisi'))
-        ->get();
+        ->select(DB::raw('poktans.*, poktans.nama as pengisi'))
+        ->orderBy('tandurs.id', 'DESC');
         return $this->getPaginate($data, $request, ['tandurs.tanaman', 'tandurs.luas_tandur', 'tandurs.tanggal_tandur', 'tandurs.tanggal_panen']);
     }
 
@@ -47,7 +56,6 @@ class TandurController extends Controller
     {
         $input = $request->only(['tanaman', 'luas_tandur', 'tanggal_tandur', 'tanggal_panen']);
         $validator = Validator::make($input, [
-            'poktan_id' => 'required',
             'tanaman' => 'required',
             'luas_tandur' => 'required|numeric',
             'tanggal_tandur' => 'required|date',

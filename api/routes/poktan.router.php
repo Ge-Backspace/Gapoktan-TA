@@ -1,6 +1,6 @@
 <?php
 
-$router -> get('/lihatPoktan', 'PoktanController@lihatPoktan');
-$router-> post('/tambahPoktan', 'PoktanController@tambahPoktan');
-$router-> post('/ubahPoktan/{id}', 'PoktanController@ubahPoktan');
-$router-> delete('/hapusPoktan/{id}', 'PoktanController@hapusPoktan');
+$router -> get('/lihat_poktan', 'PoktanController@lihatPoktan');
+$router -> post('/tambah_poktan', 'PoktanController@tambahPoktan');
+$router -> post('/ubah_poktan/{id}', 'PoktanController@ubahPoktan');
+$router -> delete('/hapus_poktan/{id}', 'PoktanController@hapusPoktan');

@@ -1,6 +1,6 @@
 <?php
 
-$router -> get('/lihatStokLumbung', 'StokLumbungController@lihatStokLumbung');
-$router-> post('/tambahStokLumbung', 'StokLumbungController@tambahStokLumbung');
-$router-> post('/ubahStokLumbung/{id}', 'StokLumbungController@ubahStokLumbung');
-$router-> delete('/hapusStokLumbung/{id}', 'StokLumbungController@hapusStokLumbung');
+$router -> get('/lihat_stoklumbung', 'StokLumbungsController@lihatStokLumbung');
+$router -> post('/tambah_stoklumbung', 'StokLumbungsController@tambahStokLumbung');
+$router -> post('/ubah_stoklumbung/{id}', 'StokLumbungsController@ubahStokLumbung');
+$router -> delete('/hapus_stoklumbung/{id}', 'StokLumbungsController@hapusStokLumbung');

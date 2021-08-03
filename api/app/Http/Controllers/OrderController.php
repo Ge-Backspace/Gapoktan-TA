@@ -13,8 +13,18 @@ class OrderController extends Controller
 {
     public function lihatOrder(Request $request)
     {
-        return $this->getPaginate(Order::where('costumer_id', $request->costumer_id)
-        ->join('addresses', 'addresses.id', '=', 'orders.address_id'),
+        $input = $request->only([
+            'costumer_id'
+        ]);
+        $validator = Validator::make($input, [
+            'costumer_id' => 'required|numeric'
+        ], Helper::messageValidation());
+        if ($validator->fails()) {
+            return $this->resp(Helper::generateErrorMsg($validator->errors()->getMessages()), Variable::FAILED, false, 406);
+        }
+        return $this->getPaginate(Order::join('addresses', 'addresses.id', '=', 'orders.address_id')
+        ->where('orders.costumer_id', $input['costumer_id'])
+        ->orderBy('orders.id', 'DESC'),
         $request, ['orders.kd_order']);
     }
 

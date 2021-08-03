@@ -16,7 +16,7 @@ class KegiatanController extends Controller
     {
         $data = Kegiatan::where('poktan_id', $request->poktan_id)
         ->join('poktans', 'poktans.id', '=', 'kegiatans.poktan_id')
-        ->select(DB::raw('poktans.*, poktan.nama as diisi'))
+        ->select(DB::raw('kegiatans.*, poktans.nama as nama_poktan'))
         ->orderBy('poktans.id', 'DESC');
         return $this->getPaginate($data, $request, ['kegiatans.uraian', 'kegiatans.tanggal', 'kegiatans.keterangan']);
     }

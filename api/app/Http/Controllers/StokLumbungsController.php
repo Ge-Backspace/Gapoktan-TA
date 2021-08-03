@@ -14,10 +14,19 @@ class StokLumbungsController extends Controller
 {
     public function lihatStokLumbung(Request $request)
     {
+        $input = $request->only([
+            'poktan_id'
+        ]);
+        $validator = Validator::make($input, [
+            'poktan_id' => 'required|numeric'
+        ], Helper::messageValidation());
+        if ($validator->fails()) {
+            return $this->resp(Helper::generateErrorMsg($validator->errors()->getMessages()), Variable::FAILED, false, 406);
+        }
         $data = StokLumbung::where('poktan_id', $request->poktan_id)
         ->join('poktans', 'poktans.id', '=', 'stok_lumbungs.poktan_id')
-        ->select(DB::raw('poktans.*, poktan.nama as diisi'))
-        ->get();
+        ->select(DB::raw('stok_lumbungs.*, poktans.*, poktans.nama as pengisi'))
+        ->orderBy('stok_lumbungs.id', 'DESC');
         return $this->getPaginate($data, $request, ['stok_lumbungs.tahun_banper', 'stok_lumbungs.tanggal_lapor', 'stok_lumbungs.komoditas', 'stok_lumbungs.jumlah']);
     }
 

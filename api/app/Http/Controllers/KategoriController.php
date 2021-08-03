@@ -12,7 +12,7 @@ class KategoriController extends Controller
 {
     public function lihatKategori(Request $request)
     {
-        return $this->getPaginate(Kategori::all(), $request, ['nama']);
+        return $this->getPaginate(Kategori::orderBy('id', 'DESC'), $request, ['nama']);
     }
 
     public function tambahKategori(Request $request)

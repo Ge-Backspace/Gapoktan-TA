@@ -12,6 +12,8 @@ const _14e1220b = () => interopDefault(import('..\\pages\\poktan\\index.vue' /* 
 const _49420457 = () => interopDefault(import('..\\pages\\profile.vue' /* webpackChunkName: "pages/profile" */))
 const _32e1a5e5 = () => interopDefault(import('..\\pages\\register.vue' /* webpackChunkName: "pages/register" */))
 const _c71a5d58 = () => interopDefault(import('..\\pages\\test.vue' /* webpackChunkName: "pages/test" */))
+const _4994c740 = () => interopDefault(import('..\\pages\\admin\\master\\admin.vue' /* webpackChunkName: "pages/admin/master/admin" */))
+const _336ac805 = () => interopDefault(import('..\\pages\\admin\\master\\kategori.vue' /* webpackChunkName: "pages/admin/master/kategori" */))
 const _0abd1480 = () => interopDefault(import('..\\pages\\index.vue' /* webpackChunkName: "pages/index" */))
 
 // TODO: remove in Nuxt 3
@@ -62,6 +64,14 @@ export const routerOptions = {
     path: "/test",
     component: _c71a5d58,
     name: "test"
+  }, {
+    path: "/admin/master/admin",
+    component: _4994c740,
+    name: "admin-master-admin"
+  }, {
+    path: "/admin/master/kategori",
+    component: _336ac805,
+    name: "admin-master-kategori"
   }, {
     path: "/",
     component: _0abd1480,

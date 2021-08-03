@@ -20,6 +20,7 @@ let store = {};
   store.modules = store.modules || {}
 
   resolveStoreModules(require('..\\store\\drawer.js'), 'drawer.js')
+  resolveStoreModules(require('..\\store\\kategori.js'), 'kategori.js')
 
   // If the environment supports hot reloading...
 
@@ -28,6 +29,7 @@ let store = {};
     module.hot.accept([
       '..\\store\\drawer.js',
       '..\\store\\index.js',
+      '..\\store\\kategori.js',
     ], () => {
       // Update `root.modules` with the latest definitions.
       updateModules()

@@ -68,8 +68,8 @@
         <div class="row align-items-center justify-content-lg-between">
           <div class="col-lg-6">
             <div class="copyright text-center  text-lg-left  text-muted">
-              &copy; AFSEN <a href="#" class="font-weight-bold ml-1 text-primary">
-                2020 - 2021</a>
+              &copy; GAPOKTAN <a href="#" class="font-weight-bold ml-1 text-primary">
+                2021</a>
             </div>
           </div>
         </div>

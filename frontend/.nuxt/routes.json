@@ -3,63 +3,66 @@
     "name": "admin",
     "path": "/admin",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\admin\\\\index.vue",
-    "chunkName": "pages/admin/index",
-    "_name": "_2fd3d565"
+    "chunkName": "pages/admin/index"
   },
   {
     "name": "costumer",
     "path": "/costumer",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\costumer\\\\index.vue",
-    "chunkName": "pages/costumer/index",
-    "_name": "_a17ae0a4"
+    "chunkName": "pages/costumer/index"
   },
   {
     "name": "gapoktan",
     "path": "/gapoktan",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\gapoktan\\\\index.vue",
-    "chunkName": "pages/gapoktan/index",
-    "_name": "_c473121e"
+    "chunkName": "pages/gapoktan/index"
   },
   {
     "name": "login",
     "path": "/login",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\login.vue",
-    "chunkName": "pages/login",
-    "_name": "_573690d2"
+    "chunkName": "pages/login"
   },
   {
     "name": "poktan",
     "path": "/poktan",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\poktan\\\\index.vue",
-    "chunkName": "pages/poktan/index",
-    "_name": "_14e1220b"
+    "chunkName": "pages/poktan/index"
   },
   {
     "name": "profile",
     "path": "/profile",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\profile.vue",
-    "chunkName": "pages/profile",
-    "_name": "_49420457"
+    "chunkName": "pages/profile"
   },
   {
     "name": "register",
     "path": "/register",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\register.vue",
-    "chunkName": "pages/register",
-    "_name": "_32e1a5e5"
+    "chunkName": "pages/register"
   },
   {
     "name": "test",
     "path": "/test",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\test.vue",
-    "chunkName": "pages/test",
-    "_name": "_c71a5d58"
+    "chunkName": "pages/test"
+  },
+  {
+    "name": "admin-master-admin",
+    "path": "/admin/master/admin",
+    "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\admin\\\\master\\\\admin.vue",
+    "chunkName": "pages/admin/master/admin"
+  },
+  {
+    "name": "admin-master-kategori",
+    "path": "/admin/master/kategori",
+    "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\admin\\\\master\\\\kategori.vue",
+    "chunkName": "pages/admin/master/kategori"
   },
   {
     "name": "index",
     "path": "/",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\index.vue",
-    "chunkName": "pages/index",
-    "_name": "_0abd1480"
+    "chunkName": "pages/index"
   }
 ]

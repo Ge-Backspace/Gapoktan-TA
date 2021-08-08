@@ -21,6 +21,12 @@ let store = {};
 
   resolveStoreModules(require('..\\store\\drawer.js'), 'drawer.js')
   resolveStoreModules(require('..\\store\\kategori.js'), 'kategori.js')
+  resolveStoreModules(require('..\\store\\kegiatan.js'), 'kegiatan.js')
+  resolveStoreModules(require('..\\store\\option.js'), 'option.js')
+  resolveStoreModules(require('..\\store\\produk.js'), 'produk.js')
+  resolveStoreModules(require('..\\store\\stoklumbung.js'), 'stoklumbung.js')
+  resolveStoreModules(require('..\\store\\tandur.js'), 'tandur.js')
+  resolveStoreModules(require('..\\store\\user.js'), 'user.js')
 
   // If the environment supports hot reloading...
 
@@ -30,6 +36,12 @@ let store = {};
       '..\\store\\drawer.js',
       '..\\store\\index.js',
       '..\\store\\kategori.js',
+      '..\\store\\kegiatan.js',
+      '..\\store\\option.js',
+      '..\\store\\produk.js',
+      '..\\store\\stoklumbung.js',
+      '..\\store\\tandur.js',
+      '..\\store\\user.js',
     ], () => {
       // Update `root.modules` with the latest definitions.
       updateModules()

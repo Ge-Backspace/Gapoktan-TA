@@ -16,7 +16,7 @@ class CreateStokLumbungsTable extends Migration
         Schema::create('stok_lumbungs', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('poktan_id')->unsigned();
-            $table->date('tahun_banper');
+            $table->string('tahun_banper');
             $table->date('tanggal_lapor');
             $table->string('komoditas');
             $table->integer('jumlah');

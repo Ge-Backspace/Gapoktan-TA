@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Helpers\Helper;
 use App\Helpers\Variable;
 use App\Models\FotoProfil;
+use App\Models\Gapoktan;
 use App\Models\Poktan;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class PoktanController extends Controller
@@ -15,17 +17,26 @@ class PoktanController extends Controller
     public function lihatPoktan(Request $request)
     {
         $input = $request->only([
-            'gapoktan_id'
+            'gapoktan_id', 'user_id'
         ]);
         $validator = Validator::make($input, [
-            'gapoktan_id' => 'required|numeric'
+            'gapoktan_id' => 'numeric',
+            'user_id' => 'numeric'
         ], Helper::messageValidation());
         if ($validator->fails()) {
             return $this->resp(Helper::generateErrorMsg($validator->errors()->getMessages()), Variable::FAILED, false, 406);
         }
-        return $this->getPaginate(Poktan::where('gapoktan_id', $request->gapoktan_id)
-        ->orderBy('id', 'DESC'), $request, [
-            'nama', 'ketua', 'kota', 'alamat'
+        $state = false;
+        if ($input['user_id']) {
+            $gapoktan = Gapoktan::where('user_id', $input['user_id'])->first();
+            $state = true;
+        }
+        return $this->getPaginate(Poktan::join('users', 'users.id', '=', 'poktans.user_id')
+        ->leftJoin('foto_profils', 'poktans.foto_id', '=', 'foto_profils.id')
+        ->where('poktans.gapoktan_id', $state ? $gapoktan->id : $input['gapoktan_id'])
+        ->select(DB::raw('poktans.*, users.email, poktans.id as id, foto_profils.nama as nama_foto'))
+        ->orderBy('poktans.id', 'DESC'), $request, [
+            'poktans.nama', 'poktans.ketua', 'poktans.kota', 'poktans.alamat', 'users.email'
         ]);
     }
 
@@ -37,28 +48,39 @@ class PoktanController extends Controller
         $validator = Validator::make($input, [
             'nama' => 'required|string',
             'email' => 'required',
-            'gapoktan_id' => 'required|numeric',
+            'gapoktan_id' => 'numeric',
             'ketua' => 'required',
             'kota' => 'required',
             'alamat' => 'required',
             'password' => 'required',
-            'foto' => 'mimes:jpeg,png,jpg|max:2048'
+            // 'aktif' => 'boolean',
+            'foto' => 'mimes:jpeg,png,jpg|max:5048'
         ], Helper::messageValidation());
         if ($validator->fails()) {
             return $this->resp(Helper::generateErrorMsg($validator->errors()->getMessages()), Variable::FAILED, false, 406);
         }
-        $user = User::create([
-            'email' => $input['email'],
-            'password' => app('hash')->make($input['password'])
-        ]);
+        $state = false;
+        if ($request->user_id) {
+            $gapoktan = Gapoktan::where('user_id', $request->user_id)->first();
+            $state = true;
+        } else {
+            $gapoktan = Gapoktan::find($input['gapoktan_id']);
+        }
+        if(!$gapoktan) {
+            return $this->resp(null, Variable::NOT_FOUND, false, 406);
+        }
         $foto_id = null;
         if(!empty($request->foto)){
             $foto_id = $this->storeFile(new FotoProfil(), $request->foto, Variable::USER);
         }
+        $user = User::create([
+            'email' => $input['email'],
+            'password' => app('hash')->make($input['password']),
+        ]);
         $poktan = Poktan::create([
             'user_id' => $user->id,
             'foto_id' => $foto_id,
-            'gapoktan_id' => $input['gapoktan_id'],
+            'gapoktan_id' => $state ? $gapoktan->id : $input['gapoktan_id'],
             'nama' => $input['nama'],
             'ketua' => $input['ketua'],
             'kota' => $input['kota'],
@@ -69,51 +91,48 @@ class PoktanController extends Controller
 
     public function ubahPoktan(Request $request, $id)
     {
-        $gapoktan = Poktan::find($id);
-        if (!$gapoktan) {
+        $poktan = Poktan::find($id);
+        if (!$poktan) {
             return $this->resp(null, Variable::NOT_FOUND, false, 406);
         }
         $input = $request->only([
-            'nama', 'email', 'gapoktan_id', 'ketua', 'kota', 'alamat', 'foto'
+            'nama', 'gapoktan_id', 'ketua', 'kota', 'alamat', 'foto', 'aktif'
         ]);
         $validator = Validator::make($input, [
-            'nama' => 'required|string|min:4|max:100',
-            'email' => 'required',
-            'gapoktan_id' => 'required',
+            'nama' => 'required',
+            'gapoktan_id' => 'numeric',
             'ketua' => 'required',
             'kota' => 'required',
             'alamat' => 'required',
+            'aktif' => 'boolean',
             'foto' => 'mimes:jpeg,png,jpg|max:2048'
         ], Helper::messageValidation());
         if ($validator->fails()) {
             return $this->resp(Helper::generateErrorMsg($validator->errors()->getMessages()), Variable::FAILED, false, 406);
         }
-        $user = User::find($gapoktan->user_id);
-        $user->update([
-            'email' => $input['email']
-        ]);
+        $state = false;
+        if ($request->user_id) {
+            $gapoktan = Gapoktan::where('user_id', $request->user_id)->first();
+            $state = true;
+        } else {
+            $gapoktan = Gapoktan::find($input['gapoktan_id']);
+        }
+        if(!$gapoktan) {
+            return $this->resp(null, Variable::NOT_FOUND, false, 406);
+        }
         $foto_id = null;
         if(!empty($request->foto)){
             $foto_id = $this->storeFile(new FotoProfil(), $request->foto, Variable::USER);
         }
-        if ($foto_id) {
-            $gapoktan->update([
-                'gapoktan_id' => $input['gapoktan_id'],
-                'nama' => $input['nama'],
-                'ketua' => $input['ketua'],
-                'kota' => $input['kota'],
-                'alamat' => $input['alamat'],
-                'foto_id' => $foto_id,
-            ]);
-        } else {
-            $gapoktan->update([
-                'gapoktan_id' => $input['gapoktan_id'],
-                'nama' => $input['nama'],
-                'ketua' => $input['ketua'],
-                'kota' => $input['kota'],
-                'alamat' => $input['alamat'],
-            ]);
-        }
+        $poktan->update([
+            'gapoktan_id' => $state ? $gapoktan->id : $input['gapoktan_id'],
+            'nama' => $input['nama'],
+            'ketua' => $input['ketua'],
+            'kota' => $input['kota'],
+            'alamat' => $input['alamat'],
+            'foto_id' => $foto_id ? $foto_id : null,
+        ]);
+        return $this->resp($gapoktan);
     }
 
     public function hapusPoktan($id)

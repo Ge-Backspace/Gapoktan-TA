@@ -12,7 +12,7 @@ class FotoProfil extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'foto_id', 'nama'
+        'nama', 'path', 'size', 'extension'
     ];
 
     public function admin()

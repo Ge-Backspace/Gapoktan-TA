@@ -37,7 +37,7 @@
           <br>
           <br>
           <router-link to="/register">
-            <a href="#">Belum ada account ?</a>
+            <a href="#">Belum ada akun?</a>
           </router-link>
         </div>
       </form>
@@ -83,7 +83,6 @@
               "password": this.password,
             }
           }).catch(e => {
-            console.log(e);
             this.$notify.error({
               title: 'Error',
               message: e.response.data.message

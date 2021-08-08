@@ -212,7 +212,7 @@ class Controller extends BaseController
         $fileName = $type . '-' . time() . '.' . $extension;
         if ($produk_id) {
             $newFile = [
-                'file_name' => $fileName,
+                'nama' => $fileName,
                 'path' => $fileName,
                 'size' => $file->getSize(),
                 'extension' => $extension,
@@ -220,7 +220,7 @@ class Controller extends BaseController
             ];
         } else {
             $newFile = [
-                'file_name' => $fileName,
+                'nama' => $fileName,
                 'path' => $fileName,
                 'size' => $file->getSize(),
                 'extension' => $extension,

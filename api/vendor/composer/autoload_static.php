@@ -270,6 +270,7 @@ class ComposerStaticInit7087f9fd2073bf929916536cea262e14
         'A' => 
         array (
             'App\\' => 4,
+            'AdamTyn\\Lumen\\Artisan\\' => 22,
         ),
     );
 
@@ -723,6 +724,10 @@ class ComposerStaticInit7087f9fd2073bf929916536cea262e14
         array (
             0 => __DIR__ . '/../..' . '/app',
         ),
+        'AdamTyn\\Lumen\\Artisan\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/adamtyn/lumen-artisan-storage-link/src',
+        ),
     );
 
     public static $prefixesPsr0 = array (
@@ -743,6 +748,7 @@ class ComposerStaticInit7087f9fd2073bf929916536cea262e14
     );
 
     public static $classMap = array (
+        'AdamTyn\\Lumen\\Artisan\\StorageLinkCommand' => __DIR__ . '/..' . '/adamtyn/lumen-artisan-storage-link/src/StorageLinkCommand.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Events\\Event' => __DIR__ . '/../..' . '/app/Events/Event.php',
         'App\\Events\\ExampleEvent' => __DIR__ . '/../..' . '/app/Events/ExampleEvent.php',
@@ -766,10 +772,12 @@ class ComposerStaticInit7087f9fd2073bf929916536cea262e14
         'App\\Http\\Controllers\\GapoktanController' => __DIR__ . '/../..' . '/app/Http/Controllers/GapoktanController.php',
         'App\\Http\\Controllers\\KategoriController' => __DIR__ . '/../..' . '/app/Http/Controllers/KategoriController.php',
         'App\\Http\\Controllers\\KegiatanController' => __DIR__ . '/../..' . '/app/Http/Controllers/KegiatanController.php',
+        'App\\Http\\Controllers\\OptionController' => __DIR__ . '/../..' . '/app/Http/Controllers/OptionController.php',
         'App\\Http\\Controllers\\OrderController' => __DIR__ . '/../..' . '/app/Http/Controllers/OrderController.php',
         'App\\Http\\Controllers\\OrderDetailController' => __DIR__ . '/../..' . '/app/Http/Controllers/OrderDetailController.php',
         'App\\Http\\Controllers\\PoktanController' => __DIR__ . '/../..' . '/app/Http/Controllers/PoktanController.php',
         'App\\Http\\Controllers\\ProdukController' => __DIR__ . '/../..' . '/app/Http/Controllers/ProdukController.php',
+        'App\\Http\\Controllers\\StokLumbungsController' => __DIR__ . '/../..' . '/app/Http/Controllers/StokLumbungsController.php',
         'App\\Http\\Controllers\\TandurController' => __DIR__ . '/../..' . '/app/Http/Controllers/TandurController.php',
         'App\\Http\\Controllers\\TestController' => __DIR__ . '/../..' . '/app/Http/Controllers/TestController.php',
         'App\\Http\\Controllers\\ThumbnailProdukController' => __DIR__ . '/../..' . '/app/Http/Controllers/ThumbnailProdukController.php',

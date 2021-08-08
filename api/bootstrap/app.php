@@ -99,7 +99,7 @@ $app->routeMiddleware([
 | totally optional, so you are not required to uncomment this line.
 |
 */
-
+// $app->instance('path.public', app()->basePath() . DIRECTORY_SEPARATOR . 'config');
 $app->register(App\Providers\AppServiceProvider::class);
 $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
@@ -139,6 +139,5 @@ foreach($routers as $requiredRouter){
 }
 
 $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
-
 
 return $app;

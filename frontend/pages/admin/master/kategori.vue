@@ -117,12 +117,12 @@
         search:'',
         titleDialog: '',
         isUpdate: false,
-        kategoriDialog: false,
         btnLoader: false,
         form: {
           id: '',
           nama: '',
-        }
+        },
+        kategoriDialog: false,
       }
     },
     mounted () {
@@ -159,7 +159,7 @@
           if (resp.data.success) {
             this.$notify.success({
               title: 'Success',
-              message: `Berhasil ${type == 'store' ? 'Menambah' : 'Mengubah'} Position`
+              message: `Berhasil ${type == 'store' ? 'Menambah' : 'Mengubah'} Kegiatan`
             })
             this.resetForm()
             this.kategoriDialog = false

@@ -47,13 +47,13 @@ class AuthController extends Controller
     public function account($id)
     {
         $account = 0;
-        if (Admin::where('user_id', $id)) {
+        if (Admin::where('user_id', $id)->first()) {
             $account = 1;
-        } elseif (Gapoktan::where('user_id', $id)) {
+        } elseif (Gapoktan::where('user_id', $id)->first()) {
             $account = 2;
-        } elseif (Poktan::where('user_id', $id)) {
+        } elseif (Poktan::where('user_id', $id)->first()) {
             $account = 3;
-        } elseif (Costumer::where('user_id', $id)) {
+        } elseif (Costumer::where('user_id', $id)->first()) {
             $account = 4;
         }
         return $this->resp($account);

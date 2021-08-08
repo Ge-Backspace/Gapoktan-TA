@@ -22,7 +22,7 @@ class CreateProduksTable extends Migration
             $table->integer('stok');
             $table->integer('harga');
             $table->text('deskripsi');
-            $table->boolean('status');
+            $table->boolean('status')->default(false);
             $table->timestamps();
 
             $table->foreign('gapoktan_id')->references('id')->on('gapoktans');

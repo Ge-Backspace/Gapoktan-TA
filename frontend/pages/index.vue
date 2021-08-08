@@ -14,12 +14,14 @@ export default {
   mounted() {
     this.$notify.success({
       title: 'Berhasil Login',
-      message: 'Selamat Datang Admin! :)'
+      message: 'Selamat Datang! :)'
     });
     let user = JSON.parse(JSON.stringify(this.$auth.user))
     if (user) {
+      console.log();
       this.$axios.get('/account/'+ user.id)
       .then((resp) => {
+        console.log(resp.data.data);
         let account = resp.data.data
         if (account == 1) {
           this.$router.push('/admin/')

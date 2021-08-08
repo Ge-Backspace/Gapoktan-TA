@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'AdamTyn\\Lumen\\Artisan\\StorageLinkCommand' => $vendorDir . '/adamtyn/lumen-artisan-storage-link/src/StorageLinkCommand.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Events\\Event' => $baseDir . '/app/Events/Event.php',
     'App\\Events\\ExampleEvent' => $baseDir . '/app/Events/ExampleEvent.php',
@@ -29,10 +30,12 @@ return array(
     'App\\Http\\Controllers\\GapoktanController' => $baseDir . '/app/Http/Controllers/GapoktanController.php',
     'App\\Http\\Controllers\\KategoriController' => $baseDir . '/app/Http/Controllers/KategoriController.php',
     'App\\Http\\Controllers\\KegiatanController' => $baseDir . '/app/Http/Controllers/KegiatanController.php',
+    'App\\Http\\Controllers\\OptionController' => $baseDir . '/app/Http/Controllers/OptionController.php',
     'App\\Http\\Controllers\\OrderController' => $baseDir . '/app/Http/Controllers/OrderController.php',
     'App\\Http\\Controllers\\OrderDetailController' => $baseDir . '/app/Http/Controllers/OrderDetailController.php',
     'App\\Http\\Controllers\\PoktanController' => $baseDir . '/app/Http/Controllers/PoktanController.php',
     'App\\Http\\Controllers\\ProdukController' => $baseDir . '/app/Http/Controllers/ProdukController.php',
+    'App\\Http\\Controllers\\StokLumbungsController' => $baseDir . '/app/Http/Controllers/StokLumbungsController.php',
     'App\\Http\\Controllers\\TandurController' => $baseDir . '/app/Http/Controllers/TandurController.php',
     'App\\Http\\Controllers\\TestController' => $baseDir . '/app/Http/Controllers/TestController.php',
     'App\\Http\\Controllers\\ThumbnailProdukController' => $baseDir . '/app/Http/Controllers/ThumbnailProdukController.php',

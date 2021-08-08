@@ -1,12 +1,12 @@
 <template>
   <div>
-    Poktan
+
   </div>
 </template>
 
 <script>
   export default {
-
+    layout: "poktan",
   }
 </script>
 

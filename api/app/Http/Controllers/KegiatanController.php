@@ -14,18 +14,50 @@ class KegiatanController extends Controller
 {
     public function lihatKegiatan(Request $request)
     {
-        $data = Kegiatan::where('poktan_id', $request->poktan_id)
+        $state = false;
+        if ($request->user_id) {
+            $poktan = Poktan::where('user_id', $request->user_id)->first();
+            $state = true;
+        }
+        $data = Kegiatan::where('poktan_id', $state ? $poktan->id : $request->poktan_id)
         ->join('poktans', 'poktans.id', '=', 'kegiatans.poktan_id')
-        ->select(DB::raw('kegiatans.*, poktans.nama as nama_poktan'))
-        ->orderBy('poktans.id', 'DESC');
+        ->select(DB::raw('kegiatans.*, poktans.nama as nama_poktan, kegiatans.id as id'))
+        ->orderBy('kegiatans.id', 'DESC');
         return $this->getPaginate($data, $request, ['kegiatans.uraian', 'kegiatans.tanggal', 'kegiatans.keterangan']);
+    }
+
+    public function lihatSemuaKegiatan(Request $request)
+    {
+        return $this->getPaginate(
+            Kegiatan::join('poktans', 'poktans.id', '=', 'kegiatans.poktan_id')
+            ->select(DB::raw('kegiatans.*, poktans.nama as nama_poktan, kegiatans.id as id'))
+            ->orderBy('kegiatans.id', 'DESC')
+            , $request, [
+            'kegiatans.uraian',
+            'kegiatans.tanggal',
+            'kegiatans.keterangan',
+            'poktans.nama'
+        ]);
     }
 
     public function tambahKegiatan(Request $request)
     {
+        $state = false;
+        if ($request->user_id) {
+            $poktan = Poktan::where('user_id', $request->user_id)->first();
+            if(!$poktan) {
+                return $this->resp(null, Variable::NOT_FOUND, false, 406);
+            }
+            $state = true;
+        } else {
+            $poktan = Poktan::find($request->poktan_id);
+            if (!$poktan) {
+                return $this->resp(null, Variable::NOT_FOUND, false, 406);
+            }
+        }
         $input = $request->only(['poktan_id', 'uraian', 'tanggal', 'keterangan']);
         $validator = Validator::make($input, [
-            'poktan_id' => 'required|numeric',
+            'poktan_id' => 'numeric',
             'uraian' => 'required',
             'tanggal' => 'required|date',
             'keterangan' => 'required'
@@ -33,12 +65,16 @@ class KegiatanController extends Controller
         if ($validator->fails()) {
             return $this->resp(Helper::generateErrorMsg($validator->errors()->getMessages()), Variable::FAILED, false, 406);
         }
-        $poktan = Poktan::find($request->poktan_id);
-        if (!$poktan) {
-            return $this->resp(null, Variable::NOT_FOUND, false, 406);
-        } else {
-            $add = Kegiatan::create($input);
+        try {
+            $add = Kegiatan::create([
+                'poktan_id' => $state ? $poktan->id : $input['poktan_id'],
+                'uraian' => $input['uraian'],
+                'tanggal' => $input['tanggal'],
+                'keterangan' => $input['keterangan']
+            ]);
             return $this->resp($add);
+        } catch (\Throwable $th) {
+            return $this->resp(null, $th->getMessage(), false, 406);
         }
     }
 

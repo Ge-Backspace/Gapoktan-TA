@@ -12,8 +12,17 @@ const _14e1220b = () => interopDefault(import('..\\pages\\poktan\\index.vue' /* 
 const _49420457 = () => interopDefault(import('..\\pages\\profile.vue' /* webpackChunkName: "pages/profile" */))
 const _32e1a5e5 = () => interopDefault(import('..\\pages\\register.vue' /* webpackChunkName: "pages/register" */))
 const _c71a5d58 = () => interopDefault(import('..\\pages\\test.vue' /* webpackChunkName: "pages/test" */))
+const _aedd4bb0 = () => interopDefault(import('..\\pages\\gapoktan\\user_poktan.vue' /* webpackChunkName: "pages/gapoktan/user_poktan" */))
 const _4994c740 = () => interopDefault(import('..\\pages\\admin\\master\\admin.vue' /* webpackChunkName: "pages/admin/master/admin" */))
 const _336ac805 = () => interopDefault(import('..\\pages\\admin\\master\\kategori.vue' /* webpackChunkName: "pages/admin/master/kategori" */))
+const _f48ed0bc = () => interopDefault(import('..\\pages\\gapoktan\\poktan\\kegiatan.vue' /* webpackChunkName: "pages/gapoktan/poktan/kegiatan" */))
+const _22e5d754 = () => interopDefault(import('..\\pages\\gapoktan\\poktan\\stok_lumbung.vue' /* webpackChunkName: "pages/gapoktan/poktan/stok_lumbung" */))
+const _1025aa86 = () => interopDefault(import('..\\pages\\gapoktan\\poktan\\tandur.vue' /* webpackChunkName: "pages/gapoktan/poktan/tandur" */))
+const _d8dfb5ce = () => interopDefault(import('..\\pages\\gapoktan\\produk\\manage_produk.vue' /* webpackChunkName: "pages/gapoktan/produk/manage_produk" */))
+const _0eb612fa = () => interopDefault(import('..\\pages\\gapoktan\\produk\\orders.vue' /* webpackChunkName: "pages/gapoktan/produk/orders" */))
+const _3f27a6ab = () => interopDefault(import('..\\pages\\poktan\\pelaporan\\kegiatan.vue' /* webpackChunkName: "pages/poktan/pelaporan/kegiatan" */))
+const _60b439dd = () => interopDefault(import('..\\pages\\poktan\\pelaporan\\stok_lumbung.vue' /* webpackChunkName: "pages/poktan/pelaporan/stok_lumbung" */))
+const _56eee7cf = () => interopDefault(import('..\\pages\\poktan\\pelaporan\\tandur.vue' /* webpackChunkName: "pages/poktan/pelaporan/tandur" */))
 const _0abd1480 = () => interopDefault(import('..\\pages\\index.vue' /* webpackChunkName: "pages/index" */))
 
 // TODO: remove in Nuxt 3
@@ -65,6 +74,10 @@ export const routerOptions = {
     component: _c71a5d58,
     name: "test"
   }, {
+    path: "/gapoktan/user_poktan",
+    component: _aedd4bb0,
+    name: "gapoktan-user_poktan"
+  }, {
     path: "/admin/master/admin",
     component: _4994c740,
     name: "admin-master-admin"
@@ -72,6 +85,38 @@ export const routerOptions = {
     path: "/admin/master/kategori",
     component: _336ac805,
     name: "admin-master-kategori"
+  }, {
+    path: "/gapoktan/poktan/kegiatan",
+    component: _f48ed0bc,
+    name: "gapoktan-poktan-kegiatan"
+  }, {
+    path: "/gapoktan/poktan/stok_lumbung",
+    component: _22e5d754,
+    name: "gapoktan-poktan-stok_lumbung"
+  }, {
+    path: "/gapoktan/poktan/tandur",
+    component: _1025aa86,
+    name: "gapoktan-poktan-tandur"
+  }, {
+    path: "/gapoktan/produk/manage_produk",
+    component: _d8dfb5ce,
+    name: "gapoktan-produk-manage_produk"
+  }, {
+    path: "/gapoktan/produk/orders",
+    component: _0eb612fa,
+    name: "gapoktan-produk-orders"
+  }, {
+    path: "/poktan/pelaporan/kegiatan",
+    component: _3f27a6ab,
+    name: "poktan-pelaporan-kegiatan"
+  }, {
+    path: "/poktan/pelaporan/stok_lumbung",
+    component: _60b439dd,
+    name: "poktan-pelaporan-stok_lumbung"
+  }, {
+    path: "/poktan/pelaporan/tandur",
+    component: _56eee7cf,
+    name: "poktan-pelaporan-tandur"
   }, {
     path: "/",
     component: _0abd1480,

@@ -1,6 +1,52 @@
 {
     "packages": [
         {
+            "name": "adamtyn/lumen-artisan-storage-link",
+            "version": "v1.0.0",
+            "version_normalized": "1.0.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/AdamTyn/lumen-artisan-storage-link.git",
+                "reference": "4da0998ac2c2811c0e85090c5c66479f2f64d416"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/AdamTyn/lumen-artisan-storage-link/zipball/4da0998ac2c2811c0e85090c5c66479f2f64d416",
+                "reference": "4da0998ac2c2811c0e85090c5c66479f2f64d416",
+                "shasum": ""
+            },
+            "time": "2020-09-27T04:33:15+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "AdamTyn\\Lumen\\Artisan\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "AdamTyn",
+                    "email": "tynadam@foxmail.com"
+                }
+            ],
+            "description": "移植Laravel的 `php artisan storage:link` [生成符号连接]指令到Lumen",
+            "keywords": [
+                "adamtyn",
+                "framework",
+                "laravel",
+                "lumen"
+            ],
+            "support": {
+                "issues": "https://github.com/AdamTyn/lumen-artisan-storage-link/issues",
+                "source": "https://github.com/AdamTyn/lumen-artisan-storage-link/tree/v1.0.0"
+            },
+            "install-path": "../adamtyn/lumen-artisan-storage-link"
+        },
+        {
             "name": "barryvdh/laravel-dompdf",
             "version": "v0.8.7",
             "version_normalized": "0.8.7.0",

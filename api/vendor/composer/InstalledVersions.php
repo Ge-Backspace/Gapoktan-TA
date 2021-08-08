@@ -19,11 +19,20 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '0181ccfe69bcef0121c9302b4f0e832b76f7d86d',
+    'reference' => '6cdb741fdba0cebfce88e79bce81e0c0d533ae24',
     'name' => 'laravel/lumen',
   ),
   'versions' => 
   array (
+    'adamtyn/lumen-artisan-storage-link' => 
+    array (
+      'pretty_version' => 'v1.0.0',
+      'version' => '1.0.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '4da0998ac2c2811c0e85090c5c66479f2f64d416',
+    ),
     'barryvdh/laravel-dompdf' => 
     array (
       'pretty_version' => 'v0.8.7',
@@ -493,7 +502,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '0181ccfe69bcef0121c9302b4f0e832b76f7d86d',
+      'reference' => '6cdb741fdba0cebfce88e79bce81e0c0d533ae24',
     ),
     'laravel/lumen-framework' => 
     array (

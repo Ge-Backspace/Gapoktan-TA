@@ -12,7 +12,7 @@ class Artikel extends Model
      * @var array
      */
     protected $fillable = [
-        'gapoktan_id', 'judul', 'isi'
+        'gapoktan_id', 'judul', 'isi', 'foto'
     ];
 
     public function gapoktan()

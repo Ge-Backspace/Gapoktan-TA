@@ -13,18 +13,17 @@ class AddressesController extends Controller
 {
     public function lihatAddress(Request $request)
     {
-        $input = $request->only([
-            'costumer_id'
-        ]);
-        $validator = Validator::make($input, [
-            'costumer_id' => 'required|numeric'
-        ], Helper::messageValidation());
-        if ($validator->fails()) {
-            return $this->resp(Helper::generateErrorMsg($validator->errors()->getMessages()), Variable::FAILED, false, 406);
+        $state = false;
+        if ($request->user_id) {
+            $costumer = Costumer::where('user_id', $request->user_id)->first();
+            if(!$costumer) {
+                return $this->resp(null, Variable::NOT_FOUND, false, 406);
+            }
+            $state = true;
         }
-        $data = Address::where('costumer_id', $input['costumer_id'])
+        $data = Address::where('costumer_id', $state ? $costumer->id : $request->costumer_id)
         ->orderBy('id', 'DESC');
-        return $this->getPaginate($data, $request, []);
+        return $this->getPaginate($data, $request, ['nama']);
     }
 
     public function tambahAddress(Request $request)
@@ -36,18 +35,26 @@ class AddressesController extends Controller
             'nama' => 'required',
             'nomor_hp' => 'required',
             'alamat' => 'required',
-            'costumer_id' => 'required|numeric'
+            'costumer_id' => 'numeric'
         ], Helper::messageValidation());
         if ($validator->fails()) {
             return $this->resp(Helper::generateErrorMsg($validator->errors()->getMessages()), Variable::FAILED, false, 406);
         }
-        $costumer = Costumer::find($request->costumer_id);
-        if (!$costumer) {
-            return $this->resp(null, Variable::NOT_FOUND, false, 406);
-        } else {
-            $add = Address::create($input);
-            return $this->resp($add);
+        $state = false;
+        if ($request->user_id) {
+            $costumer = Costumer::where('user_id', $request->user_id)->first();
+            if(!$costumer) {
+                return $this->resp(null, Variable::NOT_FOUND, false, 406);
+            }
+            $state = true;
         }
+        $add = Address::create([
+            'nama' => $input['nama'],
+            'nomor_hp' => $input['nomor_hp'],
+            'alamat' => $input['alamat'],
+            'costumer_id' => $state ? $costumer->id : $input['costumer_id']
+        ]);
+        return $this->resp($add);
     }
 
     public function ubahAddress(Request $request, $id)
@@ -76,11 +83,11 @@ class AddressesController extends Controller
 
     public function hapusAddress($id)
     {
-        $data = Address::find($id);
-        if(!$data){
-            return $this->resp(null, 'failed to delete data because id '.$id.' not found', false, 404);
+        try {
+            Address::find($id)->delete();
+        } catch (\Throwable $e) {
+            return $this->resp(null, $e->getMessage(), false, 404);
         }
-        $data->delete();
         return $this->resp();
     }
 }

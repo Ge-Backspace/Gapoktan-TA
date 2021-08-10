@@ -20,9 +20,9 @@ class CreateOrdersTable extends Migration
             $table->string('kd_order')->unique();
             $table->integer('total_harga');
             $table->boolean('status_payment')->default(false);
-            $table->text('deskripsi');
+            $table->text('deskripsi')->nullable();
             $table->date('tanggal_bayar')->nullable();
-            $table->string('no_rek');
+            $table->string('no_rek')->nullable();
             $table->string('bukti_pembayaran')->nullable();
             $table->timestamps();
 

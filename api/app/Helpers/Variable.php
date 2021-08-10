@@ -29,4 +29,6 @@ class Variable
     public const BPYR = 'BUKTIPEMBAYARAN';
     // Register Gapoktan
     public const RGPK = 'REGISTERGAPOKTAN';
+    // Artikel
+    public const ARTL = 'ARTIKEL';
 }

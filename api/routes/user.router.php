@@ -1,5 +1,5 @@
 <?php
-
+$router -> get('/lihat_profil', 'UserController@lihatProfil');
 $router->group(['middleware' => 'auth'], function($router){
     $router->get('/users', 'UserController@index');
     $router->get('/user/{id}/show', 'UserController@show');

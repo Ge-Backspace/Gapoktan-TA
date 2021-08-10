@@ -18,6 +18,7 @@ class CreateArtikelsTable extends Migration
             $table->integer('gapoktan_id')->unsigned();
             $table->string('judul');
             $table->text('isi');
+            $table->text('foto')->nullable();
             $table->timestamps();
 
             $table->foreign('gapoktan_id')->references('id')->on('gapoktans');

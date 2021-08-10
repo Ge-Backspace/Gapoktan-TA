@@ -14,7 +14,16 @@ class ArtikelController extends Controller
 {
     public function lihatArtikel(Request $request)
     {
+        $state = false;
+        if ($request->user_id) {
+            $gapoktan = Gapoktan::where('user_id', $request->user_id)->first();
+            if(!$gapoktan) {
+                return $this->resp(null, Variable::NOT_FOUND, false, 406);
+            }
+            $state = true;
+        }
         $table = Artikel::join('gapoktans', 'gapoktans.id', '=', 'artikels.gapoktan_id')
+        ->where('gapoktans.id', $state ? $gapoktan->id : $request->gapoktan_id)
         ->select(DB::raw('artikels.*, gapoktans.nama as published'))
         ->orderBy('artikels.id', 'DESC');
         return $this->getPaginate($table, $request, ['artikels.judul', 'artikels.isi']);
@@ -22,22 +31,41 @@ class ArtikelController extends Controller
 
     public function tambahArtikel(Request $request)
     {
-        $input = $request->only(['gapoktan_id', 'judul', 'isi']);
+        $input = $request->only(['gapoktan_id', 'judul', 'isi', 'foto']);
         $validator = Validator::make($input, [
             'judul' => 'required',
             'isi' => 'required',
-            'gapoktan_id' => 'required|numeric'
+            'gapoktan_id' => 'numeric',
+            'foto' => 'mimes:jpeg,png,jpg|max:5048'
         ], Helper::messageValidation());
         if ($validator->fails()) {
             return $this->resp(Helper::generateErrorMsg($validator->errors()->getMessages()), Variable::FAILED, false, 406);
         }
-        $gapoktan = Gapoktan::find($request->gapoktan_id);
-        if (!$gapoktan) {
-            return $this->resp(null, Variable::NOT_FOUND, false, 406);
-        } else {
-            $add = Artikel::create($input);
-            return $this->resp($add);
+        $state = false;
+        if ($request->user_id) {
+            $gapoktan = Gapoktan::where('user_id', $request->user_id)->first();
+            if(!$gapoktan) {
+                return $this->resp(null, Variable::NOT_FOUND, false, 406);
+            }
+            $state = true;
         }
+        $file = $request->foto;
+        if ($file) {
+            $basePath = base_path('storage/app/public/' . Variable::ARTL);
+            $extension = $file->getClientOriginalExtension();
+            if (empty($extension)) {
+                $extension = $file->clientExtension();
+            }
+            $fileName = Variable::ARTL . '-' . time() . '.' . $extension;
+            $file->move($basePath, $fileName);
+        }
+        $add = Artikel::create([
+            'judul' => $input['judul'],
+            'isi' => $input['isi'],
+            'gapoktan_id' => $state ? $gapoktan->id : $input['gapoktan_id'],
+            'foto' => $file ? $fileName : null,
+        ]);
+        return $this->resp($add);
     }
 
     public function ubahArtikel(Request $request, $id)
@@ -51,12 +79,23 @@ class ArtikelController extends Controller
             return $this->resp(Helper::generateErrorMsg($validator->errors()->getMessages()), Variable::FAILED, false, 406);
         }
         $data = Artikel::find($id);
+        $file = $request->foto;
+        if ($file) {
+            $basePath = base_path('storage/app/public/' . Variable::ARTL);
+            $extension = $file->getClientOriginalExtension();
+            if (empty($extension)) {
+                $extension = $file->clientExtension();
+            }
+            $fileName = Variable::ARTL . '-' . time() . '.' . $extension;
+            $file->move($basePath, $fileName);
+        }
         if (!$data) {
             return $this->resp(null, Variable::NOT_FOUND, false, 406);
         }
         $inputUpdate = [
             'judul' => $input['judul'],
             'isi' => $input['isi'],
+            'foto' => $file ? $fileName : null
         ];
         $update = $data->update($inputUpdate);
         return $this->resp($update);
@@ -64,11 +103,11 @@ class ArtikelController extends Controller
 
     public function hapusArtikel($id)
     {
-        $data = Artikel::find($id);
-        if(!$data){
-            return $this->resp(null, 'failed to delete data because id '.$id.' not found', false, 404);
+        try {
+            Artikel::find($id)->delete();
+        } catch (\Throwable $e) {
+            return $this->resp(null, $e->getMessage(), false, 404);
         }
-        $data->delete();
         return $this->resp();
     }
 }

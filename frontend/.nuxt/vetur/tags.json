@@ -11,6 +11,12 @@
   "LazyMenuAdmin": {
     "description": "Auto imported from D:/TA/App/frontend/components/MenuAdmin.js"
   },
+  "MenuCostumer": {
+    "description": "Auto imported from D:/TA/App/frontend/components/MenuCostumer.js"
+  },
+  "LazyMenuCostumer": {
+    "description": "Auto imported from D:/TA/App/frontend/components/MenuCostumer.js"
+  },
   "MenuGapoktan": {
     "description": "Auto imported from D:/TA/App/frontend/components/MenuGapoktan.js"
   },
@@ -40,6 +46,12 @@
   },
   "LazySidebarAdmin": {
     "description": "Auto imported from D:/TA/App/frontend/components/SidebarAdmin.vue"
+  },
+  "SidebarCostumer": {
+    "description": "Auto imported from D:/TA/App/frontend/components/SidebarCostumer.vue"
+  },
+  "LazySidebarCostumer": {
+    "description": "Auto imported from D:/TA/App/frontend/components/SidebarCostumer.vue"
   },
   "SidebarGapoktan": {
     "description": "Auto imported from D:/TA/App/frontend/components/SidebarGapoktan.vue"

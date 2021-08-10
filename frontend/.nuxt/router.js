@@ -12,6 +12,10 @@ const _14e1220b = () => interopDefault(import('..\\pages\\poktan\\index.vue' /* 
 const _49420457 = () => interopDefault(import('..\\pages\\profile.vue' /* webpackChunkName: "pages/profile" */))
 const _32e1a5e5 = () => interopDefault(import('..\\pages\\register.vue' /* webpackChunkName: "pages/register" */))
 const _c71a5d58 = () => interopDefault(import('..\\pages\\test.vue' /* webpackChunkName: "pages/test" */))
+const _f4b33e60 = () => interopDefault(import('..\\pages\\costumer\\address.vue' /* webpackChunkName: "pages/costumer/address" */))
+const _499877f4 = () => interopDefault(import('..\\pages\\costumer\\cart.vue' /* webpackChunkName: "pages/costumer/cart" */))
+const _d2f7d2ec = () => interopDefault(import('..\\pages\\costumer\\komplen.vue' /* webpackChunkName: "pages/costumer/komplen" */))
+const _6fe55fac = () => interopDefault(import('..\\pages\\costumer\\order.vue' /* webpackChunkName: "pages/costumer/order" */))
 const _aedd4bb0 = () => interopDefault(import('..\\pages\\gapoktan\\user_poktan.vue' /* webpackChunkName: "pages/gapoktan/user_poktan" */))
 const _4994c740 = () => interopDefault(import('..\\pages\\admin\\master\\admin.vue' /* webpackChunkName: "pages/admin/master/admin" */))
 const _336ac805 = () => interopDefault(import('..\\pages\\admin\\master\\kategori.vue' /* webpackChunkName: "pages/admin/master/kategori" */))
@@ -73,6 +77,22 @@ export const routerOptions = {
     path: "/test",
     component: _c71a5d58,
     name: "test"
+  }, {
+    path: "/costumer/address",
+    component: _f4b33e60,
+    name: "costumer-address"
+  }, {
+    path: "/costumer/cart",
+    component: _499877f4,
+    name: "costumer-cart"
+  }, {
+    path: "/costumer/komplen",
+    component: _d2f7d2ec,
+    name: "costumer-komplen"
+  }, {
+    path: "/costumer/order",
+    component: _6fe55fac,
+    name: "costumer-order"
   }, {
     path: "/gapoktan/user_poktan",
     component: _aedd4bb0,

@@ -1,10 +1,12 @@
 export { default as Logo } from '../..\\components\\Logo.vue'
 export { default as MenuAdmin } from '../..\\components\\MenuAdmin.js'
+export { default as MenuCostumer } from '../..\\components\\MenuCostumer.js'
 export { default as MenuGapoktan } from '../..\\components\\MenuGapoktan.js'
 export { default as MenuPoktan } from '../..\\components\\MenuPoktan.js'
 export { default as MenuSuperAdmin } from '../..\\components\\MenuSuperAdmin.js'
 export { default as MenuUser } from '../..\\components\\MenuUser.js'
 export { default as SidebarAdmin } from '../..\\components\\SidebarAdmin.vue'
+export { default as SidebarCostumer } from '../..\\components\\SidebarCostumer.vue'
 export { default as SidebarGapoktan } from '../..\\components\\SidebarGapoktan.vue'
 export { default as SidebarPoktan } from '../..\\components\\SidebarPoktan.vue'
 export { default as SidebarSuperAdmin } from '../..\\components\\SidebarSuperAdmin.vue'
@@ -23,11 +25,13 @@ export { default as PartnerAfsen } from '../..\\components\\LandingPage\\Partner
 
 export const LazyLogo = import('../..\\components\\Logo.vue' /* webpackChunkName: "components/logo" */).then(c => c.default || c)
 export const LazyMenuAdmin = import('../..\\components\\MenuAdmin.js' /* webpackChunkName: "components/menu-admin" */).then(c => c.default || c)
+export const LazyMenuCostumer = import('../..\\components\\MenuCostumer.js' /* webpackChunkName: "components/menu-costumer" */).then(c => c.default || c)
 export const LazyMenuGapoktan = import('../..\\components\\MenuGapoktan.js' /* webpackChunkName: "components/menu-gapoktan" */).then(c => c.default || c)
 export const LazyMenuPoktan = import('../..\\components\\MenuPoktan.js' /* webpackChunkName: "components/menu-poktan" */).then(c => c.default || c)
 export const LazyMenuSuperAdmin = import('../..\\components\\MenuSuperAdmin.js' /* webpackChunkName: "components/menu-super-admin" */).then(c => c.default || c)
 export const LazyMenuUser = import('../..\\components\\MenuUser.js' /* webpackChunkName: "components/menu-user" */).then(c => c.default || c)
 export const LazySidebarAdmin = import('../..\\components\\SidebarAdmin.vue' /* webpackChunkName: "components/sidebar-admin" */).then(c => c.default || c)
+export const LazySidebarCostumer = import('../..\\components\\SidebarCostumer.vue' /* webpackChunkName: "components/sidebar-costumer" */).then(c => c.default || c)
 export const LazySidebarGapoktan = import('../..\\components\\SidebarGapoktan.vue' /* webpackChunkName: "components/sidebar-gapoktan" */).then(c => c.default || c)
 export const LazySidebarPoktan = import('../..\\components\\SidebarPoktan.vue' /* webpackChunkName: "components/sidebar-poktan" */).then(c => c.default || c)
 export const LazySidebarSuperAdmin = import('../..\\components\\SidebarSuperAdmin.vue' /* webpackChunkName: "components/sidebar-super-admin" */).then(c => c.default || c)

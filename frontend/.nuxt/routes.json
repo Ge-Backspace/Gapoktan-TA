@@ -56,6 +56,34 @@
     "_name": "_c71a5d58"
   },
   {
+    "name": "costumer-address",
+    "path": "/costumer/address",
+    "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\costumer\\\\address.vue",
+    "chunkName": "pages/costumer/address",
+    "_name": "_f4b33e60"
+  },
+  {
+    "name": "costumer-cart",
+    "path": "/costumer/cart",
+    "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\costumer\\\\cart.vue",
+    "chunkName": "pages/costumer/cart",
+    "_name": "_499877f4"
+  },
+  {
+    "name": "costumer-komplen",
+    "path": "/costumer/komplen",
+    "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\costumer\\\\komplen.vue",
+    "chunkName": "pages/costumer/komplen",
+    "_name": "_d2f7d2ec"
+  },
+  {
+    "name": "costumer-order",
+    "path": "/costumer/order",
+    "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\costumer\\\\order.vue",
+    "chunkName": "pages/costumer/order",
+    "_name": "_6fe55fac"
+  },
+  {
     "name": "gapoktan-user_poktan",
     "path": "/gapoktan/user_poktan",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\gapoktan\\\\user_poktan.vue",

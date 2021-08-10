@@ -31,15 +31,6 @@
               type="password">
           </div>
         </div>
-        <div class="text-center" style="margin-bottom: 54px">
-          <el-button type="primary" :loading="showLoading" class="my-4" round native-type="submit">Login
-          </el-button>
-          <br>
-          <br>
-          <router-link to="/register">
-            <a href="#">Belum ada akun?</a>
-          </router-link>
-        </div>
       </form>
     </div>
   </div>

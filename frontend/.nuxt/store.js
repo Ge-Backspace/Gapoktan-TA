@@ -20,6 +20,7 @@ let store = {};
   store.modules = store.modules || {}
 
   resolveStoreModules(require('..\\store\\drawer.js'), 'drawer.js')
+  resolveStoreModules(require('..\\store\\gambarproduk.js'), 'gambarproduk.js')
   resolveStoreModules(require('..\\store\\kategori.js'), 'kategori.js')
   resolveStoreModules(require('..\\store\\kegiatan.js'), 'kegiatan.js')
   resolveStoreModules(require('..\\store\\option.js'), 'option.js')
@@ -34,6 +35,7 @@ let store = {};
     // Whenever any Vuex module is updated...
     module.hot.accept([
       '..\\store\\drawer.js',
+      '..\\store\\gambarproduk.js',
       '..\\store\\index.js',
       '..\\store\\kategori.js',
       '..\\store\\kegiatan.js',

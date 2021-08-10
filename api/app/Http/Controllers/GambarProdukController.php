@@ -8,27 +8,39 @@ use Illuminate\Http\Request;
 
 class GambarProdukController extends Controller
 {
+    public function lihatGambarProduk(Request $request)
+    {
+        $data = GambarProduk::where('produk_id', $request->produk_id)
+        ->orderBy('tandurs.id', 'DESC');
+        return $this->getPaginate($data, $request, []);
+    }
+
     public function tambahGambarProduk(Request $request)
     {
-        $gambars = $request->only(['gambar']);
-        $input = [];
-
-        foreach ($gambars as $key => $gambar) {
-            $basePath = base_path('storage/app/public/' . Variable::GPDK);
-            $extension = $gambar->getClientOriginalExtension();
-            if (empty($extension)) {
-                $extension = $gambar->clientExtension();
-            }
-            $fileName = Variable::GPDK . '-' . time() . '.' . $extension;
-            $input[] = [
-                'file_name' => $fileName,
-                'path' => $fileName,
-                'size' => $gambar->getSize(),
-                'extension' => $extension,
-            ];
-            $gambar->move($basePath, $fileName);
+        if (!$request->gambars) {
+            return $this->resp(null, false, Variable::FAILED, 406);
         }
-        GambarProduk::insert($input);
-        return $this->resp();
+        return $this->resp($request->gambars);
+        // $gambars = $request->only(['gambar']);
+        // $input = [];
+
+        // foreach ($gambars as $key => $gambar) {
+        //     $basePath = base_path('storage/app/public/' . Variable::GPDK);
+        //     $extension = $gambar->getClientOriginalExtension();
+        //     if (empty($extension)) {
+        //         $extension = $gambar->clientExtension();
+        //     }
+        //     $fileName = Variable::GPDK . '-' . time() . '.' . $extension;
+        //     $input[] = [
+        //         'produk_id' => $request->produk_id,
+        //         'file_name' => $fileName,
+        //         'path' => $fileName,
+        //         'size' => $gambar->getSize(),
+        //         'extension' => $extension,
+        //     ];
+        //     $gambar->move($basePath, $fileName);
+        // }
+        // GambarProduk::insert($input);
+        // return $this->resp();
     }
 }

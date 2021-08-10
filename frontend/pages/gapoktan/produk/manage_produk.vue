@@ -33,6 +33,7 @@
               :key="i"
               v-for="(tr, i) in $vs.getSearch(getProduks.data, search)"
               :data="tr"
+              @click="getGP(tr.id)"
             >
               <vs-td>
                 <el-tooltip content="Edit" placement="top-start" effect="dark">
@@ -74,13 +75,22 @@
                 >
                 <span class="badge badge-primary" v-else>Belum Aktif</span>
               </vs-td>
-              <!-- <template #expand>
-                <div class="con-content">
-                <div>
-                  <p>Email : </p>
+              <template #expand>
+                <div class="con-content" v-loading="getGLoader">
+                  <img :src="api_url+'/storage/USER/no-user-image.png'" alt="" width="100" height="auto">
+                  <img :src="api_url+'/storage/USER/no-user-image.png'" alt="" width="100" height="auto">
                 </div>
-              </div>
-              </template> -->
+                <hr>
+                <div>
+                  <vs-button
+                    relief
+                    :active="active == 1"
+                    @click="gambarDialog = true; titleDialog = 'Tambah Gambar Produk';"
+                  >
+                    Tambah Gambar Produk
+                  </vs-button>
+                </div>
+              </template>
             </vs-tr>
           </template>
           <template #footer>
@@ -133,7 +143,7 @@
           <vs-col vs-type="flex" vs-justify="center" vs-align="center" w="12" style="padding:5px">
             <label>Foto Thumbnail Produk</label>
             <el-upload :auto-upload="false" :on-change="handleChangeFile" list-type="picture-card" accept="image/*"
-              :file-list="files" :limit="1">
+              :file-list="fileList" :limit="1">
               <i class="el-icon-plus"></i>
             </el-upload>
           </vs-col>
@@ -255,6 +265,60 @@
         </div>
       </template>
     </vs-dialog>
+
+    <vs-dialog
+      v-model="gambarDialog"
+      :width="$store.state.drawer.mode === 'mobile' ? '80%' : '60%'"
+      @close="resetForm()"
+    >
+      <template #header>
+        <h1 class="not-margin">
+          {{ titleDialog }}
+        </h1>
+      </template>
+      <div class="con-form">
+        <vs-row>
+          <vs-col vs-type="flex" vs-justify="center" vs-align="center" w="12" style="padding:5px">
+            <el-upload
+              multiple
+              list-type="picture-card"
+              :on-change="handleChangeGambars"
+              :file-list="fileList"
+              :auto-upload="false"
+              >
+              <i class="el-icon-plus"></i>
+            </el-upload>
+          </vs-col>
+        </vs-row>
+      </div>
+
+      <template #footer>
+        <div class="footer-dialog">
+          <vs-row>
+            <vs-col w="6" style="padding: 5px">
+              <vs-button
+                block
+                :loading="btnLoader"
+                @click="onSubmitGambar()"
+                >Simpan</vs-button
+              >
+            </vs-col>
+            <vs-col w="6" style="padding: 5px">
+              <vs-button
+                block
+                border
+                @click="
+                  gambarDialog = false;
+                  resetForm();
+                "
+                >Batal</vs-button
+              >
+            </vs-col>
+          </vs-row>
+          <div>&nbsp;</div>
+        </div>
+      </template>
+    </vs-dialog>
   </div>
 </template>
 
@@ -276,6 +340,7 @@ import { config } from "../../../global.config";
         titleDialog: "",
         isUpdate: false,
         btnLoader: false,
+        fileList: [],
         user_id: "",
         form: {
           id: "",
@@ -287,6 +352,7 @@ import { config } from "../../../global.config";
           foto: "",
         },
         formDialog: false,
+        gambarDialog: false,
       }
     },
     mounted () {
@@ -296,12 +362,16 @@ import { config } from "../../../global.config";
     },
     computed: {
     ...mapGetters("produk", ["getProduks", "getLoader"]),
+    ...mapGetters("gambarproduk", ["getGambars", "getGLoader"]),
     ...mapGetters("option", ["getOptionKategoris"])
     },
      methods: {
       logTest(data) {
         console.log(data);
         return data;
+      },
+      getGP(id) {
+        this.$store.dispatch("gambarproduk/getAll", {produk_id: id})
       },
       resetForm() {
         this.form = {
@@ -313,14 +383,18 @@ import { config } from "../../../global.config";
           deskripsi: "",
           foto: "",
         };
+        this.fileList = [];
         this.isUpdate = false;
       },
       handleChangeFile(file, fileList) {
         this.form.foto = file.raw
       },
+      handleChangeGambars(file, fileList) {
+        this.fileList = fileList
+      },
       handleCurrentChange(val) {
-        this.$store.commit("user/setPage", val);
-        this.$store.dispatch("user/getUserPoktan", { user_id: this.user_id });
+        this.$store.commit("produk/setPage", val);
+        this.$store.dispatch("produk/getAll", {user_id: this.user_id});
       },
       onSubmit(type = "store") {
         this.btnLoader = true;
@@ -345,11 +419,11 @@ import { config } from "../../../global.config";
                 title: "Success",
                 message: `Berhasil ${
                   type == "store" ? "Menambah" : "Mengubah"
-                } Poktan`,
+                } Produk`,
               });
               this.resetForm();
               this.formDialog = false;
-              this.$store.dispatch("user/getUserPoktan", { user_id: this.user_id });
+              this.$store.dispatch("produk/getAll", { user_id: this.user_id });
             }
           })
           .finally(() => {
@@ -367,16 +441,44 @@ import { config } from "../../../global.config";
             }
           });
       },
+      onSubmitGambar() {
+        this.btnLoader = true;
+        let formData = new FormData();
+        let test = [];
+        this.fileList.forEach(everyFile => {
+          formData.append("gambars", everyFile.raw)
+          test.push(everyFile.raw)
+        })
+        console.log(test)
+        this.$axios.post('/tambah_gambar_produk', formData)
+        .then((res) => {
+          console.log(res)
+          this.resetForm();
+          this.gambarDialog = false;
+        }).finally(() => {
+          this.btnLoader = false;
+        })
+        .catch((err) => {
+          let error = err.response.data.data;
+          if (error) {
+            this.showErrorField(error);
+          } else {
+            this.$notify.error({
+              title: "Error",
+              message: err.response.data.message,
+            });
+          }
+        });
+      },
       edit(data) {
         this.form.id = data.id;
+        this.form.kategori_id = data.kategori_id;
         this.form.nama = data.nama;
-        this.form.email = '';
-        this.form.password = '';
-        this.form.kota = data.kota;
-        this.form.ketua = data.ketua;
-        this.form.alamat = data.alamat;
+        this.form.stok = data.stok;
+        this.form.harga = data.harga;
+        this.form.deskripsi = data.deskripsi;
         this.formDialog = true;
-        this.titleDialog = "Edit Poktan";
+        this.titleDialog = "Edit Produk";
         this.isUpdate = true;
       },
       deleteData(id) {
@@ -418,9 +520,6 @@ import { config } from "../../../global.config";
       formatDate(date) {
         return moment(date).format("DD MMMM YYYY");
       },
-      fotoUrl(data) {
-        return "../../../api/storage/app/public/USER/"+data.nama_foto
-      }
     },
   }
 </script>

@@ -63,16 +63,16 @@ class OrderController extends Controller
             'total_harga' => $input['total_harga'],
             'deskripsi' => $input['deskripsi'],
         ]);
-        // $inputOrderDetail = [];
-        // foreach ($request->orders as $key => $o) {
-        //     $input[] = [
-        //         'produk_id' => $o->produk_id,
-        //         'order_id'=> $order->id,
-        //         'jumlah' => $o->jumlah,
-        //         'harga' => $o->harga
-        //     ];
-        // }
-        // OrderDetail::insert($inputOrderDetail);
+        $inputOrderDetail = [];
+        foreach ($request->orders as $key => $o) {
+            $input[] = [
+                'produk_id' => $o->produk_id,
+                'order_id'=> $order->id,
+                'jumlah' => $o->jumlah,
+                'harga' => $o->harga
+            ];
+        }
+        OrderDetail::insert($inputOrderDetail);
         return $this->resp($order);
     }
 

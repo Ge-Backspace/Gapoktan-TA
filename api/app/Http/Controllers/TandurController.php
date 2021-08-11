@@ -9,6 +9,9 @@ use App\Models\Tandur;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use App\Exports\ExportTandurPoktan;
+use Carbon\Carbon;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TandurController extends Controller
 {
@@ -111,5 +114,38 @@ class TandurController extends Controller
         }
         $data->delete();
         return $this->resp();
+    }
+
+    public function exportTandurPoktan(Request $request)
+    {
+        $input = $request->only(['state', 'user_id', 'tanggal_awal', 'tanggal_akhir', 'as']);
+        $validator = Validator::make($input, [
+            'state' => 'required|numeric',
+            'user_id' => 'required|numeric',
+            'tanggal_awal' => 'required|date',
+            'tanggal_akhir' => 'required|date',
+            'as' => 'sting',
+        ], Helper::messageValidation());
+        if ($validator->fails()) {
+            return $this->resp(Helper::generateErrorMsg($validator->errors()->getMessages()), Variable::FAILED_EXPORT, false, 406);
+        }
+        $state = true;
+        if ($input['state'] == 2) {
+            $state = false;
+        }
+        $poktan = Poktan::where('user_id', $input['user_id'])->first();
+        $data = Tandur::where('poktan_id', $poktan->id)
+        ->whereBetween(
+            $state ? 'tanggal_tandur' : 'tanggal_panen',
+            [$input['tanggal_awal'], $input['tanggal_akhir']]
+        )->get();
+        $poktan = Poktan::where('user_id', $input['user_id'])->first();
+        $as = \Maatwebsite\Excel\Excel::XLSX;
+        $type = 'xlsx';
+        if($request->as == 'pdf'){
+            $type = 'pdf';
+            $as = \Maatwebsite\Excel\Excel::DOMPDF;
+        }
+        return Excel::download(new ExportTandurPoktan($poktan, $data, $input['tanggal_awal'], $input['tanggal_awal']), 'tandur_poktan_' . $poktan->nama . '-' . Carbon::now().'.' . $type, $as);
     }
 }

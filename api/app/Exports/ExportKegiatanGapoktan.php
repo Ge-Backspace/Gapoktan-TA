@@ -5,13 +5,13 @@ namespace App\Exports;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
 
-class ExportTandurPoktan implements FromView
+class ExportKegiatanPoktan implements FromView
 {
-    protected $poktan, $datas, $tanggal_awal, $tanggal_akhir;
+    protected $gapoktan, $datas, $tanggal_awal, $tanggal_akhir;
 
-    function __construct($poktan, $data, $tanggal_awal, $tanggal_akhir)
+    function __construct($gapoktan, $data, $tanggal_awal, $tanggal_akhir)
     {
-        $this->poktan = $poktan;
+        $this->gapoktan = $gapoktan;
         $this->datas = $data;
         $this->tanggal_awal = $tanggal_awal;
         $this->tanggal_akhir = $tanggal_akhir;
@@ -19,8 +19,8 @@ class ExportTandurPoktan implements FromView
 
     public function view(): View
     {
-        return view('tandurpoktan', [
-            'poktan' => $this->poktan,
+        return view('kegiatangapoktan', [
+            'gapoktan' => $this->gapoktan,
             'datas' => $this->datas,
             'tanggal_awal' => $this->tanggal_awal,
             'tanggal_akhir' => $this->tanggal_akhir,

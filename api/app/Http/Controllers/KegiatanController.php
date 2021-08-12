@@ -9,6 +9,11 @@ use App\Models\Poktan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use App\Exports\ExportKegiatanPoktan;
+use App\Exports\ExportKegiatanGapoktan;
+use App\Models\Gapoktan;
+use Carbon\Carbon;
+use Maatwebsite\Excel\Facades\Excel;
 
 class KegiatanController extends Controller
 {
@@ -110,5 +115,61 @@ class KegiatanController extends Controller
         }
         $data->delete();
         return $this->resp();
+    }
+
+    public function exportKegiatanPoktan(Request $request)
+    {
+        $input = $request->only(['user_id', 'tanggal_awal', 'tanggal_akhir', 'as']);
+        $validator = Validator::make($input, [
+            'user_id' => 'required|numeric',
+            'tanggal_awal' => 'required|date',
+            'tanggal_akhir' => 'required|date',
+            'as' => 'string',
+        ], Helper::messageValidation());
+        if ($validator->fails()) {
+            return $this->resp(Helper::generateErrorMsg($validator->errors()->getMessages()), Variable::FAILED_EXPORT, false, 406);
+        }
+        $poktan = Poktan::where('user_id', $input['user_id'])->first();
+        $data = Kegiatan::where('poktan_id', $poktan->id)
+        ->whereBetween(
+            'tanggal',
+            [$input['tanggal_awal'], $input['tanggal_akhir']]
+        )->get();
+        $as = \Maatwebsite\Excel\Excel::XLSX;
+        $type = 'xlsx';
+        if($request->as == 'pdf'){
+            $type = 'pdf';
+            $as = \Maatwebsite\Excel\Excel::DOMPDF;
+        }
+        return Excel::download(new ExportKegiatanPoktan($poktan, $data, $input['tanggal_awal'], $input['tanggal_awal']), 'Data_Kegiatan_Gapoktan_' . $poktan->nama . '-' . Carbon::now().'.' . $type, $as);
+    }
+
+    public function exportKegiatanGapoktan(Request $request)
+    {
+        $input = $request->only(['user_id', 'tanggal_awal', 'tanggal_akhir', 'as']);
+        $validator = Validator::make($input, [
+            'user_id' => 'required|numeric',
+            'tanggal_awal' => 'required|date',
+            'tanggal_akhir' => 'required|date',
+            'as' => 'string',
+        ], Helper::messageValidation());
+        if ($validator->fails()) {
+            return $this->resp(Helper::generateErrorMsg($validator->errors()->getMessages()), Variable::FAILED_EXPORT, false, 406);
+        }
+        $gapoktan = Gapoktan::where('user_id', $input['user_id'])->first();
+        $data = Kegiatan::join('poktans', 'poktans.id', '=', 'kegiatans.poktan_id')
+        ->where('poktans.gapoktan_id', $gapoktan->id)
+        ->whereBetween(
+            'kegiatans.tanggal',
+            [$input['tanggal_awal'], $input['tanggal_akhir']]
+        )
+        ->get();
+        $as = \Maatwebsite\Excel\Excel::XLSX;
+        $type = 'xlsx';
+        if($request->as == 'pdf'){
+            $type = 'pdf';
+            $as = \Maatwebsite\Excel\Excel::DOMPDF;
+        }
+        return Excel::download(new ExportKegiatanGapoktan($gapoktan, $data, $input['tanggal_awal'], $input['tanggal_awal']), 'Data_Kegiatan_Gapoktan_' . $gapoktan->nama . '-' . Carbon::now().'.' . $type, $as);
     }
 }

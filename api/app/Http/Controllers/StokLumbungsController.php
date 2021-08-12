@@ -9,6 +9,9 @@ use App\Models\StokLumbung;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use App\Exports\ExportStokLumbungPoktan;
+use Carbon\Carbon;
+use Maatwebsite\Excel\Facades\Excel;
 
 class StokLumbungsController extends Controller
 {
@@ -108,12 +111,39 @@ class StokLumbungsController extends Controller
 
     public function hapusStokLumbung($id)
     {
-        # code...
         $data = StokLumbung::find($id);
         if(!$data){
             return $this->resp(null, 'failed to delete data because id '.$id.' not found', false, 404);
         }
         $data->delete();
         return $this->resp();
+    }
+
+    public function exportStokLumbungPoktan(Request $request)
+    {
+        $input = $request->only(['user_id', 'tanggal_awal', 'tanggal_akhir', 'as']);
+        $validator = Validator::make($input, [
+            'user_id' => 'required|numeric',
+            'tanggal_awal' => 'required|date',
+            'tanggal_akhir' => 'required|date',
+            'as' => 'string',
+        ], Helper::messageValidation());
+        if ($validator->fails()) {
+            return $this->resp(Helper::generateErrorMsg($validator->errors()->getMessages()), Variable::FAILED_EXPORT, false, 406);
+        }
+        $poktan = Poktan::where('user_id', $input['user_id'])->first();
+        $data = StokLumbung::where('poktan_id', $poktan->id)
+        ->whereBetween(
+            'tanggal_lapor',
+            [$input['tanggal_awal'], $input['tanggal_akhir']]
+        )->get();
+        $poktan = Poktan::where('user_id', $input['user_id'])->first();
+        $as = \Maatwebsite\Excel\Excel::XLSX;
+        $type = 'xlsx';
+        if($request->as == 'pdf'){
+            $type = 'pdf';
+            $as = \Maatwebsite\Excel\Excel::DOMPDF;
+        }
+        return Excel::download(new ExportStokLumbungPoktan($poktan, $data, $input['tanggal_awal'], $input['tanggal_awal']), 'Data_Stok_Lumbung_Poktan_' . $poktan->nama . '-' . Carbon::now().'.' . $type, $as);
     }
 }

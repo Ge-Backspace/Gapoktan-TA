@@ -87,7 +87,11 @@ class ProdukController extends Controller
             'deskripsi' => $input['deskripsi']
         ]);
         if($request->hasFile('foto')){
-            $this->storeFile(new ThubnailProduk(), $request->file('foto'), Variable::TPDK, $produk->id);
+            try {
+                $this->storeFile(new ThubnailProduk(), $request->file('foto'), Variable::TPDK, $produk->id);
+            } catch (\Throwable $th) {
+                return $this->resp(null, $th);
+            }
         }
         return $this->resp($produk);
         // }

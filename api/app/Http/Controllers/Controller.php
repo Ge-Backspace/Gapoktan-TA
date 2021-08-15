@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
 use App\Helpers\Variable;
+use App\Models\ThubnailProduk;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Lumen\Routing\Controller as BaseController;
 
@@ -218,6 +219,10 @@ class Controller extends BaseController
                 'extension' => $extension,
                 'produk_id' => $produk_id
             ];
+            $gambarProduk = ThubnailProduk::where('produk_id', $produk_id)->first();
+            if ($gambarProduk) {
+                ThubnailProduk::find($gambarProduk->id)->delete();
+            }
         } else {
             $newFile = [
                 'nama' => $fileName,

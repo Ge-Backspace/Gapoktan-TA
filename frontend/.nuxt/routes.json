@@ -3,144 +3,175 @@
     "name": "admin",
     "path": "/admin",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\admin\\\\index.vue",
-    "chunkName": "pages/admin/index"
+    "chunkName": "pages/admin/index",
+    "_name": "_2fd3d565"
   },
   {
     "name": "costumer",
     "path": "/costumer",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\costumer\\\\index.vue",
-    "chunkName": "pages/costumer/index"
+    "chunkName": "pages/costumer/index",
+    "_name": "_a17ae0a4"
   },
   {
     "name": "gapoktan",
     "path": "/gapoktan",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\gapoktan\\\\index.vue",
-    "chunkName": "pages/gapoktan/index"
+    "chunkName": "pages/gapoktan/index",
+    "_name": "_c473121e"
   },
   {
     "name": "login",
     "path": "/login",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\login.vue",
-    "chunkName": "pages/login"
+    "chunkName": "pages/login",
+    "_name": "_573690d2"
   },
   {
     "name": "poktan",
     "path": "/poktan",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\poktan\\\\index.vue",
-    "chunkName": "pages/poktan/index"
+    "chunkName": "pages/poktan/index",
+    "_name": "_14e1220b"
   },
   {
     "name": "profile",
     "path": "/profile",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\profile.vue",
-    "chunkName": "pages/profile"
+    "chunkName": "pages/profile",
+    "_name": "_49420457"
   },
   {
     "name": "register",
     "path": "/register",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\register.vue",
-    "chunkName": "pages/register"
+    "chunkName": "pages/register",
+    "_name": "_32e1a5e5"
   },
   {
     "name": "test",
     "path": "/test",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\test.vue",
-    "chunkName": "pages/test"
+    "chunkName": "pages/test",
+    "_name": "_c71a5d58"
+  },
+  {
+    "name": "admin-produk",
+    "path": "/admin/produk",
+    "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\admin\\\\produk\\\\index.vue",
+    "chunkName": "pages/admin/produk/index",
+    "_name": "_31dd6898"
   },
   {
     "name": "costumer-address",
     "path": "/costumer/address",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\costumer\\\\address.vue",
-    "chunkName": "pages/costumer/address"
+    "chunkName": "pages/costumer/address",
+    "_name": "_f4b33e60"
   },
   {
     "name": "costumer-cart",
     "path": "/costumer/cart",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\costumer\\\\cart.vue",
-    "chunkName": "pages/costumer/cart"
+    "chunkName": "pages/costumer/cart",
+    "_name": "_499877f4"
   },
   {
     "name": "costumer-komplen",
     "path": "/costumer/komplen",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\costumer\\\\komplen.vue",
-    "chunkName": "pages/costumer/komplen"
+    "chunkName": "pages/costumer/komplen",
+    "_name": "_d2f7d2ec"
   },
   {
     "name": "costumer-order",
     "path": "/costumer/order",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\costumer\\\\order.vue",
-    "chunkName": "pages/costumer/order"
+    "chunkName": "pages/costumer/order",
+    "_name": "_6fe55fac"
   },
   {
     "name": "gapoktan-user_poktan",
     "path": "/gapoktan/user_poktan",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\gapoktan\\\\user_poktan.vue",
-    "chunkName": "pages/gapoktan/user_poktan"
+    "chunkName": "pages/gapoktan/user_poktan",
+    "_name": "_aedd4bb0"
   },
   {
     "name": "admin-master-admin",
     "path": "/admin/master/admin",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\admin\\\\master\\\\admin.vue",
-    "chunkName": "pages/admin/master/admin"
+    "chunkName": "pages/admin/master/admin",
+    "_name": "_4994c740"
   },
   {
     "name": "admin-master-kategori",
     "path": "/admin/master/kategori",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\admin\\\\master\\\\kategori.vue",
-    "chunkName": "pages/admin/master/kategori"
+    "chunkName": "pages/admin/master/kategori",
+    "_name": "_336ac805"
   },
   {
     "name": "gapoktan-poktan-kegiatan",
     "path": "/gapoktan/poktan/kegiatan",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\gapoktan\\\\poktan\\\\kegiatan.vue",
-    "chunkName": "pages/gapoktan/poktan/kegiatan"
+    "chunkName": "pages/gapoktan/poktan/kegiatan",
+    "_name": "_f48ed0bc"
   },
   {
     "name": "gapoktan-poktan-stok_lumbung",
     "path": "/gapoktan/poktan/stok_lumbung",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\gapoktan\\\\poktan\\\\stok_lumbung.vue",
-    "chunkName": "pages/gapoktan/poktan/stok_lumbung"
+    "chunkName": "pages/gapoktan/poktan/stok_lumbung",
+    "_name": "_22e5d754"
   },
   {
     "name": "gapoktan-poktan-tandur",
     "path": "/gapoktan/poktan/tandur",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\gapoktan\\\\poktan\\\\tandur.vue",
-    "chunkName": "pages/gapoktan/poktan/tandur"
+    "chunkName": "pages/gapoktan/poktan/tandur",
+    "_name": "_1025aa86"
   },
   {
     "name": "gapoktan-produk-manage_produk",
     "path": "/gapoktan/produk/manage_produk",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\gapoktan\\\\produk\\\\manage_produk.vue",
-    "chunkName": "pages/gapoktan/produk/manage_produk"
+    "chunkName": "pages/gapoktan/produk/manage_produk",
+    "_name": "_d8dfb5ce"
   },
   {
     "name": "gapoktan-produk-orders",
     "path": "/gapoktan/produk/orders",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\gapoktan\\\\produk\\\\orders.vue",
-    "chunkName": "pages/gapoktan/produk/orders"
+    "chunkName": "pages/gapoktan/produk/orders",
+    "_name": "_0eb612fa"
   },
   {
     "name": "poktan-pelaporan-kegiatan",
     "path": "/poktan/pelaporan/kegiatan",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\poktan\\\\pelaporan\\\\kegiatan.vue",
-    "chunkName": "pages/poktan/pelaporan/kegiatan"
+    "chunkName": "pages/poktan/pelaporan/kegiatan",
+    "_name": "_3f27a6ab"
   },
   {
     "name": "poktan-pelaporan-stok_lumbung",
     "path": "/poktan/pelaporan/stok_lumbung",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\poktan\\\\pelaporan\\\\stok_lumbung.vue",
-    "chunkName": "pages/poktan/pelaporan/stok_lumbung"
+    "chunkName": "pages/poktan/pelaporan/stok_lumbung",
+    "_name": "_60b439dd"
   },
   {
     "name": "poktan-pelaporan-tandur",
     "path": "/poktan/pelaporan/tandur",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\poktan\\\\pelaporan\\\\tandur.vue",
-    "chunkName": "pages/poktan/pelaporan/tandur"
+    "chunkName": "pages/poktan/pelaporan/tandur",
+    "_name": "_56eee7cf"
   },
   {
     "name": "index",
     "path": "/",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\index.vue",
-    "chunkName": "pages/index"
+    "chunkName": "pages/index",
+    "_name": "_0abd1480"
   }
 ]

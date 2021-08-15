@@ -33,6 +33,15 @@ class ProdukController extends Controller
         ]);
     }
 
+    public function lihatSemuaProduk(Request $request)
+    {
+        $data = Produk::join('gapoktans', 'gapoktans.id', '=', 'produks.gapoktan_id')
+        ->leftJoin('thubnail_produks', 'produks.id', '=', 'thubnail_produks.produk_id')
+        ->select(DB::raw('produks.*, thubnail_produks.nama as nama_thumbnail, produks.id as id, gapoktans.nama as nama_gapoktan'))
+        ->orderBy('produks.id', 'DESC');
+        return $this->getPaginate($data, $request, ['produks.nama', 'gapoktans.nama']);
+    }
+
     public function tambahProduk(Request $request)
     {
         // if ($request->android == true) {
@@ -111,7 +120,7 @@ class ProdukController extends Controller
             'stok' => 'required|numeric',
             'harga' => 'required|numeric',
             'deskripsi' => 'required|string',
-            'status' => 'required|boolean',
+            // 'status' => 'required|boolean',
             'foto' => 'mimes:jpeg,png,jpg|max:2048'
         ], Helper::messageValidation());
         if ($validator->fails()) {
@@ -124,12 +133,31 @@ class ProdukController extends Controller
             'stok' => $input['stok'],
             'harga' => $input['harga'],
             'deskripsi' => $input['deskripsi'],
-            'status' => $input['status']
+            // 'status' => $input['status']
         ]);
         if(!empty($request->foto)){
             $this->storeFile(new ThubnailProduk(), $request->foto, Variable::TPDK, $id);
         }
         return $this->resp($produk);
+    }
+
+    public function changeStatusProduk(Request $request, $id)
+    {
+        $input = $request->only(['status']);
+        $validator = Validator::make($input, [
+            'status' => 'required|numeric',
+        ], Helper::messageValidation());
+        if ($validator->fails()) {
+            return $this->resp(Helper::generateErrorMsg($validator->errors()->getMessages()), Variable::FAILED, false, 406);
+        }
+        try {
+            Produk::find($id)->update([
+                'status' => $input['status']
+            ]);
+        } catch (\Throwable $e) {
+            return $this->resp(null, $e->getMessage(), false, 404);
+        }
+        return $this->resp();
     }
 
     public function hapusProduk($id)

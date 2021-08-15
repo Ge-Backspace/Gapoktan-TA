@@ -3,33 +3,17 @@ export const  menu = () => {
     return [
         {
             text: 'Home',
-            icon: 'ni ni-shop text-primary',
+            icon: 'ni ni-shop text-success',
             route: '/admin/',
         },
         {
-          text: 'Pelaporan',
-          icon: 'bx bx-file text-primary',
-          children: [
-            {
-              text: "Time Off",
-              icon: 'el-icon-postcard',
-              route: '/user/time_management/timeoff'
-            },
-            {
-              text: "Attendance",
-              icon: 'el-icon-postcard',
-              route: '/user/time_management/attendance'
-            },
-            {
-              text: "Calendar",
-              icon: 'el-icon-postcard',
-              route: '/user/time_management/calendar'
-            },
-          ]
-        },
+          text: 'Produk',
+          icon: 'el-icon-shopping-cart-2 text-success',
+          route: '/admin/produk',
+      },
         {
           text: 'Master',
-          icon: 'bx bx-data',
+          icon: 'bx bx-data text-success',
           children: [
             {
               text: "Kategori Produk",

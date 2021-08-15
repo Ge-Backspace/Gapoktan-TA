@@ -29,17 +29,6 @@ export const getters = {
 };
 
 export const actions = {
-  // getAllPoktan(context, { user_id, showall = 1, search = '', defaultPage = false}){
-  //     context.commit('setLoader')
-  //     let page = defaultPage ? 1 : context.state.kegiatan.current_page
-  //     this.$axios.get(`/lihat_kegiatan?user_id=${user_id}&showall=${showall}&page=${page}&search=${search}`).then(resp => {
-  //         context.commit('setKegiatans', resp.data)
-  //     }).catch(e => {
-  //         console.log(e)
-  //     }).finally(() => {
-  //         context.commit('setLoader')
-  //     })
-  // },
   getAll(context, {user_id , showall = 1, search = '', defaultPage = false}){
     context.commit('setLoader')
     let page = defaultPage ? 1 : context.state.produk.current_page
@@ -50,5 +39,17 @@ export const actions = {
     }).finally(() => {
         context.commit('setLoader')
     })
-},
+  },
+
+  getAdmin(context, {showall = 1, search = '', defaultPage = false}){
+    context.commit('setLoader')
+    let page = defaultPage ? 1 : context.state.produk.current_page
+    this.$axios.get(`/lihat_semua_produk?showall=${showall}&page=${page}&search=${search}`).then(resp => {
+        context.commit('setProduks', resp.data)
+    }).catch(e => {
+        console.log(e)
+    }).finally(() => {
+        context.commit('setLoader')
+    })
+  },
 }

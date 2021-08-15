@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="header bg-primary pb-6">
+    <div class="header bg-success pb-6">
       <div class="container-fluid">
         <div class="header-body">
           <!-- Card stats -->
@@ -218,6 +218,12 @@
           }
         })
       },
+    },
+    watch: {
+      page(newValue, oldValue) {
+        this.$store.commit('kategori/setPage', newValue)
+        this.$store.dispatch('kategori/getAll', {});
+      }
     },
   }
 </script>

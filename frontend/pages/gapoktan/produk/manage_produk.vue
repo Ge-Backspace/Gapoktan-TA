@@ -33,7 +33,7 @@
               :key="i"
               v-for="(tr, i) in $vs.getSearch(getProduks.data, search)"
               :data="tr"
-              @click="getGP(tr.id)"
+              @click="getGP(tr.id), setProdukId(tr.id)"
             >
               <vs-td>
                 <el-tooltip content="Edit" placement="top-start" effect="dark">
@@ -76,9 +76,62 @@
                 <span class="badge badge-primary" v-else>Belum Aktif</span>
               </vs-td>
               <template #expand>
-                <div class="con-content" v-loading="getGLoader">
-                  <img :src="api_url+'/storage/USER/no-user-image.png'" alt="" width="100" height="auto">
-                  <img :src="api_url+'/storage/USER/no-user-image.png'" alt="" width="100" height="auto">
+                <div class="con-content">
+                  <el-card v-loading="getGLoader">
+                    <el-row>
+                      <el-col :span="8" v-for="(el, i) in getGambars.data" :key="i">
+                        <el-card :body-style="{ padding: '0px' }">
+                          <img :src="api_url+'/storage/GAMBARPRODUK/'+el.nama" alt="" width="100" height="auto">
+                          <div style="padding: 14px;">
+                            <span>Yummy hamburger</span>
+                            <div class="bottom clearfix">
+                              <el-button type="text" class="button">Operating</el-button>
+                            </div>
+                          </div>
+                        </el-card>
+                      </el-col>
+                    </el-row>
+                    <!-- <vs-card-group>
+                      <vs-row>
+                        <vs-col w="6">
+                          <vs-card>
+                            <template #img>
+                              <img :src="api_url+'/storage/USER/no-user-image.png'" alt="" width="100" height="auto">
+                            </template>
+                            <template #interactions>
+                              <vs-button danger icon>
+                                <i class='bx bx-trash'></i>
+                              </vs-button>
+                            </template>
+                          </vs-card>
+                        </vs-col>
+                        <vs-col w="6">
+                          <vs-card>
+                            <template #img>
+                              <img :src="api_url+'/storage/USER/no-user-image.png'" alt="" width="100" height="auto">
+                            </template>
+                            <template #interactions>
+                              <vs-button danger icon>
+                                <i class='bx bx-trash'></i>
+                              </vs-button>
+                            </template>
+                          </vs-card>
+                        </vs-col>
+                        <vs-col w="6">
+                          <vs-card>
+                            <template #img>
+                              <img :src="api_url+'/storage/USER/no-user-image.png'" alt="" width="100" height="auto">
+                            </template>
+                            <template #interactions>
+                              <vs-button danger icon>
+                                <i class='bx bx-trash'></i>
+                              </vs-button>
+                            </template>
+                          </vs-card>
+                        </vs-col>
+                      </vs-row>
+                    </vs-card-group> -->
+                  </el-card>
                 </div>
                 <hr>
                 <div>
@@ -370,6 +423,10 @@ import { config } from "../../../global.config";
         console.log(data);
         return data;
       },
+      setProdukId(id) {
+        this.form.id = id;
+        console.log(this.form.id)
+      },
       getGP(id) {
         this.$store.dispatch("gambarproduk/getAll", {produk_id: id})
       },
@@ -391,6 +448,7 @@ import { config } from "../../../global.config";
       },
       handleChangeGambars(file, fileList) {
         this.fileList = fileList
+        console.log(this.fileList)
       },
       handleCurrentChange(val) {
         this.$store.commit("produk/setPage", val);
@@ -444,17 +502,16 @@ import { config } from "../../../global.config";
       onSubmitGambar() {
         this.btnLoader = true;
         let formData = new FormData();
-        let test = [];
-        this.fileList.forEach(everyFile => {
-          formData.append("gambars", everyFile.raw)
-          test.push(everyFile.raw)
-        })
-        console.log(test)
+        for (let i = 0; i < this.fileList.length; i++) {
+          formData.append("gambars["+ i +"]", this.fileList[i].raw)
+        }
+        formData.append("produk_id", this.form.id)
         this.$axios.post('/tambah_gambar_produk', formData)
         .then((res) => {
           console.log(res)
           this.resetForm();
           this.gambarDialog = false;
+          this.$store.dispatch("produk/getAll", { user_id: this.user_id });
         }).finally(() => {
           this.btnLoader = false;
         })

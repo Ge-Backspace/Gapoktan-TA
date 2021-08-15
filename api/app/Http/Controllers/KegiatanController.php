@@ -163,6 +163,7 @@ class KegiatanController extends Controller
             'kegiatans.tanggal',
             [$input['tanggal_awal'], $input['tanggal_akhir']]
         )
+        ->select(DB::raw('kegiatans.*, poktans.nama as nama_poktan'))
         ->get();
         $as = \Maatwebsite\Excel\Excel::XLSX;
         $type = 'xlsx';

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\ExportTandurGapoktan;
 use App\Helpers\Helper;
 use App\Helpers\Variable;
 use App\Models\Poktan;
@@ -10,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use App\Exports\ExportTandurPoktan;
+use App\Models\Gapoktan;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -147,5 +149,45 @@ class TandurController extends Controller
             $as = \Maatwebsite\Excel\Excel::DOMPDF;
         }
         return Excel::download(new ExportTandurPoktan($poktan, $data, $input['tanggal_awal'], $input['tanggal_awal']), 'Data_Tandur_Poktan_' . $poktan->nama . '-' . Carbon::now().'.' . $type, $as);
+    }
+
+    public function exportTandurGapoktan(Request $request)
+    {
+        $input = $request->only(['state', 'user_id', 'tanggal_awal', 'tanggal_akhir', 'as']);
+        $validator = Validator::make($input, [
+            'state' => 'required|numeric',
+            'user_id' => 'required|numeric',
+            'tanggal_awal' => 'required|date',
+            'tanggal_akhir' => 'required|date',
+            'as' => 'string',
+        ], Helper::messageValidation());
+        if ($validator->fails()) {
+            return $this->resp(Helper::generateErrorMsg($validator->errors()->getMessages()), Variable::FAILED_EXPORT, false, 406);
+        }
+        $state = true;
+        if ($input['state'] == 2) {
+            $state = false;
+        }
+        $gapoktan = Gapoktan::where('user_id', $input['user_id'])->first();
+        $data = Tandur::join('poktans', 'poktans.id', '=', 'tandurs.poktan_id')
+        ->where('poktans.gapoktan_id', $gapoktan->id)
+        ->whereBetween(
+            $state ? 'tanggal_tandur' : 'tanggal_panen',
+            [$input['tanggal_awal'], $input['tanggal_akhir']]
+        )
+        ->select(DB::raw('tandurs.*, poktans.nama as nama_poktan'))
+        ->get();
+        $as = \Maatwebsite\Excel\Excel::XLSX;
+        $type = 'xlsx';
+        if($request->as == 'pdf'){
+            $type = 'pdf';
+            $as = \Maatwebsite\Excel\Excel::DOMPDF;
+        }
+        return Excel::download(
+            new ExportTandurGapoktan(
+                $gapoktan, $data, $input['tanggal_awal'], $input['tanggal_awal']
+            ),
+            'Data_Tandur_Poktan_' . $gapoktan->nama . '-' . Carbon::now().'.' . $type, $as
+        );
     }
 }

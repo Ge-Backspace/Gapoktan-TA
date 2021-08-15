@@ -11,7 +11,7 @@ export const mutations = {
   setGambars(state, data) {
     state.gambar = data
   },
-  setLoader(state){
+  setGLoader(state){
       state.compLoader = !state.compLoader
   },
   setPage(state, data){
@@ -30,14 +30,14 @@ export const getters = {
 
 export const actions = {
   getAll(context, {produk_id, showall = 1, search = '', defaultPage = false}){
-      context.commit('setLoader')
+      context.commit('setGLoader')
       let page = defaultPage ? 1 : context.state.gambar.current_page
       this.$axios.get(`/lihat_gambar_produk?produk_id=${produk_id}&showall=${showall}&page=${page}&search=${search}`).then(resp => {
           context.commit('setGambars', resp.data)
       }).catch(e => {
           console.log(e)
       }).finally(() => {
-          context.commit('setLoader')
+          context.commit('setGLoader')
       })
   },
 }

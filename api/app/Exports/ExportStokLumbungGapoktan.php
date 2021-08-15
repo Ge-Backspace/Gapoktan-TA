@@ -5,7 +5,7 @@ namespace App\Exports;
 use Illuminate\Contracts\View\View;
 use Maatwebsite\Excel\Concerns\FromView;
 
-class ExportKegiatanGapoktan implements FromView
+class ExportStokLumbungGapoktan implements FromView
 {
     protected $gapoktan, $datas, $tanggal_awal, $tanggal_akhir;
 
@@ -19,7 +19,7 @@ class ExportKegiatanGapoktan implements FromView
 
     public function view(): View
     {
-        return view('kegiatangapoktan', [
+        return view('stoklumbunggapoktan', [
             'gapoktan' => $this->gapoktan,
             'datas' => $this->datas,
             'tanggal_awal' => $this->tanggal_awal,

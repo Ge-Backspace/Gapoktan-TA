@@ -6,3 +6,4 @@ $router -> post('/tambah_stok_lumbung', 'StokLumbungsController@tambahStokLumbun
 $router -> post('/ubah_stok_lumbung/{id}', 'StokLumbungsController@ubahStokLumbung');
 $router -> delete('/hapus_stok_lumbung/{id}', 'StokLumbungsController@hapusStokLumbung');
 $router -> get('/export_stok_lumbung_poktan', 'StokLumbungsController@exportStokLumbungPoktan');
+$router -> get('/export_stok_lumbung_gapoktan', 'StokLumbungsController@exportStokLumbungGapoktan');

@@ -21,6 +21,7 @@ class CreateGapoktansTable extends Migration
             $table->string('ketua');
             $table->string('kota');
             $table->string('alamat');
+            $table->string('nomer_hp')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');

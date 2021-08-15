@@ -18,6 +18,7 @@ class CreateAdminsTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->integer('foto_id')->unsigned()->nullable();
             $table->string('nama');
+            $table->string('nomer_hp')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');

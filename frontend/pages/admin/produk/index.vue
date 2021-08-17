@@ -22,6 +22,8 @@
             <vs-tr>
               <vs-th>Action</vs-th>
               <vs-th></vs-th>
+              <vs-th></vs-th>
+              <vs-th></vs-th>
               <vs-th>Nama Produk</vs-th>
               <vs-th>Stok</vs-th>
               <vs-th>Harga</vs-th>
@@ -64,6 +66,7 @@
                   </el-button>
                 </el-tooltip>
               </vs-td>
+              <vs-td></vs-td>
               <vs-td>
                 <vs-avatar v-if="!tr.nama_thumbnail">
                   <img :src="api_url+'/storage/USER/no-user-image.png'" alt="">
@@ -72,6 +75,7 @@
                   <img  @click="handlePictureCardPreview(tr.nama_thumbnail)" :src="api_url+'/storage/THUBNAILPRODUK/'+tr.nama_thumbnail" alt="">
                 </vs-avatar>
               </vs-td>
+              <vs-td></vs-td>
               <vs-td>{{ tr.nama }}</vs-td>
               <vs-td>{{ tr.stok }}</vs-td>
               <vs-td>{{ tr.harga }}</vs-td>

@@ -159,7 +159,6 @@
           >
             <label>Tahun Banper</label>
             <vs-select
-              filter
               placeholder="Pilih Poktan"
               v-model="form.tahun_banper"
             >
@@ -270,7 +269,7 @@ export default {
     this.$store.dispatch("stoklumbung/getAll", {})
     this.$store.dispatch("option/getPoktans", {})
     let y = [];
-    for (let index = 2000; index < 2031; index++) {
+    for (let index = 2015; index < 2031; index++) {
       y.push({year: index})
     }
     this.years = y

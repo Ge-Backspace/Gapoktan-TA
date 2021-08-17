@@ -82,12 +82,6 @@
                       <el-col :span="8" v-for="(el, i) in getGambars.data" :key="i">
                         <el-card :body-style="{ padding: '0px' }">
                           <img :src="api_url+'/storage/GAMBARPRODUK/'+el.nama" alt="" width="100" height="auto">
-                          <div style="padding: 14px;">
-                            <span>Yummy hamburger</span>
-                            <div class="bottom clearfix">
-                              <el-button type="text" class="button">Operating</el-button>
-                            </div>
-                          </div>
                         </el-card>
                       </el-col>
                     </el-row>

@@ -29,7 +29,7 @@ class ProdukController extends Controller
         ->select(DB::raw('produks.*, thubnail_produks.nama as nama_thumbnail, produks.id as id, kategoris.nama as nama_kategori'))
         ->orderBy('produks.id', 'DESC');
         return $this->getPaginate($data, $request, [
-            'produks.kategori_id', 'produks.nama', 'produks.kode', 'produks.stok', 'produks.harga', 'produks.deskripsi', 'produks.status'
+            'produks.kategori_id', 'kategoris.nama','produks.nama', 'produks.kode', 'produks.stok', 'produks.harga', 'produks.deskripsi', 'produks.status'
         ]);
     }
 
@@ -40,6 +40,23 @@ class ProdukController extends Controller
         ->select(DB::raw('produks.*, thubnail_produks.nama as nama_thumbnail, produks.id as id, gapoktans.nama as nama_gapoktan'))
         ->orderBy('produks.id', 'DESC');
         return $this->getPaginate($data, $request, ['produks.nama', 'gapoktans.nama']);
+    }
+
+    public function lihatProdukCostumer(Request $request)
+    {
+        $data = Produk::leftJoin('thubnail_produks', 'thubnail_produks.produk_id', '=', 'produks.id')
+        ->where('produks.kategori_id', $request->kategori_id)
+        ->select(DB::raw('produks.*, produks.id as id, thubnail_produks.nama as nama_thumbnail'))
+        ->orderBy('produks.id', 'DESC');
+        return $this->getPaginate($data, $request, ['produks.nama']);
+    }
+
+    public function lihatSemuaProdukCostumer(Request $request)
+    {
+        $data = Produk::leftJoin('thubnail_produks', 'thubnail_produks.produk_id', '=', 'produks.id')
+        ->select(DB::raw('produks.*, produks.id as id, thubnail_produks.nama as nama_thumbnail'))
+        ->orderBy('produks.id', 'DESC');
+        return $this->getPaginate($data, $request, ['produks.nama']);
     }
 
     public function tambahProduk(Request $request)

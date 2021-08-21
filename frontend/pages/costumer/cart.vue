@@ -17,65 +17,28 @@
             </el-input>
           </div>
         </div>
-        <vs-row style="justify-content: space-between; margin-top: 20px;">
-          <vs-card type="3">
-            <template #title>
-              <h3>Pot with a plant</h3>
-            </template>
-            <template #img>
-              <img src="../../assets/img/404.png" alt="" />
-            </template>
-            <template #text>
-              <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
-              <vs-button danger icon style="margin-left: 90px">
-                <i class="bx bx-trash"></i>
-              </vs-button>
-            </template>
-          </vs-card>
-          <vs-card type="3">
-            <template #title>
-              <h3>Pot with a plant</h3>
-            </template>
-            <template #img>
-              <img src="../../assets/img/404.png" alt="" />
-            </template>
-            <template #text>
-              <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
-              <vs-button danger icon style="margin-left: 90px">
-                <i class="bx bx-trash"></i>
-              </vs-button>
-            </template>
-          </vs-card>
-        </vs-row>
-        <vs-row style="justify-content: space-between; margin-top: 20px;">
-          <vs-card type="3">
-            <template #title>
-              <h3>Pot with a plant</h3>
-            </template>
-            <template #img>
-              <img src="../../assets/img/404.png" alt="" />
-            </template>
-            <template #text>
-              <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
-              <vs-button danger icon style="margin-left: 90px">
-                <i class="bx bx-trash"></i>
-              </vs-button>
-            </template>
-          </vs-card>
-          <vs-card type="3">
-            <template #title>
-              <h3>Pot with a plant</h3>
-            </template>
-            <template #img>
-              <img src="../../assets/img/404.png" alt="" />
-            </template>
-            <template #text>
-              <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
-              <vs-button danger icon style="margin-left: 90px">
-                <i class="bx bx-trash"></i>
-              </vs-button>
-            </template>
-          </vs-card>
+        <vs-row>
+          <vs-col w="6"
+            :key="i"
+            v-for="(tr, i) in $vs.getSearch(getCarts.data, search)"
+            :data="tr">
+            <vs-row style="justify-content: space-between; margin-top: 20px;">
+              <vs-card type="3">
+                <template #title>
+                  <h3>{{tr.nama}}</h3>
+                </template>
+                <template #img>
+                  <img src="../../assets/img/404.png" alt="" />
+                </template>
+                <template #text>
+                  <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit.</p>
+                  <vs-button danger icon style="margin-left: 90px">
+                    <i class="bx bx-trash"></i>
+                  </vs-button>
+                </template>
+              </vs-card>
+            </vs-row>
+          </vs-col>
         </vs-row>
       </el-card>
     </div>
@@ -83,6 +46,7 @@
 </template>
 
 <script>
+const cityOptions = ['Shanghai', 'Beijing', 'Guangzhou', 'Shenzhen'];
 import { mapMutations, mapGetters } from "vuex";
 import { config } from "../../global.config";
 export default {
@@ -107,18 +71,28 @@ export default {
         keterangan: "",
       },
       formDialog: false,
+      checkAll: false,
+      checkedCities: ['Shanghai', 'Beijing'],
+      cities: cityOptions,
+      isIndeterminate: true
     };
   },
   mounted() {
     this.user_id = JSON.parse(JSON.stringify(this.$auth.user.id));
-    this.$store.dispatch("kegiatan/getAllPoktan", { user_id: this.user_id });
+    this.$store.dispatch("cart/getAll", { user_id: this.user_id });
   },
   computed: {
-    ...mapGetters("kegiatan", ["getKegiatans", "getLoader"]),
+    ...mapGetters("cart", ["getCarts", "getLoader"]),
   },
   methods: {
-    logTest(data) {
-      console.log(data);
+    handleCheckAllChange(val) {
+      this.checkedCities = val ? cityOptions : [];
+      this.isIndeterminate = false;
+    },
+    handleCheckedCitiesChange(value) {
+      let checkedCount = value.length;
+      this.checkAll = checkedCount === this.cities.length;
+      this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
     },
     resetForm() {
       this.form = {
@@ -225,9 +199,9 @@ export default {
         }
       });
     },
-    formatDate(date) {
-      return moment(date).format("DD MMMM YYYY");
-    },
+    // formatDate(date) {
+    //   return moment(date).format("DD MMMM YYYY");
+    // },
   },
 };
 </script>

@@ -61,25 +61,6 @@ class ProdukController extends Controller
 
     public function tambahProduk(Request $request)
     {
-        // if ($request->android == true) {
-        //     $input = $request->only(['gapoktan_id', 'kategori_id', 'nama', 'stok', 'harga', 'deskripsi', 'foto']);
-        //     $validator = Validator::make($input, [
-        //         'gapoktan_id' => 'numeric',
-        //         'kategori_id' => 'required|numeric',
-        //         'nama' => 'required|string',
-        //         'stok' => 'required|numeric',
-        //         'harga' => 'required|numeric',
-        //         'deskripsi' => 'required|string',
-        //         'foto' => 'mimes:jpeg,png,jpg|max:5048'
-        //     ], Helper::messageValidation());
-        //     if ($validator->fails()) {
-        //         return $this->resp(Helper::generateErrorMsg($validator->errors()->getMessages()), Variable::FAILED, false, 406);
-        //     }
-        //     if ($request->hasFile('foto')) {
-        //     } else {
-        //         return $this->resp($request->foto, Variable::FAILED, false, 406);
-        //     }
-        // } else {
         $input = $request->only(['gapoktan_id', 'kategori_id', 'nama', 'stok', 'harga', 'deskripsi', 'foto']);
         $validator = Validator::make($input, [
             'gapoktan_id' => 'numeric',
@@ -120,7 +101,6 @@ class ProdukController extends Controller
             }
         }
         return $this->resp($produk);
-        // }
     }
 
     public function ubahProduk(Request $request, $id)

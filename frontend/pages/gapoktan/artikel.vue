@@ -3,8 +3,7 @@
     <div class="header bg-success pb-6">
       <div class="container-fluid">
         <div class="header-body">
-          <!-- Card stats -->
-          <h1 class="heading">Alamat</h1>
+          <h1 class="heading">Artikel</h1>
         </div>
       </div>
     </div>
@@ -17,63 +16,32 @@
             </el-input>
           </div>
         </div>
-        <vs-table striped>
-          <template #thead>
-            <vs-tr>
-              <vs-th>Action</vs-th>
-              <vs-th>Nama Alamat</vs-th>
-              <vs-th>Nomor Handphone</vs-th>
-              <vs-th>Alamat Lengkap</vs-th>
-            </vs-tr>
-          </template>
-          <template #tbody>
-            <vs-tr
-              :key="i"
-              v-for="(tr, i) in $vs.getSearch(getAddresses.data, search)"
-              :data="tr"
-            >
-              <vs-td>
-                <el-tooltip content="Edit" placement="top-start" effect="dark">
-                  <el-button
-                    size="mini"
-                    @click="edit(tr)"
-                    icon="fa fa-edit"
-                  ></el-button>
-                </el-tooltip>
-
-                <el-tooltip
-                  content="Delete"
-                  placement="top-start"
-                  effect="dark"
-                >
-                  <el-button
-                    size="mini"
-                    type="primary"
-                    @click="deleteData(tr.id)"
-                    icon="fa fa-trash"
-                  >
-                  </el-button>
-                </el-tooltip>
-              </vs-td>
-              <vs-td>{{ tr.nama }}</vs-td>
-              <vs-td>{{ tr.nomor_hp }}</vs-td>
-              <vs-td>{{ tr.alamat }}</vs-td>
-            </vs-tr>
-          </template>
-          <template #footer>
-            <vs-row>
-              <vs-col w="2">
-                <small>Total : {{ getAddresses.total }} Data</small>
-              </vs-col>
-              <vs-col w="10">
-                <vs-pagination
-                  v-model="page"
-                  :length="Math.ceil(getAddresses.total / table.max)"
-                />
-              </vs-col>
-            </vs-row>
-          </template>
-        </vs-table>
+        <vs-row style="justify-content: space-between; margin-top: 20px;">
+          <vs-col w="6"
+            :key="i"
+            v-for="(tr, i) in $vs.getSearch(getArtikels.data, search)"
+            :data="tr"
+          >
+            <vs-card type="3">
+              <template #title>
+                <h3>{{tr.judul}}</h3>
+              </template>
+              <template #img>
+                <img v-if="tr.foto" :src="api_url+'/storage/ARTIKEL/'+tr.foto" alt="" />
+                <img v-else src="../../assets/img/404.png" alt="" />
+              </template>
+              <template #text>
+                <p>{{shortText(tr.isi)}}</p>
+                <vs-button @click="deleteData(tr.id)" danger icon style="margin-left: 90px">
+                  <i class="bx bx-trash"></i>
+                </vs-button>
+                <vs-button @click="edit(tr)" primary icon style="margin-left: 90px">
+                  <i class="bx bx-edit"></i>
+                </vs-button>
+              </template>
+            </vs-card>
+          </vs-col>
+        </vs-row>
       </el-card>
     </div>
 
@@ -81,14 +49,14 @@
     <el-tooltip
       class="item"
       effect="dark"
-      content="Tambah Alamat Baru"
+      content="Tambah Artikel Baru"
       placement="top-start"
     >
       <a
         class="float"
         @click="
           formDialog = true;
-          titleDialog = 'Tambah Alamat Baru';
+          titleDialog = 'Tambah Artikel Baru';
         "
       >
         <i class="el-icon-plus my-float"></i>
@@ -108,31 +76,12 @@
       </template>
       <div class="con-form">
         <vs-row>
-          <vs-col
-            vs-type="flex"
-            vs-justify="center"
-            vs-align="center"
-            w="6"
-            style="padding: 5px"
-          >
-            <label>Nama Alamat</label>
-            <vs-input
-              type="text"
-              v-model="form.nama"
-              placeholder="Masukkan Nama Alamat ..."
-            ></vs-input>
-          </vs-col>
-          <vs-col
-            vs-type="flex"
-            vs-justify="center"
-            vs-align="center"
-            w="6"
-            style="padding: 5px"
-          >
-            <label>Nomer Handphone</label>
-            <vs-input type="text"
-            placeholder="Masukkan Nomor Handphone ..."
-            v-model="form.nomor_hp"/>
+          <vs-col vs-type="flex" vs-justify="center" vs-align="center" w="12" style="padding:5px">
+            <label>Foto Thumbnail Artikel</label>
+            <el-upload :auto-upload="false" :on-change="handleChangeFile" list-type="picture-card" accept="image/*"
+              :file-list="fileList" :limit="1">
+              <i class="el-icon-plus"></i>
+            </el-upload>
           </vs-col>
           <vs-col
             vs-type="flex"
@@ -141,13 +90,24 @@
             w="12"
             style="padding: 5px"
           >
-            <label>Alamat Lengkap</label>
-            <el-input
-              type="textarea"
-              :rows="2"
-              placeholder="Masukkan Alamat Lengkap ..."
-              v-model="form.alamat">
-            </el-input>
+            <label>Judul</label>
+            <vs-input
+              type="text"
+              v-model="form.judul"
+              placeholder="Masukkan Judul ..."
+            ></vs-input>
+          </vs-col>
+          <vs-col
+            vs-type="flex"
+            vs-justify="center"
+            vs-align="center"
+            w="12"
+            style="padding: 5px"
+          >
+            <label>Isi</label>
+            <template>
+              <vue-editor v-model="form.isi" />
+            </template>
           </vs-col>
         </vs-row>
       </div>
@@ -187,6 +147,7 @@
         </div>
       </template>
     </vs-dialog>
+
   </div>
 </template>
 
@@ -194,7 +155,7 @@
 import { mapMutations, mapGetters } from "vuex";
 import { config } from "../../global.config";
 export default {
-  layout: "costumer",
+  layout: "gapoktan",
   data() {
     return {
       api_url: config.baseApiUrl,
@@ -207,47 +168,54 @@ export default {
       titleDialog: "",
       isUpdate: false,
       btnLoader: false,
-      user_id: "",
       form: {
         id: "",
-        nama: "",
-        nomor_hp: "",
-        alamat: "",
+        judul: "",
+        isi: "",
+        foto: "",
       },
       formDialog: false,
     };
   },
   mounted() {
     this.user_id = JSON.parse(JSON.stringify(this.$auth.user.id))
-    this.$store.dispatch("address/getAll", { user_id: this.user_id })
+    this.$store.dispatch("artikel/getAll", {user_id: this.user_id});
+    // this.$store.dispatch("option/getPoktans", {});
   },
   computed: {
-    ...mapGetters("address", ["getAddresses", "getLoader"])
+    ...mapGetters("artikel", ["getArtikels", "getLoader"]),
+    // ...mapGetters("option", ["getOptionPoktans"]),
   },
   methods: {
     resetForm() {
       this.form = {
         id: "",
-        nama: "",
-        nomor_hp: "",
-        alamat: "",
+        judul: "",
+        isi: "",
+        foto: "",
       };
       this.isUpdate = false;
     },
+    handleChangeFile(file, fileList) {
+      this.form.foto = file.raw
+    },
     handleCurrentChange(val) {
-      this.$store.commit("kegiatan/setPage", val);
-      this.$store.dispatch("kegiatan/getAllPoktan", { user_id: this.user_id });
+      // this.$store.commit("kegiatan/setPage", val);
+      // this.$store.dispatch("kegiatan/getAll", {});
+    },
+    shortText(text) {
+      return (text.length > 50) ? text.substr(0, 50-1) + ' . . .' : text;
     },
     onSubmit(type = "store") {
       this.btnLoader = true;
       let formData = new FormData();
-      formData.append("nama", this.form.nama);
-      formData.append("nomor_hp", this.form.nomor_hp);
-      formData.append("alamat", this.form.alamat);
+      formData.append("judul", this.form.judul);
+      formData.append("isi", this.form.isi);
+      formData.append("foto", this.form.foto);
       formData.append("user_id", this.user_id);
-      let url = "/tambah_address";
+      let url = "/tambah_artikel";
       if (type == "update") {
-        url = `/ubah_address/${this.form.id}`;
+        url = `/ubah_artikel/${this.form.id}`;
       }
 
       this.$axios
@@ -258,11 +226,11 @@ export default {
               title: "Success",
               message: `Berhasil ${
                 type == "store" ? "Menambah" : "Mengubah"
-              } Alamat`,
+              } Artikel`,
             });
             this.resetForm();
             this.formDialog = false;
-            this.$store.dispatch("address/getAll", { user_id: this.user_id });
+            this.$store.dispatch("artikel/getAll", {user_id: this.user_id})
           }
         })
         .finally(() => {
@@ -282,11 +250,11 @@ export default {
     },
     edit(data) {
       this.form.id = data.id;
-      this.form.nama = data.nama;
-      this.form.nomor_hp = data.nomor_hp;
-      this.form.alamat = data.alamat;
+      this.form.judul = data.judul;
+      this.form.isi = data.isi;
+      this.form.foto = data.foto;
       this.formDialog = true;
-      this.titleDialog = "Edit Alamat";
+      this.titleDialog = "Edit Artikel";
       this.isUpdate = true;
     },
     deleteData(id) {
@@ -302,15 +270,15 @@ export default {
       }).then((result) => {
         if (result.isConfirmed) {
           this.$axios
-            .delete(`/hapus_address/${id}`)
+            .delete(`/hapus_artikel/${id}`)
             .then((resp) => {
               if (resp.data.success) {
                 this.$notify.success({
                   title: "Success",
                   message: "Berhasil Menghapus Data",
                 });
-                this.shiftDialog = false;
-                this.$store.dispatch("address/getAll", { user_id: this.user_id, defaultPage: true });
+                this.formDialog = false;
+                this.$store.dispatch("artikel/getAll", {user_id: this.user_id, defaultPage: true})
               }
             })
             .finally(() => {
@@ -328,8 +296,8 @@ export default {
   },
   watch: {
     page(newValue, oldValue) {
-      this.$store.commit('address/setPage', newValue)
-      this.$store.dispatch('address/getAll', {user_id: this.user_id})
+      this.$store.commit('artikel/setPage', newValue)
+      this.$store.dispatch('artikel/getAll', {user_id: this.user_id});
     }
   },
 };

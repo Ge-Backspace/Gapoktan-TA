@@ -63,7 +63,7 @@
                   <img :src="api_url+'/storage/USER/no-user-image.png'" alt="">
                 </vs-avatar>
                 <vs-avatar v-else>
-                  <img  :src="api_url+'/storage/THUBNAILPRODUK/'+tr.nama_thumbnail" alt="">
+                  <img  @click="handlePictureCardPreview(tr.nama_thumbnail)" :src="api_url+'/storage/THUBNAILPRODUK/'+tr.nama_thumbnail" alt="">
                 </vs-avatar>
               </vs-td>
               <vs-td>{{ tr.nama }}</vs-td>
@@ -85,46 +85,6 @@
                         </el-card>
                       </el-col>
                     </el-row>
-                    <!-- <vs-card-group>
-                      <vs-row>
-                        <vs-col w="6">
-                          <vs-card>
-                            <template #img>
-                              <img :src="api_url+'/storage/USER/no-user-image.png'" alt="" width="100" height="auto">
-                            </template>
-                            <template #interactions>
-                              <vs-button danger icon>
-                                <i class='bx bx-trash'></i>
-                              </vs-button>
-                            </template>
-                          </vs-card>
-                        </vs-col>
-                        <vs-col w="6">
-                          <vs-card>
-                            <template #img>
-                              <img :src="api_url+'/storage/USER/no-user-image.png'" alt="" width="100" height="auto">
-                            </template>
-                            <template #interactions>
-                              <vs-button danger icon>
-                                <i class='bx bx-trash'></i>
-                              </vs-button>
-                            </template>
-                          </vs-card>
-                        </vs-col>
-                        <vs-col w="6">
-                          <vs-card>
-                            <template #img>
-                              <img :src="api_url+'/storage/USER/no-user-image.png'" alt="" width="100" height="auto">
-                            </template>
-                            <template #interactions>
-                              <vs-button danger icon>
-                                <i class='bx bx-trash'></i>
-                              </vs-button>
-                            </template>
-                          </vs-card>
-                        </vs-col>
-                      </vs-row>
-                    </vs-card-group> -->
                   </el-card>
                 </div>
                 <hr>
@@ -424,6 +384,10 @@ import { config } from "../../../global.config";
       getGP(id) {
         this.$store.dispatch("gambarproduk/getAll", {produk_id: id})
       },
+      handlePictureCardPreview(gambar){
+        this.dialogImageUrl = gambar;
+        this.dialogVisible = true;
+      },
       resetForm() {
         this.form = {
           id: "",
@@ -568,9 +532,9 @@ import { config } from "../../../global.config";
           }
         });
       },
-      formatDate(date) {
-        return moment(date).format("DD MMMM YYYY");
-      },
+      // formatDate(date) {
+      //   return moment(date).format("DD MMMM YYYY");
+      // },
     },
   }
 </script>

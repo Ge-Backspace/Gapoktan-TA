@@ -331,9 +331,12 @@ export default {
         }
       });
     },
-    formatDate(date) {
-      return moment(date).format("DD MMMM YYYY");
-    },
+  },
+  watch: {
+    page(newValue, oldValue) {
+      this.$store.commit('kegiatan/setPage', newValue)
+      this.$store.dispatch('kegiatan/getAllPoktan', {user_id: this.user_id});
+    }
   },
 };
 </script>

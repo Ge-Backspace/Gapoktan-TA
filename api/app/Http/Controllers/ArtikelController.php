@@ -29,6 +29,11 @@ class ArtikelController extends Controller
         return $this->getPaginate($table, $request, ['artikels.judul', 'artikels.isi']);
     }
 
+    public function lihatSemuaArtikel(Request $request)
+    {
+        return $this->getPaginate(Artikel::query()->orderBy('id', 'DESC'), $request, ['judul', 'isi']);
+    }
+
     public function tambahArtikel(Request $request)
     {
         $input = $request->only(['gapoktan_id', 'judul', 'isi', 'foto']);

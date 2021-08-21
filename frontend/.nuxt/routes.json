@@ -91,6 +91,13 @@
     "_name": "_6fe55fac"
   },
   {
+    "name": "gapoktan-artikel",
+    "path": "/gapoktan/artikel",
+    "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\gapoktan\\\\artikel.vue",
+    "chunkName": "pages/gapoktan/artikel",
+    "_name": "_014cf58b"
+  },
+  {
     "name": "gapoktan-user_poktan",
     "path": "/gapoktan/user_poktan",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\gapoktan\\\\user_poktan.vue",

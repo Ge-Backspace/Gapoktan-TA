@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\Helper;
 use App\Helpers\Variable;
 use App\Models\Chart;
+use App\Models\Costumer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -17,12 +18,17 @@ class ChartController extends Controller
             'costumer_id'
         ]);
         $validator = Validator::make($input, [
-            'costumer_id' => 'required|numeric'
+            'costumer_id' => 'numeric'
         ], Helper::messageValidation());
         if ($validator->fails()) {
             return $this->resp(Helper::generateErrorMsg($validator->errors()->getMessages()), Variable::FAILED, false, 406);
         }
-        return $this->getPaginate(Chart::where('costumer_id', $request->costumer_id)
+        $state = false;
+        if ($request->user_id) {
+            $costumer = Costumer::where('user_id', $request->user_id)->first();
+            $state = true;
+        }
+        return $this->getPaginate(Chart::where('costumer_id', $state ? $costumer->id : $request->costumer_id)
         ->join('produks', 'produks.id', '=', 'charts.produk_id')
         ->select(DB::raw('charts.*, produks.*'))
         ->orderBy('charts.id', 'DESC')
@@ -35,43 +41,51 @@ class ChartController extends Controller
             'costumer_id', 'produk_id'
         ]);
         $validator = Validator::make($input, [
-            'costumer_id' => 'required|numeric',
+            'costumer_id' => 'numeric',
             'produk_id' => 'required|numeric'
         ], Helper::messageValidation());
         if ($validator->fails()) {
             return $this->resp(Helper::generateErrorMsg($validator->errors()->getMessages()), Variable::FAILED, false, 406);
         }
+        $state = false;
+        if ($request->user_id) {
+            $costumer = Costumer::where('user_id', $request->user_id)->first();
+            $state = true;
+        }
         try {
-            $chart = Chart::create($input);
+            $chart = Chart::create([
+                'produk_id' => $input['produk_id'],
+                'costumer_id' => $state ? $costumer->id : $input['costumer_id']
+            ]);
         } catch (\Throwable $e) {
             return $this->resp(null, $e->getMessage(), false, 406);
         }
         return $this->resp($chart);
     }
 
-    public function ubahChart(Request $request, $id)
-    {
-        $table = Chart::find($id);
-        if (!$table) {
-            return $this->resp(null, Variable::NOT_FOUND, false, 404);
-        }
-        $input = $request->only([
-            'costumer_id', 'produk_id'
-        ]);
-        $validator = Validator::make($input, [
-            'costumer_id' => 'required|numeric',
-            'produk_id' => 'required|numeric'
-        ], Helper::messageValidation());
-        if ($validator->fails()) {
-            return $this->resp(Helper::generateErrorMsg($validator->errors()->getMessages()), Variable::FAILED, false, 406);
-        }
-        try {
-            $table->update($input);
-        } catch (\Throwable $e) {
-            return $this->resp(null, $e->getMessage(), false, 406);
-        }
-        return $this->resp();
-    }
+    // public function ubahChart(Request $request, $id)
+    // {
+    //     $table = Chart::find($id);
+    //     if (!$table) {
+    //         return $this->resp(null, Variable::NOT_FOUND, false, 404);
+    //     }
+    //     $input = $request->only([
+    //         'costumer_id', 'produk_id'
+    //     ]);
+    //     $validator = Validator::make($input, [
+    //         'costumer_id' => 'required|numeric',
+    //         'produk_id' => 'required|numeric'
+    //     ], Helper::messageValidation());
+    //     if ($validator->fails()) {
+    //         return $this->resp(Helper::generateErrorMsg($validator->errors()->getMessages()), Variable::FAILED, false, 406);
+    //     }
+    //     try {
+    //         $table->update($input);
+    //     } catch (\Throwable $e) {
+    //         return $this->resp(null, $e->getMessage(), false, 406);
+    //     }
+    //     return $this->resp();
+    // }
 
     public function hapusChart($id)
     {

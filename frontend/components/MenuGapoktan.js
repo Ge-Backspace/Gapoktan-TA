@@ -12,6 +12,11 @@ export const  menu = () => {
         route: '/gapoktan/user_poktan',
       },
       {
+        text: 'Artikel',
+        icon: 'el-icon-collection text-success',
+        route: '/gapoktan/artikel',
+      },
+      {
         text: 'Produk',
         icon: 'el-icon-shopping-cart-2 text-success',
         children: [

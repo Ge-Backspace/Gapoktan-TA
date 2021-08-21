@@ -107,7 +107,6 @@
         this.changeDrawer();
       };
       let user_id = JSON.parse(JSON.stringify(this.$auth.user.id))
-      // this.axios.get(`/data_diri/${user_id}`)
     },
     methods: {
       changeDrawer() {

@@ -35,9 +35,6 @@ class OrderController extends Controller
         $state = false;
         if ($request->user_id) {
             $costumer = Costumer::where('user_id', $request->user_id)->first();
-            if(!$costumer) {
-                return $this->resp(null, Variable::NOT_FOUND, false, 406);
-            }
             $state = true;
         }
         $input = $request->only([

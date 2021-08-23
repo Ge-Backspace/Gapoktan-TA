@@ -31,7 +31,7 @@
           <template #tbody>
             <vs-tr
               :key="i"
-              v-for="(tr, i) in $vs.getSearch(getUserPoktans.data, search)"
+              v-for="(tr, i) in $vs.getSearch(getUsers.data, search)"
               :data="tr"
             >
               <vs-td>
@@ -81,12 +81,12 @@
           <template #footer>
             <vs-row>
               <vs-col w="2">
-                <small>Total : {{ getUserPoktans.total }} Data</small>
+                <small>Total : {{ getUsers.total }} Data</small>
               </vs-col>
               <vs-col w="10">
                 <vs-pagination
                   v-model="page"
-                  :length="Math.ceil(getUserPoktans.total / table.max)"
+                  :length="Math.ceil(getUsers.total / table.max)"
                 />
               </vs-col>
             </vs-row>
@@ -307,7 +307,7 @@ export default {
     this.$store.dispatch("user/getUserPoktan", { user_id: this.user_id })
   },
   computed: {
-    ...mapGetters("user", ["getUserPoktans", "getLoader"])
+    ...mapGetters("user", ["getUsers", "getLoader"])
   },
   methods: {
     logTest(data) {

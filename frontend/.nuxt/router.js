@@ -12,16 +12,18 @@ const _14e1220b = () => interopDefault(import('..\\pages\\poktan\\index.vue' /* 
 const _49420457 = () => interopDefault(import('..\\pages\\profile.vue' /* webpackChunkName: "pages/profile" */))
 const _32e1a5e5 = () => interopDefault(import('..\\pages\\register.vue' /* webpackChunkName: "pages/register" */))
 const _c71a5d58 = () => interopDefault(import('..\\pages\\test.vue' /* webpackChunkName: "pages/test" */))
-const _31dd6898 = () => interopDefault(import('..\\pages\\admin\\produk\\index.vue' /* webpackChunkName: "pages/admin/produk/index" */))
+const _489e95e1 = () => interopDefault(import('..\\pages\\admin\\order.vue' /* webpackChunkName: "pages/admin/order" */))
+const _099db8aa = () => interopDefault(import('..\\pages\\admin\\produk.vue' /* webpackChunkName: "pages/admin/produk" */))
 const _f4b33e60 = () => interopDefault(import('..\\pages\\costumer\\address.vue' /* webpackChunkName: "pages/costumer/address" */))
 const _499877f4 = () => interopDefault(import('..\\pages\\costumer\\cart.vue' /* webpackChunkName: "pages/costumer/cart" */))
 const _d2f7d2ec = () => interopDefault(import('..\\pages\\costumer\\komplen.vue' /* webpackChunkName: "pages/costumer/komplen" */))
 const _6fe55fac = () => interopDefault(import('..\\pages\\costumer\\order.vue' /* webpackChunkName: "pages/costumer/order" */))
 const _014cf58b = () => interopDefault(import('..\\pages\\gapoktan\\artikel.vue' /* webpackChunkName: "pages/gapoktan/artikel" */))
 const _aedd4bb0 = () => interopDefault(import('..\\pages\\gapoktan\\user_poktan.vue' /* webpackChunkName: "pages/gapoktan/user_poktan" */))
-const _4994c740 = () => interopDefault(import('..\\pages\\admin\\master\\admin.vue' /* webpackChunkName: "pages/admin/master/admin" */))
-const _cd1a9a64 = () => interopDefault(import('..\\pages\\admin\\master\\gapoktan.vue' /* webpackChunkName: "pages/admin/master/gapoktan" */))
 const _336ac805 = () => interopDefault(import('..\\pages\\admin\\master\\kategori.vue' /* webpackChunkName: "pages/admin/master/kategori" */))
+const _12fcfcf7 = () => interopDefault(import('..\\pages\\admin\\user\\admin.vue' /* webpackChunkName: "pages/admin/user/admin" */))
+const _0a21c0cc = () => interopDefault(import('..\\pages\\admin\\user\\costumer.vue' /* webpackChunkName: "pages/admin/user/costumer" */))
+const _e114e492 = () => interopDefault(import('..\\pages\\admin\\user\\gapoktan.vue' /* webpackChunkName: "pages/admin/user/gapoktan" */))
 const _f48ed0bc = () => interopDefault(import('..\\pages\\gapoktan\\poktan\\kegiatan.vue' /* webpackChunkName: "pages/gapoktan/poktan/kegiatan" */))
 const _22e5d754 = () => interopDefault(import('..\\pages\\gapoktan\\poktan\\stok_lumbung.vue' /* webpackChunkName: "pages/gapoktan/poktan/stok_lumbung" */))
 const _1025aa86 = () => interopDefault(import('..\\pages\\gapoktan\\poktan\\tandur.vue' /* webpackChunkName: "pages/gapoktan/poktan/tandur" */))
@@ -81,8 +83,12 @@ export const routerOptions = {
     component: _c71a5d58,
     name: "test"
   }, {
+    path: "/admin/order",
+    component: _489e95e1,
+    name: "admin-order"
+  }, {
     path: "/admin/produk",
-    component: _31dd6898,
+    component: _099db8aa,
     name: "admin-produk"
   }, {
     path: "/costumer/address",
@@ -109,17 +115,21 @@ export const routerOptions = {
     component: _aedd4bb0,
     name: "gapoktan-user_poktan"
   }, {
-    path: "/admin/master/admin",
-    component: _4994c740,
-    name: "admin-master-admin"
-  }, {
-    path: "/admin/master/gapoktan",
-    component: _cd1a9a64,
-    name: "admin-master-gapoktan"
-  }, {
     path: "/admin/master/kategori",
     component: _336ac805,
     name: "admin-master-kategori"
+  }, {
+    path: "/admin/user/admin",
+    component: _12fcfcf7,
+    name: "admin-user-admin"
+  }, {
+    path: "/admin/user/costumer",
+    component: _0a21c0cc,
+    name: "admin-user-costumer"
+  }, {
+    path: "/admin/user/gapoktan",
+    component: _e114e492,
+    name: "admin-user-gapoktan"
   }, {
     path: "/gapoktan/poktan/kegiatan",
     component: _f48ed0bc,

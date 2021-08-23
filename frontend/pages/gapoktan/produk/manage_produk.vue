@@ -4,7 +4,7 @@
       <div class="container-fluid">
         <div class="header-body">
           <!-- Card stats -->
-          <h1 class="heading">Manage Produk</h1>
+          <h1 class="heading">Kelola Produk</h1>
         </div>
       </div>
     </div>

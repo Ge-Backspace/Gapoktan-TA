@@ -251,6 +251,7 @@ class Controller extends BaseController
                 'extension' => $extension,
             ];
             $dataFile = $model->create($newFile);
+            $file->move($basePath, $fileName);
             return $dataFile->id;
         }
     }

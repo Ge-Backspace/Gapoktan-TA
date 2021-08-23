@@ -154,12 +154,11 @@
         if (type == 'update') {
           url = `/ubah_kategori/${this.form.id}`
         }
-
         this.$axios.post(url, formData).then(resp => {
           if (resp.data.success) {
             this.$notify.success({
               title: 'Success',
-              message: `Berhasil ${type == 'store' ? 'Menambah' : 'Mengubah'} Kegiatan`
+              message: `Berhasil ${type == 'store' ? 'Menambah' : 'Mengubah'} Kategori`
             })
             this.resetForm()
             this.kategoriDialog = false

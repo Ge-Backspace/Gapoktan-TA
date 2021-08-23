@@ -8,25 +8,32 @@ use App\Models\Costumer;
 use App\Models\FotoProfil;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class CostumersController extends Controller
 {
     public function lihatCostumer(Request $request)
     {
-        return $this->getPaginate(Costumer::orderBy('id', 'DESC'), $request, ['nama']);
+        $data = Costumer::join('users', 'users.id', '=', 'costumers.user_id')
+        ->leftJoin('foto_profils', 'costumers.foto_id', '=', 'foto_profils.id')
+        ->select(DB::raw('costumers.*, users.email, users.aktif, costumers.id as id, foto_profils.nama as nama_foto'))
+        ->orderBy('costumers.id', 'DESC');
+        return $this->getPaginate($data, $request, ['costumers.nama']);
     }
 
     public function tambahCostumer(Request $request)
     {
         $input = $request->only([
-            'email', 'password', 'nama', 'foto'
+            'email', 'password', 'nama', 'nomer_hp', 'aktif', 'foto'
         ]);
         $validator = Validator::make($input, [
-            'nama' => 'required|string|min:4|max:100',
             'email' => 'required',
             'password' => 'required',
-            'foto' => 'mimes:jpeg,png,jpg|max:2048'
+            'nama' => 'required|string',
+            'nomer_hp' => 'required|string',
+            'aktif' => 'required|boolean',
+            'foto' => 'mimes:jpeg,png,jpg|max:5048'
         ], Helper::messageValidation());
         if ($validator->fails()) {
             return $this->resp(Helper::generateErrorMsg($validator->errors()->getMessages()), Variable::FAILED, false, 406);
@@ -36,12 +43,13 @@ class CostumersController extends Controller
             'password' => app('hash')->make($input['password'])
         ]);
         $foto_id = null;
-        if(!empty($request->foto)){
+        if($request->file('foto')){
             $foto_id = $this->storeFile(new FotoProfil(),$request->foto, Variable::USER);
         }
         $costumer = Costumer::create([
             'user_id' => $user->id,
             'nama' => $input['nama'],
+            'nomer_hp' => $input['nomer_hp'],
             'foto_id' => $foto_id
         ]);
         return $this->resp($costumer);

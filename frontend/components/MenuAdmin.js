@@ -10,7 +10,33 @@ export const  menu = () => {
           text: 'Produk',
           icon: 'el-icon-shopping-cart-2 text-success',
           route: '/admin/produk',
-      },
+        },
+        {
+          text: 'Order',
+          icon: 'el-icon-box text-success',
+          route: '/admin/order',
+        },
+        {
+          text: 'User',
+          icon: 'el-icon-s-custom text-success',
+          children: [
+            {
+              text: "Admin",
+              icon: 'el-icon-postcard',
+              route: '/admin/user/admin'
+            },
+            {
+              text: "Gapoktan",
+              icon: 'el-icon-postcard',
+              route: '/admin/user/gapoktan'
+            },
+            {
+              text: "Costumer",
+              icon: 'el-icon-postcard',
+              route: '/admin/user/costumer'
+            },
+          ]
+        },
         {
           text: 'Master',
           icon: 'bx bx-data text-success',
@@ -20,27 +46,7 @@ export const  menu = () => {
               icon: 'el-icon-postcard',
               route: '/admin/master/kategori'
             },
-            {
-              text: "Admin",
-              icon: 'el-icon-postcard',
-              route: '/admin/master/admin'
-            },
-            {
-              text: "Gapoktan",
-              icon: 'el-icon-postcard',
-              route: '/admin/master/gapoktan'
-            },
-            {
-              text: "Poktan",
-              icon: 'el-icon-postcard',
-              route: '/admin/master/kategori'
-            },
-            {
-              text: "Costumer",
-              icon: 'el-icon-postcard',
-              route: '/admin/master/kategori'
-            },
           ]
-      },
+        },
     ]
 };

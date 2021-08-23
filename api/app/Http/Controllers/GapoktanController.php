@@ -23,7 +23,7 @@ class GapoktanController extends Controller
         $data = Gapoktan::join('users', 'users.id', '=', 'gapoktans.user_id')
         ->leftJoin('foto_profils', 'gapoktans.foto_id', '=', 'foto_profils.id')
         ->select(DB::raw('gapoktans.*, users.email  , gapoktans.id as id, foto_profils.nama as nama_foto'))
-        ->orderBy('gapoktans.id');
+        ->orderBy('gapoktans.id', 'DESC');
         return $this->getPaginate($data, $request, ['gapoktans.nama', 'gapoktans.ketua', 'gapoktans.kota', 'gapoktans.alamat', 'users.email']);
     }
 
@@ -49,8 +49,24 @@ class GapoktanController extends Controller
             'password' => app('hash')->make($input['password'])
         ]);
         $foto_id = null;
-        if(!empty($request->foto)){
-            $foto_id = $this->storeFile(new FotoProfil(), $request->foto, Variable::USER);
+        if($request->file('foto')){
+            $file = $request->file('foto');
+            $type = Variable::USER;
+            $basePath = base_path('storage/app/public/' . $type);
+            $extension = $file->getClientOriginalExtension();
+            if (empty($extension)) {
+                $extension = $file->clientExtension();
+            }
+            $fileName = $type . '-' . time() . '.' . $extension;
+            $newFile = [
+                'nama' => $fileName,
+                'path' => $fileName,
+                'size' => $file->getSize(),
+                'extension' => $extension,
+            ];
+            $foto = FotoProfil::create($newFile);
+            $file->move($basePath, $fileName);
+            $foto_id = $foto->id;
         }
         $gapoktan = Gapoktan::create([
             'user_id' => $user->id,
@@ -88,7 +104,7 @@ class GapoktanController extends Controller
         // ]);
         $foto_id = null;
         if(!empty($request->foto)){
-            $foto_id = $this->storeFile(new FotoProfil(), $request->foto, Variable::USER);
+            $foto_id = $this->storeFile(new FotoProfil(), $request->foto, Variable::USER, null, $gapoktan->foto_id);
         }
         if ($foto_id) {
             $gapoktan->update([
@@ -98,6 +114,7 @@ class GapoktanController extends Controller
                 'alamat' => $input['alamat'],
                 'foto_id' => $foto_id,
             ]);
+            return $this->resp($gapoktan);
         } else {
             $gapoktan->update([
                 'nama' => $input['nama'],

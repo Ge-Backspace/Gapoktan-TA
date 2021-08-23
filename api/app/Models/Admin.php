@@ -12,7 +12,7 @@ class Admin extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'foto_id', 'nama'
+        'user_id', 'foto_id', 'nama', 'nomor_hp'
     ];
 
     public function user()

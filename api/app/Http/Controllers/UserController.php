@@ -6,6 +6,7 @@ use App\Helpers\Helper;
 use App\Helpers\Variable;
 use App\Models\Admin;
 use App\Models\Costumer;
+use App\Models\FotoProfil;
 use App\Models\Gapoktan;
 use App\Models\Poktan;
 use App\Models\User;
@@ -56,47 +57,41 @@ class UserController extends Controller
             return $this->resp(null, Variable::NOT_FOUND, false, 404);
         }
     }
-    // public function lihatUser()
-    // {
-    //     # code...
-    //     return $this->resp(User::all());
-    // }
 
-    // public function tambahUser(Request $request)
-    // {
-    //     # code...
-    //     $tambah = $request->only(['email', 'password']);
-    //     $tambahUser = User::create($tambah);
-    //     return $this->resp($tambahUser);
-    // }
-
-    // public function ubahUser(Request $request, $id)
-    // {
-    //     # code...
-    //     $ubah = $request->only(['email', 'password']);
-    //     $cariID = User::find($id);
-    //     $ubahData = [
-    //         'email' => $ubah['email'],
-    //         'password' => $ubah['password']
-    //     ];
-
-    //     try {
-    //         $ubahUser = $cariID->update($ubahData);
-    //     } catch (\Throwable $e) {
-    //         //throw $th;
-    //         return $this->resp(null, $e->getMessage(), false, 404);
-    //     }
-    //     return $this->resp($ubahUser);
-    // }
-
-    // public function hapusUser($id)
-    // {
-    //     # code...
-    //     try{
-    //         User::find($id)->delete();
-    //     }catch(\Throwable $e){
-    //         return $this->resp(null, $e->getMessage(), false, 404);
-    //     }
-    //     return $this->resp();
-    // }
+    public function ubahProfil(Request $request, $id)
+    {
+        $admin = Admin::where('user_id', $id)->first();
+        $gapoktan = Gapoktan::where('user_id', $id)->first();
+        $poktan = Poktan::where('user_id', $id)->first();
+        $costumer = Costumer::where('user_id', $id)->first();
+        if ($admin) {
+            $profil = $admin;
+        } elseif ($gapoktan) {
+            $profil = $gapoktan;
+        } elseif ($poktan) {
+            $profil = $poktan;
+        } elseif ($costumer) {
+            $input = $request->only(['nama', 'foto', 'nomer_hp']);
+            $validator = Validator::make($input, [
+                'nama' => 'string',
+                'foto' => 'mimes:jpeg,png,jpg|max:5048',
+                'nomer_hp' => 'numeric'
+            ], Helper::messageValidation());
+            if ($validator->fails()) {
+                return $this->resp(Helper::generateErrorMsg($validator->errors()->getMessages()), Variable::FAILED, false, 406);
+            }
+            $foto_id = null;
+            if($request->file('foto')){
+                $foto_id = $this->storeFile(new FotoProfil(), $request->foto, Variable::USER, null, $costumer->foto_id);
+            }
+            $costumer->update([
+                'nama' => $request->nama ? $input['nama'] : $costumer->nama,
+                'nomer_hp' => $request->nomer_hp ? $input['nomer_hp'] : $costumer->nomer_hp,
+                'foto_id' => $foto_id ? $foto_id : null
+            ]);
+            return $this->resp($costumer);
+        } else {
+            return $this->resp(null, Variable::NOT_FOUND, false, 404);
+        }
+    }
 }

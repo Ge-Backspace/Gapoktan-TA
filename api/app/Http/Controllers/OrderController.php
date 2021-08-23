@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
 use App\Helpers\Variable;
+use App\Models\Chart;
 use App\Models\Costumer;
+use App\Models\Gapoktan;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\OrderDetail;
+use App\Models\Produk;
 use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
@@ -30,50 +33,59 @@ class OrderController extends Controller
         $request, ['orders.kd_order']);
     }
 
+    public function lihatOrderGapoktan(Request $request)
+    {
+        $gapoktan = Gapoktan::where('user_id', $request->user_id)->first();
+        if (!$gapoktan) {
+            return $this->resp(null, Variable::NOT_FOUND, false, 406);
+        }
+        $data = OrderDetail::join('produks', 'produks.id', '=', 'order_details.produk_id')
+        ->join('orders', 'orders.id', '=', 'order_details.order_id')
+        ->leftJoin('thubnail_produks', 'thubnail_produks.produk_id', '=', 'produks.id')
+        ->where('produks.gapoktan_id', $gapoktan->id)
+        ->select(DB::raw('order_details.*, orders.*, produks.*, order_details.id as id, thubnail_produks.nama as nama_thumbnail, produks.nama as nama_produk'))
+        ->orderBy('order_details.id', 'DESC');
+        return $this->getPaginate($data, $request, []);
+    }
+
     public function tambahOrder(Request $request)
     {
-        $state = false;
-        if ($request->user_id) {
-            $costumer = Costumer::where('user_id', $request->user_id)->first();
-            if(!$costumer) {
-                return $this->resp(null, Variable::NOT_FOUND, false, 406);
+        $costumer = Costumer::where('user_id', $request->user_id)->first();
+        if ($costumer) {
+            $input = $request->only(['address_id', 'total_harga', 'deskripsi', 'cart']);
+            $validator = Validator::make($input, [
+                'address_id' => 'required|numeric',
+                'total_harga' => 'required|numeric',
+                'deskripsi' => 'string',
+                'cart' => 'required',
+            ], Helper::messageValidation());
+            if ($validator->fails()) {
+                return $this->resp(Helper::generateErrorMsg($validator->errors()->getMessages()), Variable::FAILED, false, 406);
             }
-            $state = true;
+            $kode = rand(100,999);
+            $order = Order::create([
+                'costumer_id' => $costumer->id,
+                'address_id' => $input['address_id'],
+                'deskripsi' => $input['deskripsi'],
+                'total_harga' => $input['total_harga'],
+                'kd_order' => time().'-'.$kode
+            ]);
+            $inputOD = [];
+            foreach ($request->cart as $key => $value) {
+                $cart = Chart::find($value);
+                $produk = Produk::find($cart->produk_id);
+                $inputOD[] = [
+                    'produk_id' => $cart->produk_id,
+                    'order_id' => $order->id,
+                    'jumlah' => $cart->jumlah,
+                    'harga' => $produk->harga
+                ];
+                $cart->update(['status' => true]);
+            }
+            OrderDetail::insert($inputOD);
+            return $this->resp($order);
         }
-        $input = $request->only([
-            'costumer_id',
-            'address_id',
-            'total_harga',
-            'deskripsi',
-            'orders'
-        ]);
-        $validator = Validator::make($input, [
-            'costumer_id' => 'numeric',
-            'address_id' => 'required',
-            'total_harga' => 'required|numeric',
-            'deskripsi' => 'required|string',
-            'orders' => 'required',
-        ], Helper::messageValidation());
-        if ($validator->fails()) {
-            return $this->resp(Helper::generateErrorMsg($validator->errors()->getMessages()), Variable::FAILED, false, 406);
-        }
-        $order = Order::create([
-            'costumer_id' => $state ? $costumer->id : $input['costumer_id'],
-            'address_id' => $input['address_id'],
-            'total_harga' => $input['total_harga'],
-            'deskripsi' => $input['deskripsi'],
-        ]);
-        $inputOrderDetail = [];
-        foreach ($request->orders as $key => $o) {
-            $input[] = [
-                'produk_id' => $o->produk_id,
-                'order_id'=> $order->id,
-                'jumlah' => $o->jumlah,
-                'harga' => $o->harga
-            ];
-        }
-        OrderDetail::insert($inputOrderDetail);
-        return $this->resp($order);
+        return $this->resp(null, Variable::NOT_FOUND, false, 406);
     }
 
     public function ubahOrder(Request $request, $id)
@@ -83,31 +95,25 @@ class OrderController extends Controller
             return $this->resp(null, Variable::NOT_FOUND, false, 406);
         }
         $input = $request->only([
-            'costumer_id',
-            'kd_order',
             'address_id',
-            'total_harga',
-            'status_payment',
             'deskripsi',
             'tanggal_bayar',
             'no_rek',
+            'atas_nama',
             'bukti_pembayaran'
         ]);
         $validator = Validator::make($input, [
-            'costumer_id' => 'required|numeric',
-            'kd_order' => 'required|string',
-            'address_id' => 'required',
-            'total_harga' => 'required|numeric',
-            'status_payment' => 'required|boolean',
+            'address_id' => 'numeric',
             'deskripsi' => 'required|string',
             'no_rek' => 'required|string',
+            'atas_nama' => 'required|string',
             'tanggal_bayar' => 'required|date',
             'bukti_pembayaran' => 'required|mimes:jpeg,png,jpg|max:2048',
         ], Helper::messageValidation());
         if ($validator->fails()) {
             return $this->resp(Helper::generateErrorMsg($validator->errors()->getMessages()), Variable::FAILED, false, 406);
         }
-        $file = $request->bukti_pembayaran;
+        $file = $request->file('bukti_pembayaran');
         if ($file) {
             $basePath = base_path('storage/app/public/' . Variable::BPYR);
             $extension = $file->getClientOriginalExtension();
@@ -118,13 +124,11 @@ class OrderController extends Controller
             $file->move($basePath, $fileName);
         }
         $order->update([
-            'costumer_id' => $input['costumer_id'],
-            'kd_order' => $input['kd_order'],
-            'address_id' => $input['address_id'],
-            'total_harga' => $input['total_harga'],
-            'status_payment' => $input['status_payment'],
+            'address_id' => $request->address_id ? $input['address_id'] : $order->address_id,
+            'status_payment' => true,
             'deskripsi' => $input['deskripsi'],
             'no_rek' => $input['no_rek'],
+            'atas_nama' => $input['atas_nama'],
             'tanggal_bayar' => $input['tanggal_bayar'],
             'bukti_pembayaran' => $file ? $fileName : null,
         ]);

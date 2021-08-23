@@ -28,7 +28,7 @@ export const  menu = () => {
             {
               text: "Gapoktan",
               icon: 'el-icon-postcard',
-              route: '/admin/master/kategori'
+              route: '/admin/master/gapoktan'
             },
             {
               text: "Poktan",

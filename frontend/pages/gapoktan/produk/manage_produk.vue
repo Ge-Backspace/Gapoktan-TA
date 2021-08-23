@@ -22,7 +22,10 @@
             <vs-tr>
               <vs-th>Action</vs-th>
               <vs-th></vs-th>
+              <vs-th></vs-th>
+              <vs-th></vs-th>
               <vs-th>Nama Produk</vs-th>
+              <vs-th>Berat</vs-th>
               <vs-th>Stok</vs-th>
               <vs-th>Harga</vs-th>
               <vs-th>Status</vs-th>
@@ -58,6 +61,7 @@
                   </el-button>
                 </el-tooltip>
               </vs-td>
+              <vs-td></vs-td>
               <vs-td>
                 <vs-avatar v-if="!tr.nama_thumbnail">
                   <img :src="api_url+'/storage/USER/no-user-image.png'" alt="">
@@ -66,9 +70,11 @@
                   <img  @click="handlePictureCardPreview(tr.nama_thumbnail)" :src="api_url+'/storage/THUBNAILPRODUK/'+tr.nama_thumbnail" alt="">
                 </vs-avatar>
               </vs-td>
+              <vs-td></vs-td>
               <vs-td>{{ tr.nama }}</vs-td>
+              <vs-td>{{ tr.berat }} Gram</vs-td>
               <vs-td>{{ tr.stok }}</vs-td>
-              <vs-td>{{ tr.harga }}</vs-td>
+              <vs-td>Rp. {{ tr.harga }}</vs-td>
               <vs-td>
                 <span class="badge badge-success" v-if="tr.status"
                   >Aktif</span
@@ -197,6 +203,20 @@
             w="6"
             style="padding: 5px"
           >
+            <label>Berat (Gram)</label>
+            <vs-input
+              type="number"
+              v-model="form.berat"
+              placeholder="Masukkan Berat ..."
+            ></vs-input>
+          </vs-col>
+          <vs-col
+            vs-type="flex"
+            vs-justify="center"
+            vs-align="center"
+            w="6"
+            style="padding: 5px"
+          >
             <label>Stok</label>
             <vs-input
               type="number"
@@ -211,7 +231,7 @@
             w="6"
             style="padding: 5px"
           >
-            <label>Harga</label>
+            <label>Harga (Rupiah)</label>
             <vs-input
               type="number"
               v-model="form.harga"
@@ -356,6 +376,7 @@ import { config } from "../../../global.config";
           stok: "",
           harga: "",
           deskripsi: "",
+          berat: "",
           foto: "",
         },
         formDialog: false,
@@ -396,6 +417,7 @@ import { config } from "../../../global.config";
           stok: "",
           harga: "",
           deskripsi: "",
+          berat: "",
           foto: "",
         };
         this.fileList = [];
@@ -418,6 +440,7 @@ import { config } from "../../../global.config";
         formData.append("nama", this.form.nama);
         formData.append("kategori_id", this.form.kategori_id);
         formData.append("stok", this.form.stok);
+        formData.append("berat", this.form.berat);
         formData.append("harga", this.form.harga);
         formData.append("deskripsi", this.form.deskripsi);
         formData.append("foto", this.form.foto);
@@ -491,6 +514,7 @@ import { config } from "../../../global.config";
         this.form.nama = data.nama;
         this.form.stok = data.stok;
         this.form.harga = data.harga;
+        this.form.berat = data.berat;
         this.form.deskripsi = data.deskripsi;
         this.formDialog = true;
         this.titleDialog = "Edit Produk";

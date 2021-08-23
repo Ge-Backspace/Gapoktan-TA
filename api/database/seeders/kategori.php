@@ -15,15 +15,23 @@ class kategori extends Seeder
     public function run()
     {
         ModelKategori::create([
-            'nama' => 'Kategori 1'
+            'nama' => 'Pertanian'
         ]);
 
         ModelKategori::create([
-            'nama' => 'Kategori 2'
+            'nama' => 'Benih'
         ]);
 
         ModelKategori::create([
-            'nama' => 'Kategori 3'
+            'nama' => 'Pupuk'
+        ]);
+
+        ModelKategori::create([
+            'nama' => 'Buah'
+        ]);
+
+        ModelKategori::create([
+            'nama' => 'Peternakan'
         ]);
     }
 }

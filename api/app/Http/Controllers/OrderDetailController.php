@@ -6,6 +6,7 @@ use App\Helpers\Helper;
 use App\Helpers\Variable;
 use App\Models\OrderDetail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class OrderDetailController extends Controller
@@ -15,6 +16,8 @@ class OrderDetailController extends Controller
         return $this->getPaginate(
             OrderDetail::where('order_id', $request->order_id)
             ->join('produks', 'produks.id', '=', 'order_details.produk_id')
+            ->join('thubnail_produks', 'thubnail_produks.produk_id', '=', 'produks.id')
+            ->select(DB::raw('order_details.*, produks.*, order_details.id as id, thubnail_produks.nama as nama_thumbnail'))
             ->orderBy('order_details.id', 'DESC'),
             $request, ['produks.nama']
         );

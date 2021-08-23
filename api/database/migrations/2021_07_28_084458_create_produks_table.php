@@ -19,6 +19,7 @@ class CreateProduksTable extends Migration
             $table->integer('kategori_id')->unsigned();
             $table->string('nama');
             $table->string('kode');
+            $table->integer('berat');
             $table->integer('stok');
             $table->integer('harga');
             $table->text('deskripsi');

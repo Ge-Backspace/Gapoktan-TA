@@ -14,8 +14,10 @@ class Order extends Model
         'status_payment',
         'deskripsi',
         'tanggal_bayar',
+        'atas_nama',
         'no_rek',
-        'bukti_pembayaran'
+        'bukti_pembayaran',
+        'status_order'
     ];
 
     public function costumer()

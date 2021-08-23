@@ -7,6 +7,10 @@ export const state = () => ({
     data: [],
   },
 
+  address: {
+    data: [],
+  },
+
   optionLoader: false,
 })
 
@@ -16,6 +20,9 @@ export const mutations = {
   },
   setOptionKategoris(state, data) {
     state.kategori = data
+  },
+  setOptionAddresses(state, data) {
+    state.address = data
   },
   setLoader(state){
     state.optionLoader = !state.optionLoader
@@ -29,7 +36,10 @@ export const getters = {
   getOptionKategoris(state) {
     return state.kategori
   },
-  getLoader(state){
+  getOptionAddresses(state) {
+    return state.address
+  },
+  getOpLoader(state){
     return state.optionLoader
   },
 };
@@ -52,6 +62,18 @@ export const actions = {
     this.$axios.get(`/option_kategori`)
     .then(resp => {
         context.commit('setOptionKategoris', resp.data)
+    }).catch(e => {
+        console.log(e)
+    }).finally(() => {
+        context.commit("setLoader")
+    })
+  },
+
+  getAddresses(context, { user_id }){
+    context.commit('setLoader')
+    this.$axios.get(`/option_address?user_id=${user_id}`)
+    .then(resp => {
+        context.commit('setOptionAddresses', resp.data)
     }).catch(e => {
         console.log(e)
     }).finally(() => {

@@ -141,7 +141,7 @@ class KegiatanController extends Controller
             $type = 'pdf';
             $as = \Maatwebsite\Excel\Excel::DOMPDF;
         }
-        return Excel::download(new ExportKegiatanPoktan($poktan, $data, $input['tanggal_awal'], $input['tanggal_awal']), 'Data_Kegiatan_Gapoktan_' . $poktan->nama . '-' . Carbon::now().'.' . $type, $as);
+        return Excel::download(new ExportKegiatanPoktan($poktan, $data, $input['tanggal_awal'], $input['tanggal_akhir']), 'Data_Kegiatan_Gapoktan_' . $poktan->nama . '-' . Carbon::now().'.' . $type, $as);
     }
 
     public function exportKegiatanGapoktan(Request $request)
@@ -171,6 +171,6 @@ class KegiatanController extends Controller
             $type = 'pdf';
             $as = \Maatwebsite\Excel\Excel::DOMPDF;
         }
-        return Excel::download(new ExportKegiatanGapoktan($gapoktan, $data, $input['tanggal_awal'], $input['tanggal_awal']), 'Data_Kegiatan_Gapoktan_' . $gapoktan->nama . '-' . Carbon::now().'.' . $type, $as);
+        return Excel::download(new ExportKegiatanGapoktan($gapoktan, $data, $input['tanggal_awal'], $input['tanggal_akhir']), 'Data_Kegiatan_Gapoktan_' . $gapoktan->nama . '-' . Carbon::now().'.' . $type, $as);
     }
 }

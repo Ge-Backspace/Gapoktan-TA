@@ -20,6 +20,7 @@ const _6fe55fac = () => interopDefault(import('..\\pages\\costumer\\order.vue' /
 const _014cf58b = () => interopDefault(import('..\\pages\\gapoktan\\artikel.vue' /* webpackChunkName: "pages/gapoktan/artikel" */))
 const _aedd4bb0 = () => interopDefault(import('..\\pages\\gapoktan\\user_poktan.vue' /* webpackChunkName: "pages/gapoktan/user_poktan" */))
 const _4994c740 = () => interopDefault(import('..\\pages\\admin\\master\\admin.vue' /* webpackChunkName: "pages/admin/master/admin" */))
+const _cd1a9a64 = () => interopDefault(import('..\\pages\\admin\\master\\gapoktan.vue' /* webpackChunkName: "pages/admin/master/gapoktan" */))
 const _336ac805 = () => interopDefault(import('..\\pages\\admin\\master\\kategori.vue' /* webpackChunkName: "pages/admin/master/kategori" */))
 const _f48ed0bc = () => interopDefault(import('..\\pages\\gapoktan\\poktan\\kegiatan.vue' /* webpackChunkName: "pages/gapoktan/poktan/kegiatan" */))
 const _22e5d754 = () => interopDefault(import('..\\pages\\gapoktan\\poktan\\stok_lumbung.vue' /* webpackChunkName: "pages/gapoktan/poktan/stok_lumbung" */))
@@ -111,6 +112,10 @@ export const routerOptions = {
     path: "/admin/master/admin",
     component: _4994c740,
     name: "admin-master-admin"
+  }, {
+    path: "/admin/master/gapoktan",
+    component: _cd1a9a64,
+    name: "admin-master-gapoktan"
   }, {
     path: "/admin/master/kategori",
     component: _336ac805,

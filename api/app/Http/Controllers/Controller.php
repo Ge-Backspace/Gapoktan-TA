@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
 use App\Helpers\Variable;
+use App\Models\FotoProfil;
 use App\Models\ThubnailProduk;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Lumen\Routing\Controller as BaseController;
@@ -203,7 +204,7 @@ class Controller extends BaseController
         }
     }
 
-    public function storeFile($model, $file, $type, $produk_id = null)
+    public function storeFile($model, $file, $type, $produk_id = null, $foto_id = null)
     {
         $basePath = base_path('storage/app/public/' . $type);
         $extension = $file->getClientOriginalExtension();
@@ -223,6 +224,25 @@ class Controller extends BaseController
             if ($gambarProduk) {
                 ThubnailProduk::find($gambarProduk->id)->delete();
             }
+            $dataFile = $model->create($newFile);
+            return $dataFile->id;
+        } elseif ($foto_id) {
+            $newFile = [
+                'nama' => $fileName,
+                'path' => $fileName,
+                'size' => $file->getSize(),
+                'extension' => $extension,
+            ];
+            $fotoProfil = FotoProfil::find($foto_id);
+            if ($fotoProfil) {
+                $file->move($basePath, $fileName);
+                $fotoProfil->update($newFile);
+                return $fotoProfil->id;
+            } else {
+                $file->move($basePath, $fileName);
+                $dataFile = $model->create($newFile);
+                return $dataFile->id;
+            }
         } else {
             $newFile = [
                 'nama' => $fileName,
@@ -230,9 +250,8 @@ class Controller extends BaseController
                 'size' => $file->getSize(),
                 'extension' => $extension,
             ];
+            $dataFile = $model->create($newFile);
+            return $dataFile->id;
         }
-        $dataFile = $model->create($newFile);
-        $file->move($basePath, $fileName);
-        return $dataFile->id;
     }
 }

@@ -31,13 +31,12 @@
                   <div class="media align-items-center">
                     <!-- <span class="avatar avatar-sm rounded-circle"> -->
                     <!-- <img class="avatar" :src="user.photo_url" /> -->
-                    <div class="avatar avatar-sm rounded-circle"
-                      :style="'background: #f3f3f3 url(' + $auth.user.foto_url + ') no-repeat top center / cover; width:25px; height:25px'">
+                    <div class="avatar avatar-sm rounded-circle" :style="'background: url('+ api_url+'/storage/USER/'+getAccount.data.foto_profil +') #f3f3f3 no-repeat top center / cover; width:25px; height:25px'">
                     </div>
                     <!-- </span> -->
                     <!-- <div class="classname" :style="'background: #f3f3f3 url(' + user.photo_url + ') no-repeat top center / cover'"></div> -->
                     <div class="media-body  ml-2  d-none d-lg-block">
-                      <span class="mb-0 text-sm  font-weight-bold">{{user.email}} <i style="margin-left: 5px"
+                      <span class="mb-0 text-sm  font-weight-bold">{{getAccount.data.email}} <i style="margin-left: 5px"
                           class="fas fa-angle-down"></i> </span>
                     </div>
                   </div>
@@ -78,11 +77,9 @@
   </div>
 </template>
 <script>
-  import Sidebar from '../components/SidebarPoktan'
-  import {
-    mapMutations
-  } from 'vuex';
-
+  import Sidebar from '../components/SidebarPoktan';
+  import { mapMutations, mapGetters } from "vuex";
+  import { config } from "../global.config";
   export default {
     middleware: ['auth', 'poktan'],
     components: {
@@ -90,12 +87,14 @@
     },
     data() {
       return {
+        api_url: config.baseApiUrl,
         showSideBar: false,
         collapse: true,
         user: {
           nama: '',
           photo_url: ''
-        }
+        },
+        user_id: "",
       }
     },
     mounted() {
@@ -105,7 +104,9 @@
 
       window.onload = () => {
         this.changeDrawer();
-      }
+      };
+      this.user_id = JSON.parse(JSON.stringify(this.$auth.user.id))
+      this.$store.dispatch("account/getUserAccount", { user_id: this.user_id });
     },
     methods: {
       changeDrawer() {
@@ -125,7 +126,10 @@
       logout() {
         this.$auth.logout();
       }
-    }
+    },
+    computed: {
+      ...mapGetters("account", ["getAccount"]),
+    },
   }
 
 </script>

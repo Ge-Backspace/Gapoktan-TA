@@ -17,6 +17,8 @@ class CreateChartsTable extends Migration
             $table->increments('id');
             $table->integer('costumer_id')->unsigned();
             $table->integer('produk_id')->unsigned();
+            $table->integer('jumlah');
+            $table->boolean('status')->default(false);
             $table->timestamps();
 
             $table->foreign('costumer_id')->references('id')->on('costumers');

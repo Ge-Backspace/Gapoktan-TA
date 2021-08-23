@@ -148,7 +148,7 @@ class TandurController extends Controller
             $type = 'pdf';
             $as = \Maatwebsite\Excel\Excel::DOMPDF;
         }
-        return Excel::download(new ExportTandurPoktan($poktan, $data, $input['tanggal_awal'], $input['tanggal_awal']), 'Data_Tandur_Poktan_' . $poktan->nama . '-' . Carbon::now().'.' . $type, $as);
+        return Excel::download(new ExportTandurPoktan($poktan, $data, $input['tanggal_awal'], $input['tanggal_akhir']), 'Data_Tandur_Poktan_' . $poktan->nama . '-' . Carbon::now().'.' . $type, $as);
     }
 
     public function exportTandurGapoktan(Request $request)
@@ -185,7 +185,7 @@ class TandurController extends Controller
         }
         return Excel::download(
             new ExportTandurGapoktan(
-                $gapoktan, $data, $input['tanggal_awal'], $input['tanggal_awal']
+                $gapoktan, $data, $input['tanggal_awal'], $input['tanggal_akhir']
             ),
             'Data_Tandur_Poktan_' . $gapoktan->nama . '-' . Carbon::now().'.' . $type, $as
         );

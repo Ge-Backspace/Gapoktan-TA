@@ -22,8 +22,10 @@ class CreateOrdersTable extends Migration
             $table->boolean('status_payment')->default(false);
             $table->text('deskripsi')->nullable();
             $table->date('tanggal_bayar')->nullable();
+            $table->string('atas_nama')->nullable();
             $table->string('no_rek')->nullable();
             $table->string('bukti_pembayaran')->nullable();
+            $table->integer('status_order')->default(0);
             $table->timestamps();
 
             $table->foreign('costumer_id')->references('id')->on('costumers');

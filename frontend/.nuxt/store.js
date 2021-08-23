@@ -19,6 +19,7 @@ let store = {};
   // Enforce store modules
   store.modules = store.modules || {}
 
+  resolveStoreModules(require('..\\store\\account.js'), 'account.js')
   resolveStoreModules(require('..\\store\\address.js'), 'address.js')
   resolveStoreModules(require('..\\store\\artikel.js'), 'artikel.js')
   resolveStoreModules(require('..\\store\\cart.js'), 'cart.js')
@@ -27,6 +28,8 @@ let store = {};
   resolveStoreModules(require('..\\store\\kategori.js'), 'kategori.js')
   resolveStoreModules(require('..\\store\\kegiatan.js'), 'kegiatan.js')
   resolveStoreModules(require('..\\store\\option.js'), 'option.js')
+  resolveStoreModules(require('..\\store\\order.js'), 'order.js')
+  resolveStoreModules(require('..\\store\\orderdetail.js'), 'orderdetail.js')
   resolveStoreModules(require('..\\store\\produk.js'), 'produk.js')
   resolveStoreModules(require('..\\store\\stoklumbung.js'), 'stoklumbung.js')
   resolveStoreModules(require('..\\store\\tandur.js'), 'tandur.js')
@@ -37,6 +40,7 @@ let store = {};
   if (process.client && module.hot) {
     // Whenever any Vuex module is updated...
     module.hot.accept([
+      '..\\store\\account.js',
       '..\\store\\address.js',
       '..\\store\\artikel.js',
       '..\\store\\cart.js',
@@ -46,6 +50,8 @@ let store = {};
       '..\\store\\kategori.js',
       '..\\store\\kegiatan.js',
       '..\\store\\option.js',
+      '..\\store\\order.js',
+      '..\\store\\orderdetail.js',
       '..\\store\\produk.js',
       '..\\store\\stoklumbung.js',
       '..\\store\\tandur.js',

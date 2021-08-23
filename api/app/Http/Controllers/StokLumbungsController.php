@@ -146,7 +146,7 @@ class StokLumbungsController extends Controller
             $type = 'pdf';
             $as = \Maatwebsite\Excel\Excel::DOMPDF;
         }
-        return Excel::download(new ExportStokLumbungPoktan($poktan, $data, $input['tanggal_awal'], $input['tanggal_awal']), 'Data_Stok_Lumbung_Poktan_' . $poktan->nama . '-' . Carbon::now().'.' . $type, $as);
+        return Excel::download(new ExportStokLumbungPoktan($poktan, $data, $input['tanggal_awal'], $input['tanggal_akhir']), 'Data_Stok_Lumbung_Poktan_' . $poktan->nama . '-' . Carbon::now().'.' . $type, $as);
     }
 
     public function exportStokLumbungGapoktan(Request $request)
@@ -176,6 +176,6 @@ class StokLumbungsController extends Controller
             $type = 'pdf';
             $as = \Maatwebsite\Excel\Excel::DOMPDF;
         }
-        return Excel::download(new ExportStokLumbungGapoktan($gapoktan, $data, $input['tanggal_awal'], $input['tanggal_awal']), 'Data_Stok_Lumbung_Poktan_' . $gapoktan->nama . '-' . Carbon::now().'.' . $type, $as);
+        return Excel::download(new ExportStokLumbungGapoktan($gapoktan, $data, $input['tanggal_awal'], $input['tanggal_akhir']), 'Data_Stok_Lumbung_Poktan_' . $gapoktan->nama . '-' . Carbon::now().'.' . $type, $as);
     }
 }

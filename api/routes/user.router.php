@@ -1,5 +1,6 @@
 <?php
 $router -> get('/lihat_profil', 'UserController@lihatProfil');
+$router -> post('/ubah_profil/{id}', 'UserController@ubahProfil');
 $router->group(['middleware' => 'auth'], function($router){
     $router->get('/users', 'UserController@index');
     $router->get('/user/{id}/show', 'UserController@show');

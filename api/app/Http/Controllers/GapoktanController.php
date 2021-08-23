@@ -8,6 +8,7 @@ use App\Models\FotoProfil;
 use App\Models\Gapoktan;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class GapoktanController extends Controller
@@ -15,6 +16,15 @@ class GapoktanController extends Controller
     public function lihatGapoktan(Request $request)
     {
         return $this->getPaginate(Gapoktan::orderBy('id', 'DESC'), $request, ['nama', 'ketua', 'kota', 'alamat']);
+    }
+
+    public function lihatSemuaGapoktan(Request $request)
+    {
+        $data = Gapoktan::join('users', 'users.id', '=', 'gapoktans.user_id')
+        ->leftJoin('foto_profils', 'gapoktans.foto_id', '=', 'foto_profils.id')
+        ->select(DB::raw('gapoktans.*, users.email  , gapoktans.id as id, foto_profils.nama as nama_foto'))
+        ->orderBy('gapoktans.id');
+        return $this->getPaginate($data, $request, ['gapoktans.nama', 'gapoktans.ketua', 'gapoktans.kota', 'gapoktans.alamat', 'users.email']);
     }
 
     public function tambahGapoktan(Request $request)
@@ -60,11 +70,10 @@ class GapoktanController extends Controller
             return $this->resp(null, Variable::NOT_FOUND, false, 406);
         }
         $input = $request->only([
-            'nama', 'email', 'ketua', 'kota', 'alamat', 'foto'
+            'nama', 'ketua', 'kota', 'alamat', 'foto'
         ]);
         $validator = Validator::make($input, [
             'nama' => 'required|string',
-            'email' => 'required',
             'ketua' => 'required',
             'kota' => 'required',
             'alamat' => 'required',
@@ -73,10 +82,10 @@ class GapoktanController extends Controller
         if ($validator->fails()) {
             return $this->resp(Helper::generateErrorMsg($validator->errors()->getMessages()), Variable::FAILED, false, 406);
         }
-        $user = User::find($gapoktan->user_id);
-        $user->update([
-            'email' => $input['email']
-        ]);
+        // $user = User::find($gapoktan->user_id);
+        // $user->update([
+        //     'email' => $input['email']
+        // ]);
         $foto_id = null;
         if(!empty($request->foto)){
             $foto_id = $this->storeFile(new FotoProfil(), $request->foto, Variable::USER);

@@ -122,7 +122,7 @@ class PoktanController extends Controller
         }
         $foto_id = null;
         if(!empty($request->foto)){
-            $foto_id = $this->storeFile(new FotoProfil(), $request->foto, Variable::USER);
+            $foto_id = $this->storeFile(new FotoProfil(), $request->foto, Variable::USER, null, $poktan->foto_id);
         }
         $poktan->update([
             'gapoktan_id' => $state ? $gapoktan->id : $input['gapoktan_id'],
@@ -132,7 +132,7 @@ class PoktanController extends Controller
             'alamat' => $input['alamat'],
             'foto_id' => $foto_id ? $foto_id : null,
         ]);
-        return $this->resp($gapoktan);
+        return $this->resp($poktan);
     }
 
     public function hapusPoktan($id)

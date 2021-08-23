@@ -54,18 +54,20 @@ class ProdukController extends Controller
     public function lihatSemuaProdukCostumer(Request $request)
     {
         $data = Produk::leftJoin('thubnail_produks', 'thubnail_produks.produk_id', '=', 'produks.id')
-        ->select(DB::raw('produks.*, produks.id as id, thubnail_produks.nama as nama_thumbnail'))
+        ->leftJoin('gapoktans', 'gapoktans.id', '=', 'produks.gapoktan_id')
+        ->select(DB::raw('gapoktans.*, produks.*, produks.id as id, produks.nama as nama_produk, thubnail_produks.nama as nama_thumbnail, gapoktans.nama as nama_gapoktan'))
         ->orderBy('produks.id', 'DESC');
         return $this->getPaginate($data, $request, ['produks.nama']);
     }
 
     public function tambahProduk(Request $request)
     {
-        $input = $request->only(['gapoktan_id', 'kategori_id', 'nama', 'stok', 'harga', 'deskripsi', 'foto']);
+        $input = $request->only(['gapoktan_id', 'kategori_id', 'nama', 'berat', 'stok', 'harga', 'deskripsi', 'foto']);
         $validator = Validator::make($input, [
             'gapoktan_id' => 'numeric',
             'kategori_id' => 'required|numeric',
             'nama' => 'required|string',
+            'berat' => 'required|numeric',
             'stok' => 'required|numeric',
             'harga' => 'required|numeric',
             'deskripsi' => 'required|string',
@@ -88,6 +90,7 @@ class ProdukController extends Controller
             'gapoktan_id' => $state ? $gapoktan->id : $input['gapoktan_id'],
             'kategori_id' => $input['kategori_id'],
             'nama' => $input['nama'],
+            'berat' => $input['berat'],
             'kode' => $kode1."-".$kode2,
             'stok' => $input['stok'],
             'harga' => $input['harga'],
@@ -109,11 +112,12 @@ class ProdukController extends Controller
         if (!$produk) {
             return $this->resp(null, Variable::NOT_FOUND, false, 406);
         }
-        $input = $request->only(['kategori_id', 'nama', 'kode', 'stok', 'harga', 'deskripsi', 'status', 'foto']);
+        $input = $request->only(['kategori_id', 'nama', 'berat', 'stok', 'harga', 'deskripsi', 'status', 'foto']);
         $validator = Validator::make($input, [
             'kategori_id' => 'required|numeric',
             'nama' => 'required|string',
             // 'kode' => 'required|string',
+            'berat' => 'required|numeric',
             'stok' => 'required|numeric',
             'harga' => 'required|numeric',
             'deskripsi' => 'required|string',
@@ -126,6 +130,7 @@ class ProdukController extends Controller
         $produk->update([
             'kategori_id' => $input['kategori_id'],
             'nama' => $input['nama'],
+            'berat' => $input['berat'],
             // 'kode' => $input['kode'],
             'stok' => $input['stok'],
             'harga' => $input['harga'],

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Chart extends Model
 {
     protected $fillable = [
-        'costumer_id', 'produk_id'
+        'costumer_id', 'produk_id', 'jumlah', 'status'
     ];
 
     public function costumer()

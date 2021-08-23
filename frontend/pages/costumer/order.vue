@@ -21,12 +21,19 @@
           <template #thead>
             <vs-tr>
               <vs-th>Action</vs-th>
-              <vs-th>kode order</vs-th>
-              <vs-th>total harga</vs-th>
+              <vs-th>Kode Order</vs-th>
+              <vs-th>Total harga</vs-th>
+              <vs-th>Status Pembayaran</vs-th>
+              <vs-th>Order</vs-th>
             </vs-tr>
           </template>
           <template #tbody>
-            <vs-tr>
+            <vs-tr
+              :key="i"
+              v-for="(tr, i) in $vs.getSearch(getOrders.data, search)"
+              :data="tr"
+              @click="getOrderDetail(tr.id)"
+            >
               <vs-td>
                 <el-tooltip content="Edit" placement="top-start" effect="dark">
                   <el-button
@@ -50,36 +57,100 @@
                   </el-button>
                 </el-tooltip>
               </vs-td>
-              <vs-td>test</vs-td>
-              <vs-td>test</vs-td>
+              <vs-td>{{ tr.kd_order }}</vs-td>
+              <vs-td>{{ tr.total_harga }}</vs-td>
+              <vs-td>
+                <span class="badge badge-success" v-if="tr.status_payment"
+                  >Sudah Upload</span
+                >
+                <span class="badge badge-primary" v-else>Belum Upload</span>
+              </vs-td>
+              <vs-td>
+                <span class="badge badge-success" v-if="tr.status_order"
+                  >Terkonformasi</span
+                >
+                <span class="badge badge-primary" v-else>Belum Dikonfirmasi</span>
+              </vs-td>
               <template #expand>
-                <div class="con-content">
-                  <p>alamat pengiriman:</p>
-                </div>
-                <div class="con-content">
-                  <p>status pembayaran:</p>
-                </div>
-                <div class="con-content">
-                  <p>nomor rekening:</p>
-                </div>
-                <div class="con-content">
-                  <p>tanggal bayar:</p>
-                </div>
-                <div class="con-content">
-                  <p>deskripsi:</p>
-                </div>
-                <div class="con-content">
-                  <p>Bukti Pembayara: <br> gambar disini</p>
-                </div>
+                <el-card>
+                  <label><b>Alamat Lengkap :</b></label>
+                  <p>{{tr.nama_alamat}} - {{tr.alamat}}</p>
+                  <label><b>Deskripsi / Catatan Order :</b></label>
+                  <p>{{tr.deskripsi}}</p>
+                  <label><b>Detil Order :</b></label>
+                  <el-card v-loading="getODLoader">
+                    <vs-table striped>
+                      <template #thead>
+                        <vs-tr>
+                          <vs-th></vs-th>
+                          <vs-th></vs-th>
+                          <vs-th></vs-th>
+                          <vs-th>Nama Produk</vs-th>
+                          <vs-th>Harga</vs-th>
+                          <vs-th>Jumlah</vs-th>
+                        </vs-tr>
+                      </template>
+                      <template #tbody>
+                        <vs-tr
+                          :key="i"
+                          v-for="(el, i) in getODs.data"
+                          :data="el"
+                        >
+                          <vs-td></vs-td>
+                          <vs-td>
+                            <img v-if="el.nama_thumbnail" :src="api_url+'/storage/THUBNAILPRODUK/'+el.nama_thumbnail" width="400" alt="">
+                            <img v-else src="../../assets/img/404.png" width="400" alt="" />
+                          </vs-td>
+                          <vs-td></vs-td>
+                          <vs-td>{{ el.nama }}</vs-td>
+                          <vs-td>{{ el.harga }}</vs-td>
+                          <vs-td>{{ el.jumlah }}</vs-td>
+                        </vs-tr>
+                      </template>
+                      <template #footer>
+                        <vs-row>
+                          <vs-col w="4">
+                            <small>Total : Rp. {{ tr.total_harga }}</small>
+                          </vs-col>
+                          <vs-col w="8">
+
+                          </vs-col>
+                        </vs-row>
+                      </template>
+                    </vs-table>
+                  </el-card>
+                  <br>
+                  <label><b>Atas Nama :</b></label>
+                  <p>{{tr.atas_nama ? tr.atas_nama : "-"}}</p>
+                  <label><b>Nomor Rekening :</b></label>
+                  <p>{{tr.no_rek ? tr.no_rek : "-"}}</p>
+                  <label><b>Tanggal Bayar :</b></label>
+                  <p>{{formatDate(tr.tanggal_bayar) ? formatDate(tr.tanggal_bayar) : "-"}}</p>
+                  <label><b>Bukti Pembayaran :</b></label>
+                  <img v-if="tr.bukti_pembayaran" :src="api_url+'/storage/BUKTIPEMBAYARAN/'+tr.bukti_pembayaran" width="400" alt="">
+                </el-card>
               </template>
             </vs-tr>
+          </template>
+          <template #footer>
+            <vs-row>
+              <vs-col w="2">
+                <small>Total : {{ getOrders.total }} Data</small>
+              </vs-col>
+              <vs-col w="10">
+                <vs-pagination
+                  v-model="page"
+                  :length="Math.ceil(getOrders.total / table.max)"
+                />
+              </vs-col>
+            </vs-row>
           </template>
         </vs-table>
       </el-card>
     </div>
 
     <!-- Floating Button -->
-    <el-tooltip
+    <!-- <el-tooltip
       class="item"
       effect="dark"
       content="Tambah Kegiatan Baru"
@@ -94,7 +165,7 @@
       >
         <i class="el-icon-plus my-float"></i>
       </a>
-    </el-tooltip>
+    </el-tooltip> -->
     <!-- End floating button -->
 
     <vs-dialog
@@ -210,23 +281,22 @@ export default {
       user_id: "",
       form: {
         id: "",
-        uraian: "",
-        tanggal: "",
-        keterangan: "",
+
       },
       formDialog: false,
     };
   },
   mounted() {
     this.user_id = JSON.parse(JSON.stringify(this.$auth.user.id));
-    this.$store.dispatch("kegiatan/getAllPoktan", { user_id: this.user_id });
+    this.$store.dispatch("order/getCostumer", { user_id: this.user_id });
   },
   computed: {
-    ...mapGetters("kegiatan", ["getKegiatans", "getLoader"]),
+    ...mapGetters("order", ["getOrders", "getLoader"]),
+    ...mapGetters("orderdetail", ["getODs", "getODLoader"]),
   },
   methods: {
-    logTest(data) {
-      console.log(data);
+    getOrderDetail(id) {
+      this.$store.dispatch("orderdetail/getCostumer", { order_id: id });
     },
     resetForm() {
       this.form = {
@@ -235,6 +305,7 @@ export default {
         tanggal: "",
         keterangan: "",
       };
+      this.cart = "",
       this.isUpdate = false;
     },
     handleCurrentChange(val) {
@@ -334,8 +405,17 @@ export default {
       });
     },
     formatDate(date) {
-      return moment(date).format("DD MMMM YYYY");
+      if (date) {
+        return moment(date).format("DD MMMM YYYY");
+      }
+      return null
     },
+  },
+  watch: {
+    page(newValue, oldValue) {
+      this.$store.commit('order/setPage', newValue)
+      this.$store.dispatch('order/getCostumer', {user_id: this.user_id});
+    }
   },
 };
 </script>

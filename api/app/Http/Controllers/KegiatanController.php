@@ -33,8 +33,10 @@ class KegiatanController extends Controller
 
     public function lihatSemuaKegiatan(Request $request)
     {
+        $gapoktan = Gapoktan::where('user_id', $request->id)->first();
         return $this->getPaginate(
             Kegiatan::join('poktans', 'poktans.id', '=', 'kegiatans.poktan_id')
+            ->where('poktans.gapoktan_id', $gapoktan->id)
             ->select(DB::raw('kegiatans.*, poktans.nama as nama_poktan, kegiatans.id as id'))
             ->orderBy('kegiatans.id', 'DESC')
             , $request, [

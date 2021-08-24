@@ -19,7 +19,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '700c7210aa3a9f364b2874aa68c0b28db9d23950',
+    'reference' => '04a1bb0441223ffe5ea5c0ce51370ef85c8f264e',
     'name' => 'laravel/lumen',
   ),
   'versions' => 
@@ -32,6 +32,15 @@ private static $installed = array (
       array (
       ),
       'reference' => '4da0998ac2c2811c0e85090c5c66479f2f64d416',
+    ),
+    'barryvdh/laravel-debugbar' => 
+    array (
+      'pretty_version' => 'v3.6.2',
+      'version' => '3.6.2.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '70b89754913fd89fef16d0170a91dbc2a5cd633a',
     ),
     'barryvdh/laravel-dompdf' => 
     array (
@@ -425,6 +434,15 @@ private static $installed = array (
       ),
       'reference' => 'a1ae5a6b14e7fb7afb3f42a0d5095b7d08edf21f',
     ),
+    'illuminate/routing' => 
+    array (
+      'pretty_version' => 'v8.56.0',
+      'version' => '8.56.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'd70a3da4cb613edfe1c0fd4cf1bc06aea8e35e30',
+    ),
     'illuminate/session' => 
     array (
       'pretty_version' => 'v8.14.0',
@@ -502,7 +520,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '700c7210aa3a9f364b2874aa68c0b28db9d23950',
+      'reference' => '04a1bb0441223ffe5ea5c0ce51370ef85c8f264e',
     ),
     'laravel/lumen-framework' => 
     array (
@@ -584,6 +602,15 @@ private static $installed = array (
       array (
       ),
       'reference' => '9567d9c4c519fbe40de01dbd1e4469dbbb66f46a',
+    ),
+    'maximebf/debugbar' => 
+    array (
+      'pretty_version' => 'v1.17.1',
+      'version' => '1.17.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '0a3532556be0145603f8a9de23e76dc28eed7054',
     ),
     'mockery/mockery' => 
     array (
@@ -1152,6 +1179,15 @@ private static $installed = array (
       ),
       'reference' => '6cbebda22ffc0d4bb8fea0c1311c2ca54c4c8fa0',
     ),
+    'symfony/debug' => 
+    array (
+      'pretty_version' => 'v4.4.27',
+      'version' => '4.4.27.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '2f9160e92eb64c95da7368c867b663a8e34e980c',
+    ),
     'symfony/deprecation-contracts' => 
     array (
       'pretty_version' => 'v2.2.0',
@@ -1338,6 +1374,15 @@ private static $installed = array (
       array (
       ),
       'reference' => 'f00872c3f6804150d6a0f73b4151daab96248101',
+    ),
+    'symfony/routing' => 
+    array (
+      'pretty_version' => 'v5.3.4',
+      'version' => '5.3.4.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '0a35d2f57d73c46ab6d042ced783b81d09a624c4',
     ),
     'symfony/service-contracts' => 
     array (

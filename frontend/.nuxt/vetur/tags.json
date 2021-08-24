@@ -83,24 +83,6 @@
   "LazyUploadService": {
     "description": "Auto imported from D:/TA/App/frontend/components/UploadService.js"
   },
-  "ChartBar": {
-    "description": "Auto imported from D:/TA/App/frontend/components/chart/chart-bar.vue"
-  },
-  "LazyChartBar": {
-    "description": "Auto imported from D:/TA/App/frontend/components/chart/chart-bar.vue"
-  },
-  "ChartDoughnut": {
-    "description": "Auto imported from D:/TA/App/frontend/components/chart/chart-doughnut.vue"
-  },
-  "LazyChartDoughnut": {
-    "description": "Auto imported from D:/TA/App/frontend/components/chart/chart-doughnut.vue"
-  },
-  "ChartLine": {
-    "description": "Auto imported from D:/TA/App/frontend/components/chart/chart-line.vue"
-  },
-  "LazyChartLine": {
-    "description": "Auto imported from D:/TA/App/frontend/components/chart/chart-line.vue"
-  },
   "FooterAfsen": {
     "description": "Auto imported from D:/TA/App/frontend/components/LandingPage/FooterAfsen.vue"
   },
@@ -142,5 +124,23 @@
   },
   "LazyPartnerAfsen": {
     "description": "Auto imported from D:/TA/App/frontend/components/LandingPage/PartnerAfsen.vue"
+  },
+  "ChartBar": {
+    "description": "Auto imported from D:/TA/App/frontend/components/chart/chart-bar.vue"
+  },
+  "LazyChartBar": {
+    "description": "Auto imported from D:/TA/App/frontend/components/chart/chart-bar.vue"
+  },
+  "ChartDoughnut": {
+    "description": "Auto imported from D:/TA/App/frontend/components/chart/chart-doughnut.vue"
+  },
+  "LazyChartDoughnut": {
+    "description": "Auto imported from D:/TA/App/frontend/components/chart/chart-doughnut.vue"
+  },
+  "ChartLine": {
+    "description": "Auto imported from D:/TA/App/frontend/components/chart/chart-line.vue"
+  },
+  "LazyChartLine": {
+    "description": "Auto imported from D:/TA/App/frontend/components/chart/chart-line.vue"
   }
 }

@@ -42,7 +42,7 @@ export const  menu = () => {
             route: '/gapoktan/poktan/stok_lumbung'
           },
           {
-            text: "Kegiatan Poktan",
+            text: "Kegiatan",
             icon: 'el-icon-postcard',
             route: '/gapoktan/poktan/kegiatan'
           },

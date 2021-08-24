@@ -11,7 +11,17 @@
     <div class="container-fluid mt--5">
       <el-card v-loading="getLoader" style="margin-top: 60px">
         <div class="row" style="margin-bottom: 20px">
-          <div class="col-md-3 offset-md-9">
+          <div class="col-md-2">
+            <vs-button
+              success
+              style="float: right"
+              :loading="globalLoader"
+              gradient
+              @click="exportDialog = true; titleDialog = 'Export Data'"
+              >Download Excel
+            </vs-button>
+          </div>
+          <div class="col-md-3 offset-md-7">
             <el-input placeholder="Cari" v-model="search" size="mini">
               <i slot="prefix" class="el-input__icon el-icon-search"></i>
             </el-input>
@@ -226,6 +236,103 @@
         </div>
       </template>
     </vs-dialog>
+
+    <vs-dialog
+      v-model="exportDialog"
+      :width="$store.state.drawer.mode === 'mobile' ? '80%' : '60%'"
+      @close="resetForm()"
+    >
+      <template #header>
+        <h1 class="not-margin">
+          {{ titleDialog }}
+        </h1>
+      </template>
+      <div class="con-form">
+        <vs-row>
+          <vs-col
+            vs-type="flex"
+            vs-justify="center"
+            vs-align="center"
+            w="6"
+            style="padding: 5px"
+          >
+            <label>Dari Tanggal</label>
+            <vs-input
+              type="date"
+              v-model="form.tanggal_awal"
+            />
+          </vs-col>
+          <vs-col
+            vs-type="flex"
+            vs-justify="center"
+            vs-align="center"
+            w="6"
+            style="padding: 5px"
+          >
+            <label>Ke Tanggal</label>
+            <vs-input
+              type="date"
+              v-model="form.tanggal_akhir"
+            />
+          </vs-col>
+          <vs-col
+            vs-type="flex"
+            vs-justify="center"
+            vs-align="center"
+            w="6"
+            style="padding: 5px"
+          >
+            <label>Dari Tanggal</label>
+            <vs-select
+              placeholder="Dari Tanggal"
+              v-model="form.state"
+            >
+              <vs-option label="Tanggal Tandur" value="1">
+                Tanggal Tandur
+              </vs-option>
+              <vs-option label="Tanggal Panen" value="2">
+                Tanggal Panen
+              </vs-option>
+            </vs-select>
+          </vs-col>
+        </vs-row>
+      </div>
+
+      <template #footer>
+        <div class="footer-dialog">
+          <vs-row>
+            <vs-col w="6" style="padding: 5px">
+              <vs-button
+                block
+                :loading="btnLoader"
+                @click="onSubmit('update')"
+                v-if="isUpdate"
+                >Update</vs-button
+              >
+              <vs-button
+                block
+                :loading="btnLoader"
+                @click="exportData()"
+                v-else
+                >Export</vs-button
+              >
+            </vs-col>
+            <vs-col w="6" style="padding: 5px">
+              <vs-button
+                block
+                border
+                @click="
+                  exportDialog = false;
+                  resetForm();
+                "
+                >Batal</vs-button
+              >
+            </vs-col>
+          </vs-row>
+          <div>&nbsp;</div>
+        </div>
+      </template>
+    </vs-dialog>
   </div>
 </template>
 
@@ -246,6 +353,7 @@ export default {
       titleDialog: "",
       isUpdate: false,
       btnLoader: false,
+      user_id: "",
       form: {
         id: "",
         tanaman: "",
@@ -253,12 +361,17 @@ export default {
         tanggal_tandur: "",
         tanggal_panen: "",
         poktan_id: "",
+        state: "",
+        tanggal_awal: "",
+        tanggal_akhir: "",
       },
       formDialog: false,
+      exportDialog: false,
     };
   },
   mounted() {
-    this.$store.dispatch("tandur/getAll", {});
+    this.user_id = JSON.parse(JSON.stringify(this.$auth.user.id))
+    this.$store.dispatch("tandur/getAll", {user_id: this.user_id});
     this.$store.dispatch("option/getPoktans", {});
   },
   computed: {
@@ -269,6 +382,27 @@ export default {
     logTest(data) {
       console.log(data);
     },
+    exportData(type = 'excel'){
+      this.btnLoader = true;
+      let as = 'excel'
+      if (type == 'pdf') {
+        as = 'pdf'
+      }
+      this.$axios.get(`/export_tandur_gapoktan?user_id=${this.user_id}&tanggal_awal=${this.form.tanggal_awal}&tanggal_akhir=${this.form.tanggal_akhir}&state=${this.form.state}&as=${as}`, {
+        responseType: 'blob'
+      }).then((response) => {
+        const link = document.createElement('a');
+        link.href = window.URL.createObjectURL(
+          new Blob([response.data])
+        );
+        link.setAttribute('download', 'laporan_'+this.state ? 'tandur' : 'panen'+'_'+this.form.tanggal_awal+'-'+this.form.tanggal_akhir+'.xlsx');
+        document.body.appendChild(link);
+        link.click();
+        this.btnLoader = false;
+        this.exportDialog = false;
+        this.resetForm();
+      });
+    },
     resetForm() {
       this.form = {
         id: "",
@@ -277,12 +411,11 @@ export default {
         tanggal_tandur: "",
         tanggal_panen: "",
         poktan_id: "",
+        state: "",
+        tanggal_awal: "",
+        tanggal_akhir: "",
       };
       this.isUpdate = false;
-    },
-    handleCurrentChange(val) {
-      this.$store.commit("tandur/setPage", val);
-      this.$store.dispatch("tandur/getAll", {});
     },
     onSubmit(type = "store") {
       this.btnLoader = true;
@@ -309,7 +442,7 @@ export default {
             });
             this.resetForm();
             this.formDialog = false;
-            this.$store.dispatch("tandur/getAll", {});
+            this.$store.dispatch("tandur/getAll", {user_id: this.user_id});
           }
         })
         .finally(() => {
@@ -359,7 +492,7 @@ export default {
                   message: "Berhasil Menghapus Data",
                 });
                 this.shiftDialog = false;
-                this.$store.dispatch("tandur/getAll", { defaultPage: true });
+                this.$store.dispatch("tandur/getAll", { user_id: this.user_id, defaultPage: true });
               }
             })
             .finally(() => {
@@ -377,6 +510,12 @@ export default {
     formatDate(date) {
       return moment(date).format("DD MMMM YYYY");
     },
+  },
+  watch: {
+    page(newValue, oldValue) {
+      this.$store.commit('stoklumbung/setPage', newValue)
+      this.$store.dispatch('stoklumbung/getAll', {user_id: this.user_id});
+    }
   },
 };
 </script>

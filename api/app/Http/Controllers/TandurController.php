@@ -36,8 +36,10 @@ class TandurController extends Controller
 
     public function lihatSemuaTandur(Request $request)
     {
+        $gapoktan = Gapoktan::where('user_id', $request->user_id)->first();
         return $this->getPaginate(
             Tandur::join('poktans', 'poktans.id', '=', 'tandurs.poktan_id')
+            ->where('poktans.gapoktan_id', $gapoktan->id)
             ->select(DB::raw('tandurs.*, poktans.nama as nama_poktan, tandurs.id as id'))
             ->orderBy('tandurs.id', 'DESC')
             , $request, [

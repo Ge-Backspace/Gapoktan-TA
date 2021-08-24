@@ -40,10 +40,10 @@ export const actions = {
           context.commit('setLoader')
       })
   },
-  getAll(context, {showall = 1, search = '', defaultPage = false}){
+  getAll(context, { user_id, showall = 1, search = '', defaultPage = false}){
     context.commit('setLoader')
     let page = defaultPage ? 1 : context.state.stok_lumbung.current_page
-    this.$axios.get(`/lihat_semua_stok_lumbung?showall=${showall}&page=${page}&search=${search}`).then(resp => {
+    this.$axios.get(`/lihat_semua_stok_lumbung?user_id=${user_id}&showall=${showall}&page=${page}&search=${search}`).then(resp => {
         context.commit('setStokLumbungs', resp.data)
     }).catch(e => {
         console.log(e)

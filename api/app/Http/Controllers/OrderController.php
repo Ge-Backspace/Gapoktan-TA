@@ -33,6 +33,14 @@ class OrderController extends Controller
         $request, ['orders.kd_order']);
     }
 
+    public function lihatSemuaOrder(Request $request)
+    {
+        $data = Order::join('addresses', 'addresses.id', '=', 'orders.address_id')
+        ->select(DB::raw('orders.*, addresses.*, orders.id as id, addresses.nama as nama_alamat'))
+        ->orderBy('orders.id', 'DESC');
+        return $this->getPaginate( $data, $request, ['orders.kd_order']);
+    }
+
     public function lihatOrderGapoktan(Request $request)
     {
         $gapoktan = Gapoktan::where('user_id', $request->user_id)->first();
@@ -41,9 +49,13 @@ class OrderController extends Controller
         }
         $data = OrderDetail::join('produks', 'produks.id', '=', 'order_details.produk_id')
         ->join('orders', 'orders.id', '=', 'order_details.order_id')
+        ->join('addresses', 'addresses.id', '=', 'orders.address_id')
         ->leftJoin('thubnail_produks', 'thubnail_produks.produk_id', '=', 'produks.id')
         ->where('produks.gapoktan_id', $gapoktan->id)
-        ->select(DB::raw('order_details.*, orders.*, produks.*, order_details.id as id, thubnail_produks.nama as nama_thumbnail, produks.nama as nama_produk'))
+        ->where('orders.status_order', 3)
+        ->orWhere('orders.status_order', 2)
+        ->orWhere('orders.status_order', 1)
+        ->select(DB::raw('order_details.*, addresses.*, orders.*, produks.*, order_details.id as id, addresses.nama as nama_alamat, thubnail_produks.nama as nama_thumbnail, produks.nama as nama_produk'))
         ->orderBy('order_details.id', 'DESC');
         return $this->getPaginate($data, $request, []);
     }
@@ -132,6 +144,32 @@ class OrderController extends Controller
             'tanggal_bayar' => $input['tanggal_bayar'],
             'bukti_pembayaran' => $file ? $fileName : null,
         ]);
+    }
+
+    public function ubahStatusOrder(Request $request, $id)
+    {
+        $order = Order::find($id);
+        if (!$order) {
+            return $this->resp(null, Variable::NOT_FOUND, false, 406);
+        }
+        $input = $request->only([
+            'status_order'
+        ]);
+        $validator = Validator::make($input, [
+            'status_order' => 'required|numeric',
+        ], Helper::messageValidation());
+        if ($validator->fails()) {
+            return $this->resp(Helper::generateErrorMsg($validator->errors()->getMessages()), Variable::FAILED, false, 406);
+        }
+        if ($input['status_order'] == 3) {
+            $od = OrderDetail::where('order_id', $order->id)->get();
+            foreach ($od as $i => $v) {
+                $produk = Produk::find($v->produk_id);
+                $produk->update(['stok' => $produk->stok - $v->jumlah]);
+            }
+        }
+        $order->update(['status_order' => $input['status_order']]);
+        return $this->resp($order);
     }
 
     public function hapusOrder($id)

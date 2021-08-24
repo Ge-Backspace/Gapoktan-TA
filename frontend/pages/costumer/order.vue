@@ -24,7 +24,7 @@
               <vs-th>Kode Order</vs-th>
               <vs-th>Total harga</vs-th>
               <vs-th>Status Pembayaran</vs-th>
-              <vs-th>Order</vs-th>
+              <vs-th>Status Order</vs-th>
             </vs-tr>
           </template>
           <template #tbody>

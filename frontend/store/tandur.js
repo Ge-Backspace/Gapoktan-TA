@@ -40,10 +40,10 @@ export const actions = {
           context.commit('setLoader')
       })
   },
-  getAll(context, {showall = 1, search = '', defaultPage = false}){
+  getAll(context, { user_id, showall = 1, search = '', defaultPage = false}){
     context.commit('setLoader')
     let page = defaultPage ? 1 : context.state.tandur.current_page
-    this.$axios.get(`/lihat_semua_tandur?showall=${showall}&page=${page}&search=${search}`).then(resp => {
+    this.$axios.get(`/lihat_semua_tandur?user_id=${user_id}&showall=${showall}&page=${page}&search=${search}`).then(resp => {
         context.commit('setTandurs', resp.data)
     }).catch(e => {
         console.log(e)

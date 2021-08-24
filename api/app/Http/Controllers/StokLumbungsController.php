@@ -36,8 +36,10 @@ class StokLumbungsController extends Controller
 
     public function lihatSemuaStokLumbung(Request $request)
     {
+        $gapoktan = Gapoktan::where('user_id', $request->user_id)->first();
         return $this->getPaginate(
             StokLumbung::join('poktans', 'poktans.id', '=', 'stok_lumbungs.poktan_id')
+            ->where('poktans.gapoktan_id', $gapoktan->id)
             ->select(DB::raw('stok_lumbungs.*, poktans.nama as nama_poktan, stok_lumbungs.id as id'))
             ->orderBy('stok_lumbungs.id', 'DESC')
             , $request, [

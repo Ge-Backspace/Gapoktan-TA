@@ -16,7 +16,6 @@ const _489e95e1 = () => interopDefault(import('..\\pages\\admin\\order.vue' /* w
 const _099db8aa = () => interopDefault(import('..\\pages\\admin\\produk.vue' /* webpackChunkName: "pages/admin/produk" */))
 const _f4b33e60 = () => interopDefault(import('..\\pages\\costumer\\address.vue' /* webpackChunkName: "pages/costumer/address" */))
 const _499877f4 = () => interopDefault(import('..\\pages\\costumer\\cart.vue' /* webpackChunkName: "pages/costumer/cart" */))
-const _d2f7d2ec = () => interopDefault(import('..\\pages\\costumer\\komplen.vue' /* webpackChunkName: "pages/costumer/komplen" */))
 const _6fe55fac = () => interopDefault(import('..\\pages\\costumer\\order.vue' /* webpackChunkName: "pages/costumer/order" */))
 const _014cf58b = () => interopDefault(import('..\\pages\\gapoktan\\artikel.vue' /* webpackChunkName: "pages/gapoktan/artikel" */))
 const _aedd4bb0 = () => interopDefault(import('..\\pages\\gapoktan\\user_poktan.vue' /* webpackChunkName: "pages/gapoktan/user_poktan" */))
@@ -98,10 +97,6 @@ export const routerOptions = {
     path: "/costumer/cart",
     component: _499877f4,
     name: "costumer-cart"
-  }, {
-    path: "/costumer/komplen",
-    component: _d2f7d2ec,
-    name: "costumer-komplen"
   }, {
     path: "/costumer/order",
     component: _6fe55fac,

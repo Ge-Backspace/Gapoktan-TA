@@ -43,10 +43,10 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
                   <!-- <router-link to="/profile"> -->
-                    <a class="dropdown-item text-primary" @click="$router.push('/profile')" style="cursor:pointer">
+                    <!-- <a class="dropdown-item text-primary" @click="$router.push('/profile')" style="cursor:pointer">
                       <i class="ni ni-single-02"></i>
                       <span>Profile</span>
-                    </a>
+                    </a> -->
                   <!-- </router-link> -->
                   <a class="dropdown-item text-primary" @click="logout()" style="cursor:pointer">
                     <i class="ni ni-user-run"></i>

@@ -19,6 +19,7 @@ class CreateAddressesTable extends Migration
             $table->string('nama');
             $table->string('nomor_hp');
             $table->string('alamat');
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('costumer_id')->references('id')->on('costumers');

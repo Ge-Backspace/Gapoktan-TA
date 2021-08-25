@@ -331,6 +331,9 @@ export default {
         }
       });
     },
+    formatDate(date) {
+      return moment(date).format("DD MMMM YYYY");
+    },
   },
   watch: {
     page(newValue, oldValue) {

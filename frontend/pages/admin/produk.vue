@@ -204,9 +204,7 @@ import { config } from "../../global.config";
           });
         })
         .finally(() => {
-          this.$store.dispatch("produk/getAdmin", {
-            company_id: this.company_id,
-          });
+          this.$store.dispatch("produk/getAdmin", {});
         });
       }
     },

@@ -23,7 +23,7 @@
               <vs-th>Action</vs-th>
               <vs-th>Komoditas</vs-th>
               <vs-th>Jumlah</vs-th>
-              <vs-th>Tahun Baper</vs-th>
+              <vs-th>Tahun Banper</vs-th>
               <vs-th>Tanggal Lapor</vs-th>
             </vs-tr>
           </template>

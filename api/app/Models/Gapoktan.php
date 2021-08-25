@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Gapoktan extends Model
 {
     protected $fillable = [
-        'user_id', 'foto_id', 'nama', 'ketua', 'kota', 'alamat'
+        'user_id', 'foto_id', 'nama', 'ketua', 'kota', 'alamat', 'nomer_hp'
     ];
 
     public function user()

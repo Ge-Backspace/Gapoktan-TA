@@ -84,13 +84,6 @@
     "_name": "_499877f4"
   },
   {
-    "name": "costumer-komplen",
-    "path": "/costumer/komplen",
-    "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\costumer\\\\komplen.vue",
-    "chunkName": "pages/costumer/komplen",
-    "_name": "_d2f7d2ec"
-  },
-  {
     "name": "costumer-order",
     "path": "/costumer/order",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\costumer\\\\order.vue",

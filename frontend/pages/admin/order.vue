@@ -113,7 +113,7 @@
                           </vs-td>
                           <vs-td></vs-td>
                           <vs-td>{{ el.nama }}</vs-td>
-                          <vs-td>{{ el.harga }}</vs-td>
+                          <vs-td>Rp. {{ el.harga }}</vs-td>
                           <vs-td>{{ el.jumlah }}</vs-td>
                         </vs-tr>
                       </template>
@@ -186,12 +186,12 @@
               <vs-option v-if="form.status < 1" label="Konfirmasi" value="1">
                 Konfirmasi
               </vs-option>
-              <!-- <vs-option v-if="form.status < 2" label="Dikemas" value="2">
+              <vs-option v-if="form.status < 2" label="Dikemas" value="2">
                 Dikemas
               </vs-option>
               <vs-option v-if="form.status < 3" label="Terkirim" value="3">
                 Terkirim
-              </vs-option> -->
+              </vs-option>
               <vs-option v-if="form.status < 4" label="Ditolak" value="4">
                 Ditolak
               </vs-option>

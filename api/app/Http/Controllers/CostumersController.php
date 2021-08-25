@@ -62,11 +62,12 @@ class CostumersController extends Controller
             return $this->resp(null, Variable::NOT_FOUND, false, 404);
         }
         $input = $request->only([
-            'email', 'nama', 'foto'
+            'nama', 'nomer_hp', 'aktif', 'foto'
         ]);
         $validator = Validator::make($input, [
             'nama' => 'required|string|min:4|max:100',
-            'email' => 'required',
+            'nomer_hp' => 'required',
+            'aktif' => 'required|boolean',
             'foto' => 'mimes:jpeg,png,jpg|max:2048'
         ], Helper::messageValidation());
         if ($validator->fails()) {
@@ -74,23 +75,17 @@ class CostumersController extends Controller
         }
         $user = User::find($costumer->user_id);
         $user->update([
-            'email' => $input['email'],
+            'aktif' => $input['aktif'],
         ]);
         $foto_id = null;
         if(!empty($request->foto)){
             $foto_id = $this->storeFile(new FotoProfil(), $request->foto, Variable::USER);
         }
-        if ($foto_id) {
-            $costumer->update([
-                'nama' => $input['nama'],
-                'foto_id' => $foto_id
-            ]);
-        } else {
-            $costumer->update([
-                'user_id' => $user->id,
-                'nama' => $input['nama'],
-            ]);
-        }
+        $costumer->update([
+            'nama' => $input['nama'],
+            'nomer_hp' => $input['nomer_hp'],
+            'foto_id' => $foto_id ? $foto_id : $costumer->foto_id,
+        ]);
         return $this->resp($costumer);
     }
 

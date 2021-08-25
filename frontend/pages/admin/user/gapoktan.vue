@@ -26,6 +26,8 @@
               <vs-th>Email</vs-th>
               <vs-th>Ketua</vs-th>
               <vs-th>Kota</vs-th>
+              <vs-th>Kontak</vs-th>
+              <vs-th>Aktif</vs-th>
             </vs-tr>
           </template>
           <template #tbody>
@@ -69,6 +71,11 @@
               <vs-td>{{ tr.email }}</vs-td>
               <vs-td>{{ tr.ketua }}</vs-td>
               <vs-td>{{ tr.kota }}</vs-td>
+              <vs-td>{{ tr.nomer_hp }}</vs-td>
+              <vs-td>
+                <span class="badge badge-success" v-if="tr.aktif">Aktif</span>
+                <span class="badge badge-warning" v-else>Non Aktif</span>
+              </vs-td>
             </vs-tr>
           </template>
           <template #footer>
@@ -121,7 +128,9 @@
         <vs-row>
           <vs-col vs-type="flex" vs-justify="center" vs-align="center" w="12" style="padding:5px">
             <label>Foto</label>
-            <el-upload :auto-upload="false" :on-change="handleChangeFile" list-type="picture-card" accept="image/*"
+            <el-upload :auto-upload="false"
+              action="https://jsonplaceholder.typicode.com/posts/"
+              :on-change="handleChangeFile" list-type="picture-card" accept="image/*"
               :file-list="files" :limit="1">
               <i class="el-icon-plus"></i>
             </el-upload>
@@ -191,6 +200,20 @@
             w="6"
             style="padding: 5px"
           >
+            <label>Kontak</label>
+            <vs-input
+              type="string"
+              v-model="form.nomer_hp"
+              placeholder="Masukkan Kontak ..."
+            ></vs-input>
+          </vs-col>
+          <vs-col
+            vs-type="flex"
+            vs-justify="center"
+            vs-align="center"
+            w="6"
+            style="padding: 5px"
+          >
             <label>Kota</label>
             <vs-select
               placeholder="Pilih Poktan"
@@ -206,6 +229,16 @@
                 Kota Cirebon
               </vs-option>
             </vs-select>
+          </vs-col>
+          <vs-col
+            vs-type="flex"
+            vs-justify="center"
+            vs-align="center"
+            w="6"
+            style="padding: 5px"
+          >
+            <label>Status</label>
+            <vs-switch style="width: 20px" v-model="form.aktif" />
           </vs-col>
           <vs-col
             vs-type="flex"
@@ -281,6 +314,7 @@ export default {
       titleDialog: "",
       isUpdate: false,
       btnLoader: false,
+      files: [],
       user_id: "",
       form: {
           id: "",
@@ -290,7 +324,9 @@ export default {
           ketua: "",
           kota: "",
           alamat: "",
+          nomer_hp: "",
           foto: "",
+          aktif: false,
         },
       formDialog: false,
     };
@@ -313,11 +349,13 @@ export default {
         nama: "",
         email: "",
         password: "",
+        nomer_hp: "",
         ketua: "",
         kota: "",
         alamat: "",
         foto: "",
       };
+      this.files = [];
       this.isUpdate = false;
     },
     handleChangeFile(file, fileList) {
@@ -329,7 +367,9 @@ export default {
       formData.append("nama", this.form.nama);
       formData.append("ketua", this.form.ketua);
       formData.append("email", this.form.email);
+      formData.append("nomer_hp", this.form.nomer_hp);
       formData.append("password", this.form.password);
+      formData.append("aktif", this.form.aktif == true ? 1 : 0);
       formData.append("kota", this.form.kota);
       formData.append("alamat", this.form.alamat);
       formData.append("foto", this.form.foto);
@@ -408,8 +448,10 @@ export default {
     edit(data) {
       this.form.id = data.id;
       this.form.nama = data.nama;
+      this.form.nomer_hp = data.nomer_hp;
       this.form.email = '';
       this.form.password = '';
+      this.form.aktif = data.aktif == 1 ? true : false;
       this.form.kota = data.kota;
       this.form.ketua = data.ketua;
       this.form.alamat = data.alamat;
@@ -456,6 +498,12 @@ export default {
     // formatDate(date) {
     //   return moment(date).format("DD MMMM YYYY");
     // },
+  },
+  watch: {
+    page(newValue, oldValue) {
+      this.$store.commit('user/setPage', newValue)
+      this.$store.dispatch("user/getAllUserGapoktan", {})
+    }
   },
 };
 </script>

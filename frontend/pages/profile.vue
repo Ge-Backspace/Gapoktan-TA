@@ -22,14 +22,14 @@
           </vs-button>
           <el-card style="margin-top: 20px">
             <div class="text-center">
-              <el-avatar
+              <!-- <el-avatar
                 size="large"
                 style="width: 100px; height: 100px"
                 :src="form.foto_url"
-              ></el-avatar>
+              ></el-avatar> -->
               <br />
-              <h3>{{ getEmployees.name }} ({{ form.nip }})</h3>
-              <span class="badge badge-primary">{{ form.jabatan }}</span>
+              <!-- <h3>{{ getEmployees.name }} ({{ form.nip }})</h3> -->
+              <!-- <span class="badge badge-primary">{{ form.jabatan }}</span> -->
             </div>
             <div style="margin-top: 20px">
               <vs-table striped>
@@ -42,15 +42,15 @@
                 <template #tbody>
                   <vs-tr>
                     <vs-td><b>Email</b></vs-td>
-                    <vs-td>{{ form.email }}</vs-td>
+                    <!-- <vs-td>{{ form.email }}</vs-td> -->
                   </vs-tr>
                   <vs-tr>
                     <vs-td><b>No HP</b></vs-td>
-                    <vs-td>{{ form.no_hp }}</vs-td>
+                    <!-- <vs-td>{{ form.no_hp }}</vs-td> -->
                   </vs-tr>
                   <vs-tr>
                     <vs-td><b>NIP</b></vs-td>
-                    <vs-td>{{ form.no_hp }}</vs-td>
+                    <!-- <vs-td>{{ form.no_hp }}</vs-td> -->
                   </vs-tr>
                   <!-- <vs-tr>
                     <vs-td><b>Pemda Prov / Kab / Kota</b></vs-td>
@@ -333,7 +333,7 @@ export default {
       formData.append("password", this.form.password);
       formData.append("username", this.form.username);
       console.log(this.form)
-      
+
       if (type == "update") {
         url = `/user/${this.form.id}/update`;
       }
@@ -369,7 +369,7 @@ export default {
           }
         });
     },
-    
+
   },
   computed: {
     ...mapGetters("employee", [

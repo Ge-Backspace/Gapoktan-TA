@@ -26,7 +26,8 @@ class user extends Seeder
 
         Admin::create([
             'user_id' => $admin->id,
-            'nama' => 'Test Admin'
+            'nama' => 'Test Admin',
+            'nomer_hp' => '085723107475'
         ]);
 
         $gapoktan = ModelsUser::create([
@@ -40,7 +41,8 @@ class user extends Seeder
             'nama' => 'Test Gapoktan',
             'ketua' => 'Udin Satya',
             'kota' => 'Test Kota',
-            'alamat' => 'Test Alamat Gapoktan'
+            'alamat' => 'Test Alamat Gapoktan',
+            'nomer_hp' => '085723107475'
         ]);
 
         $poktan = ModelsUser::create([
@@ -55,7 +57,8 @@ class user extends Seeder
             'nama' => 'Test Poktan',
             'ketua' => 'Satya Udin',
             'kota' => 'Test Kota',
-            'alamat' => 'Test Alamat Poktan'
+            'alamat' => 'Test Alamat Poktan',
+            'nomer_hp' => '085723107475'
         ]);
 
         $costumer = ModelsUser::create([
@@ -66,7 +69,8 @@ class user extends Seeder
 
         Costumer::create([
             'user_id' => $costumer->id,
-            'nama' => 'Test Costumer'
+            'nama' => 'Test Costumer',
+            'nomer_hp' => '085723107475'
         ]);
     }
 }

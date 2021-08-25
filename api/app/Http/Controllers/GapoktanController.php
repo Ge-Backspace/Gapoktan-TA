@@ -22,7 +22,7 @@ class GapoktanController extends Controller
     {
         $data = Gapoktan::join('users', 'users.id', '=', 'gapoktans.user_id')
         ->leftJoin('foto_profils', 'gapoktans.foto_id', '=', 'foto_profils.id')
-        ->select(DB::raw('gapoktans.*, users.email  , gapoktans.id as id, foto_profils.nama as nama_foto'))
+        ->select(DB::raw('gapoktans.*, users.email, users.aktif , gapoktans.id as id, foto_profils.nama as nama_foto'))
         ->orderBy('gapoktans.id', 'DESC');
         return $this->getPaginate($data, $request, ['gapoktans.nama', 'gapoktans.ketua', 'gapoktans.kota', 'gapoktans.alamat', 'users.email']);
     }
@@ -30,13 +30,15 @@ class GapoktanController extends Controller
     public function tambahGapoktan(Request $request)
     {
         $input = $request->only([
-            'nama', 'email', 'password', 'ketua', 'kota', 'alamat', 'foto'
+            'nama', 'email', 'password', 'ketua', 'kota', 'aktif', 'alamat', 'foto', 'nomer_hp'
         ]);
         $validator = Validator::make($input, [
             'nama' => 'required|string',
             'email' => 'required',
             'password' => 'required',
             'ketua' => 'required',
+            'nomer_hp' => 'required',
+            'aktif' => 'required|boolean',
             'kota' => 'required',
             'alamat' => 'required',
             'foto' => 'mimes:jpeg,png,jpg|max:2048'
@@ -46,6 +48,7 @@ class GapoktanController extends Controller
         }
         $user = User::create([
             'email' => $input['email'],
+            'aktif' => $input['aktif'],
             'password' => app('hash')->make($input['password'])
         ]);
         $foto_id = null;
@@ -72,6 +75,7 @@ class GapoktanController extends Controller
             'user_id' => $user->id,
             'foto_id' => $foto_id,
             'nama' => $input['nama'],
+            'nomer_hp' => $input['nomer_hp'],
             'ketua' => $input['ketua'],
             'kota' => $input['kota'],
             'alamat' => $input['alamat']
@@ -86,22 +90,23 @@ class GapoktanController extends Controller
             return $this->resp(null, Variable::NOT_FOUND, false, 406);
         }
         $input = $request->only([
-            'nama', 'ketua', 'kota', 'alamat', 'foto'
+            'nama', 'ketua', 'kota', 'alamat', 'foto', 'aktif'
         ]);
         $validator = Validator::make($input, [
             'nama' => 'required|string',
             'ketua' => 'required',
             'kota' => 'required',
             'alamat' => 'required',
+            'aktif' => 'required|boolean',
             'foto' => 'mimes:jpeg,png,jpg|max:2048'
         ], Helper::messageValidation());
         if ($validator->fails()) {
             return $this->resp(Helper::generateErrorMsg($validator->errors()->getMessages()), Variable::FAILED, false, 406);
         }
-        // $user = User::find($gapoktan->user_id);
-        // $user->update([
-        //     'email' => $input['email']
-        // ]);
+        $user = User::find($gapoktan->user_id);
+        $user->update([
+            'aktif' => $input['aktif']
+        ]);
         $foto_id = null;
         if(!empty($request->foto)){
             $foto_id = $this->storeFile(new FotoProfil(), $request->foto, Variable::USER, null, $gapoktan->foto_id);

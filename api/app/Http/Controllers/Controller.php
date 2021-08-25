@@ -225,6 +225,7 @@ class Controller extends BaseController
                 ThubnailProduk::find($gambarProduk->id)->delete();
             }
             $dataFile = $model->create($newFile);
+            $file->move($basePath, $fileName);
             return $dataFile->id;
         } elseif ($foto_id) {
             $newFile = [

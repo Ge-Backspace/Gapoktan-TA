@@ -141,7 +141,7 @@
             w="12"
             style="padding: 5px"
           >
-            <label>Alamat Lengkap</label>
+            <label>Alamat Lengkap (Beserta Kode Pos)</label>
             <el-input
               type="textarea"
               :rows="2"

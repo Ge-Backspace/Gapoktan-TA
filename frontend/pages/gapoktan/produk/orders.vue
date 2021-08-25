@@ -151,7 +151,7 @@
               placeholder="Status Order"
               v-model="statusOrder"
             >
-              <vs-option v-if="form.status < 1" label="Konfirmasi" value="1">
+              <!-- <vs-option v-if="form.status < 1" label="Konfirmasi" value="1">
                 Konfirmasi
               </vs-option>
               <vs-option v-if="form.status < 2" label="Dikemas" value="2">
@@ -159,7 +159,7 @@
               </vs-option>
               <vs-option v-if="form.status < 3" label="Terkirim" value="3">
                 Terkirim
-              </vs-option>
+              </vs-option> -->
               <vs-option v-if="form.status < 4" label="Ditolak" value="4">
                 Ditolak
               </vs-option>

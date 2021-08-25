@@ -99,14 +99,14 @@
     <el-tooltip
       class="item"
       effect="dark"
-      content="Tambah Admin Baru"
+      content="Tambah Costumer Baru"
       placement="top-start"
     >
       <a
         class="float"
         @click="
           formDialog = true;
-          titleDialog = 'Tambah Admin Baru';
+          titleDialog = 'Tambah Costumer Baru';
         "
       >
         <i class="el-icon-plus my-float"></i>
@@ -369,7 +369,7 @@ export default {
       }).then((result) => {
         if (result.isConfirmed) {
           this.$axios
-            .delete(`/hapus_admin/${id}`)
+            .delete(`/hapus_costumer/${id}`)
             .then((resp) => {
               if (resp.data.success) {
                 this.$notify.success({

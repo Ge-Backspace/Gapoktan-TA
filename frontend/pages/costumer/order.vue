@@ -32,7 +32,7 @@
               :key="i"
               v-for="(tr, i) in $vs.getSearch(getOrders.data, search)"
               :data="tr"
-              @click="getOrderDetail(tr.id)"
+              @click="getOrderDetail(tr.id); setId(tr.id)"
             >
               <vs-td>
                 <el-tooltip content="Edit" placement="top-start" effect="dark">
@@ -129,6 +129,16 @@
                   <label><b>Bukti Pembayaran :</b></label>
                   <img v-if="tr.bukti_pembayaran" :src="api_url+'/storage/BUKTIPEMBAYARAN/'+tr.bukti_pembayaran" width="400" alt="">
                 </el-card>
+                <hr>
+                <div>
+                  <vs-button
+                    relief
+                    :active="active == 1"
+                    @click="gambarDialog = true; titleDialog = 'Upload Bukti Pembayaran';"
+                  >
+                    Tambah Gambar Produk
+                  </vs-button>
+                </div>
               </template>
             </vs-tr>
           </template>
@@ -258,6 +268,98 @@
         </div>
       </template>
     </vs-dialog>
+
+    <vs-dialog
+      v-model="gambarDialog"
+      :width="$store.state.drawer.mode === 'mobile' ? '80%' : '60%'"
+      @close="resetForm()"
+    >
+      <template #header>
+        <h1 class="not-margin">
+          {{ titleDialog }}
+        </h1>
+      </template>
+      <div class="con-form">
+        <vs-row>
+          <vs-col vs-type="flex" vs-justify="center" vs-align="center" w="12" style="padding:5px">
+            <el-upload
+              multiple
+              list-type="picture-card"
+              :on-change="handleChangeGambars"
+              :file-list="fileList"
+              :auto-upload="false"
+              >
+              <i class="el-icon-plus"></i>
+            </el-upload>
+          </vs-col>
+          <vs-col
+            vs-type="flex"
+            vs-justify="center"
+            vs-align="center"
+            w="6"
+            style="padding: 5px"
+          >
+            <label>Atas Nama</label>
+            <vs-input
+              type="text"
+              v-model="form.atas_nama"
+              placeholder="Masukkan Atas Nama ..."
+            ></vs-input>
+          </vs-col>
+          <vs-col
+            vs-type="flex"
+            vs-justify="center"
+            vs-align="center"
+            w="6"
+            style="padding: 5px"
+          >
+            <label>Nomer Rekening</label>
+            <vs-input
+              type="text"
+              v-model="form.no_rek"
+              placeholder="Masukkan Atas Nama ..."
+            ></vs-input>
+          </vs-col>
+          <vs-col
+            vs-type="flex"
+            vs-justify="center"
+            vs-align="center"
+            w="6"
+            style="padding: 5px"
+          >
+            <label>Tanggal Bayar</label>
+            <vs-input type="date" v-model="form.tanggal_bayar" />
+          </vs-col>
+        </vs-row>
+      </div>
+
+      <template #footer>
+        <div class="footer-dialog">
+          <vs-row>
+            <vs-col w="6" style="padding: 5px">
+              <vs-button
+                block
+                :loading="btnLoader"
+                @click="onSubmitGambar()"
+                >Simpan</vs-button
+              >
+            </vs-col>
+            <vs-col w="6" style="padding: 5px">
+              <vs-button
+                block
+                border
+                @click="
+                  gambarDialog = false;
+                  resetForm();
+                "
+                >Batal</vs-button
+              >
+            </vs-col>
+          </vs-row>
+          <div>&nbsp;</div>
+        </div>
+      </template>
+    </vs-dialog>
   </div>
 </template>
 
@@ -277,11 +379,15 @@ export default {
       search: "",
       titleDialog: "",
       isUpdate: false,
+      fileList: [],
       btnLoader: false,
+      gambarDialog: false,
       user_id: "",
       form: {
         id: "",
-
+        atas_nama: "",
+        no_rek: "",
+        tanggal_bayar: "",
       },
       formDialog: false,
     };
@@ -297,6 +403,9 @@ export default {
   methods: {
     getOrderDetail(id) {
       this.$store.dispatch("orderdetail/getCostumer", { order_id: id });
+    },
+    setId(id) {
+      this.form.id = id
     },
     resetForm() {
       this.form = {

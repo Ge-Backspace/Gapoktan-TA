@@ -20,6 +20,7 @@ class CreateTandursTable extends Migration
             $table->integer('luas_tandur');
             $table->date('tanggal_tandur');
             $table->date('tanggal_panen');
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('poktan_id')->references('id')->on('poktans');

@@ -26,6 +26,7 @@ class CreateOrdersTable extends Migration
             $table->string('no_rek')->nullable();
             $table->string('bukti_pembayaran')->nullable();
             $table->integer('status_order')->default(0);
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('costumer_id')->references('id')->on('costumers');

@@ -24,6 +24,7 @@ class CreateProduksTable extends Migration
             $table->integer('harga');
             $table->text('deskripsi');
             $table->integer('status')->default(0);
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('gapoktan_id')->references('id')->on('gapoktans');

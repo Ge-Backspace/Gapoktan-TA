@@ -157,6 +157,11 @@
           </template>
         </vs-table>
       </el-card>
+      <el-card v-loading="getLoader" style="margin-top: 60px">
+        <div class="row" style="margin-bottom: 20px">
+          <label><b>* Pembayaran Ke Rekening</b> : <br/>-  BNI 8769765809753444 <br/>- BRI 6759765466768091 <b><br/>* Setelah melakukan pembayaran segera upload bukti pembayaran anda</b></label>
+        </div>
+      </el-card>
     </div>
 
     <!-- Floating Button -->

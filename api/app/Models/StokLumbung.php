@@ -7,11 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 class StokLumbung extends Model
 {
     protected $fillable = [
-        'poktan_id', 'tahun_banper', 'tanggal_lapor', 'komoditas', 'jumlah'
+        'tandur_id', 'tahun_banper', 'tanggal_lapor', 'komoditas', 'jumlah'
     ];
 
-    public function poktan()
+    public function tandur()
     {
-        return $this->belongsTo('App/Models/Poktan');
+        return $this->belongsTo('App/Models/Tandur');
     }
 }

@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Exports\ExportStokLumbungPoktan;
 use App\Exports\ExportStokLumbungGapoktan;
 use App\Models\Gapoktan;
+use App\Models\Tandur;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -19,30 +20,27 @@ class StokLumbungsController extends Controller
 {
     public function lihatStokLumbung(Request $request)
     {
-        $state = false;
-        if ($request->user_id) {
-            $poktan = Poktan::where('user_id', $request->user_id)->first();
-            if(!$poktan) {
-                return $this->resp(null, Variable::NOT_FOUND, false, 406);
-            }
-            $state = true;
+        $poktan = Poktan::where('user_id', $request->user_id)->first();
+        if ($poktan) {
+            $data = StokLumbung::join('tandurs', 'tandurs.id', '=', 'stok_lumbungs.tandur_id')
+            ->select(DB::raw('stok_lumbungs.*, tandurs.*, stok_lumbungs.id as id'))
+            ->orderBy('stok_lumbungs.id', 'DESC');
+            return $this->getPaginate($data, $request, ['stok_lumbungs.komoditas', 'stok_lumbungs.tahun_banper', 'stok_lumbungs.tanggal_lapor', 'stok_lumbungs.komoditas', 'stok_lumbungs.jumlah']);
+        } else {
+            return $this->resp(null, Variable::NOT_FOUND, false, 406);
         }
-        $data = StokLumbung::where('poktan_id', $state ? $poktan->id : $request->poktan_id)
-        ->join('poktans', 'poktans.id', '=', 'stok_lumbungs.poktan_id')
-        ->select(DB::raw('stok_lumbungs.*, poktans.*, poktans.nama as pengisi, stok_lumbungs.id as id'))
-        ->orderBy('stok_lumbungs.id', 'DESC');
-        return $this->getPaginate($data, $request, ['stok_lumbungs.tahun_banper', 'stok_lumbungs.tanggal_lapor', 'stok_lumbungs.komoditas', 'stok_lumbungs.jumlah']);
+
     }
 
     public function lihatSemuaStokLumbung(Request $request)
     {
         $gapoktan = Gapoktan::where('user_id', $request->user_id)->first();
-        return $this->getPaginate(
-            StokLumbung::join('poktans', 'poktans.id', '=', 'stok_lumbungs.poktan_id')
-            ->where('poktans.gapoktan_id', $gapoktan->id)
-            ->select(DB::raw('stok_lumbungs.*, poktans.nama as nama_poktan, stok_lumbungs.id as id'))
-            ->orderBy('stok_lumbungs.id', 'DESC')
-            , $request, [
+        $data = StokLumbung::join('tandurs', 'tandurs.id', '=', 'stok_lumbungs.tandur_id')
+        ->join('poktans', 'poktans.id', '=', 'tandurs.poktan_id')
+        ->where('poktans.gapoktan_id', $gapoktan->id)
+        ->select(DB::raw('stok_lumbungs.*, tandurs.*, poktans.nama as nama_poktan, stok_lumbungs.id as id'))
+        ->orderBy('stok_lumbungs.id', 'DESC');
+        return $this->getPaginate($data, $gapoktan, [
             'stok_lumbungs.tahun_banper',
             'stok_lumbungs.tanggal_lapor',
             'stok_lumbungs.komoditas',
@@ -53,9 +51,9 @@ class StokLumbungsController extends Controller
 
     public function tambahStokLumbung(Request $request)
     {
-        $input = $request->only(['poktan_id', 'tahun_banper', 'tanggal_lapor', 'komoditas', 'jumlah']);
+        $input = $request->only(['tandur_id', 'tahun_banper', 'tanggal_lapor', 'komoditas', 'jumlah']);
         $validator = Validator::make($input, [
-            'poktan_id' => 'numeric',
+            'tandur_id' => 'required|numeric',
             'tanggal_lapor' => 'required|date',
             'tahun_banper' => 'required',
             'jumlah' => 'required|numeric',
@@ -64,26 +62,20 @@ class StokLumbungsController extends Controller
         if ($validator->fails()) {
             return $this->resp(Helper::generateErrorMsg($validator->errors()->getMessages()), Variable::FAILED, false, 406);
         }
-        $state = false;
-        if ($request->user_id) {
-            $poktan = Poktan::where('user_id', $request->user_id)->first();
-            if(!$poktan) {
-                return $this->resp(null, Variable::NOT_FOUND, false, 406);
-            }
-            $state = true;
-        }
-        $dataPoktan = Poktan::find($state ? $poktan->id : $input['poktan_id']);
-        if (!$dataPoktan) {
-            return $this->resp(null, Variable::NOT_FOUND, false, 406);
-        } else {
+        $tandur = Tandur::find($input['tandur_id']);
+        $now = Carbon::now();
+        $tanggal_panen = Carbon::parse($tandur->tanggal_panen);
+        if ($tanggal_panen <= $now) {
             $add = StokLumbung::create([
-                'poktan_id' => $state ? $poktan->id : $input['poktan_id'],
-                'tahun_banper' => $input['tahun_banper'],
-                'tanggal_lapor' => $input['tanggal_lapor'],
-                'komoditas' => $input['komoditas'],
-                'jumlah' => $input['jumlah']
+                'tandur_id' =>  $input['tandur_id'],
+                'tanggal_lapor' =>  $input['tanggal_lapor'],
+                'tahun_banper' =>  $input['tahun_banper'],
+                'jumlah' =>  $input['jumlah'],
+                'komoditas' =>  $input['komoditas'],
             ]);
             return $this->resp($add);
+        } else {
+            return $this->resp(null, "Tanggal yang berlaku belum melewati tanggal panen", false, 406);
         }
     }
 

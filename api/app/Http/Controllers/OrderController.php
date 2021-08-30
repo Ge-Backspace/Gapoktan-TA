@@ -62,6 +62,7 @@ class OrderController extends Controller
 
     public function tambahOrder(Request $request)
     {
+<<<<<<< HEAD
         $costumer = Costumer::where('user_id', $request->user_id)->first();
         if ($costumer) {
             $input = $request->only(['address_id', 'total_harga', 'deskripsi', 'cart']);
@@ -96,6 +97,44 @@ class OrderController extends Controller
             }
             OrderDetail::insert($inputOD);
             return $this->resp($order);
+=======
+        $state = false;
+        if ($request->user_id) {
+            $costumer = Costumer::where('user_id', $request->user_id)->first();
+            $state = true;
+        }
+        $input = $request->only([
+            'costumer_id',
+            'address_id',
+            'total_harga',
+            'deskripsi',
+            'orders'
+        ]);
+        $validator = Validator::make($input, [
+            'costumer_id' => 'numeric',
+            'address_id' => 'required',
+            'total_harga' => 'required|numeric',
+            'deskripsi' => 'required|string',
+            'orders' => 'required',
+        ], Helper::messageValidation());
+        if ($validator->fails()) {
+            return $this->resp(Helper::generateErrorMsg($validator->errors()->getMessages()), Variable::FAILED, false, 406);
+        }
+        $order = Order::create([
+            'costumer_id' => $state ? $costumer->id : $input['costumer_id'],
+            'address_id' => $input['address_id'],
+            'total_harga' => $input['total_harga'],
+            'deskripsi' => $input['deskripsi'],
+        ]);
+        $inputOrderDetail = [];
+        foreach ($request->orders as $key => $o) {
+            $input[] = [
+                'produk_id' => $o->produk_id,
+                'order_id'=> $order->id,
+                'jumlah' => $o->jumlah,
+                'harga' => $o->harga
+            ];
+>>>>>>> 871e9c5e2be22b47f103722052098e219844f158
         }
         return $this->resp(null, Variable::NOT_FOUND, false, 406);
     }

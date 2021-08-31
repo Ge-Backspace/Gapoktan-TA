@@ -63,9 +63,9 @@ class StokLumbungsController extends Controller
             return $this->resp(Helper::generateErrorMsg($validator->errors()->getMessages()), Variable::FAILED, false, 406);
         }
         $tandur = Tandur::find($input['tandur_id']);
-        $now = Carbon::now();
+        $tangga_lapor = Carbon::create($input['tanggal_lapor']);
         $tanggal_panen = Carbon::parse($tandur->tanggal_panen);
-        if ($tanggal_panen <= $now) {
+        if ($tanggal_panen <= $tangga_lapor) {
             $add = StokLumbung::create([
                 'tandur_id' =>  $input['tandur_id'],
                 'tanggal_lapor' =>  $input['tanggal_lapor'],
@@ -75,7 +75,7 @@ class StokLumbungsController extends Controller
             ]);
             return $this->resp($add);
         } else {
-            return $this->resp(null, "Tanggal yang berlaku belum melewati tanggal panen", false, 406);
+            return $this->resp(null, "Tanggal lapor belum melewati tanggal panen", false, 406);
         }
     }
 

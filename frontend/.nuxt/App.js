@@ -22,12 +22,13 @@ import _2d217e9e from '..\\layouts\\auth.vue'
 import _3e6d0c88 from '..\\layouts\\costumer.vue'
 import _6f6c098b from '..\\layouts\\default.vue'
 import _181dddb6 from '..\\layouts\\gapoktan.vue'
+import _7762aba2 from '..\\layouts\\guest.vue'
 import _f806d56a from '..\\layouts\\poktan.vue'
 import _2e8a6499 from '..\\layouts\\register.vue'
 import _82b6cdac from '..\\layouts\\superadmin.vue'
 import _2d2a8cc1 from '..\\layouts\\user.vue'
 
-const layouts = { "_admin": sanitizeComponent(_77068119),"_auth": sanitizeComponent(_2d217e9e),"_costumer": sanitizeComponent(_3e6d0c88),"_default": sanitizeComponent(_6f6c098b),"_gapoktan": sanitizeComponent(_181dddb6),"_poktan": sanitizeComponent(_f806d56a),"_register": sanitizeComponent(_2e8a6499),"_superadmin": sanitizeComponent(_82b6cdac),"_user": sanitizeComponent(_2d2a8cc1) }
+const layouts = { "_admin": sanitizeComponent(_77068119),"_auth": sanitizeComponent(_2d217e9e),"_costumer": sanitizeComponent(_3e6d0c88),"_default": sanitizeComponent(_6f6c098b),"_gapoktan": sanitizeComponent(_181dddb6),"_guest": sanitizeComponent(_7762aba2),"_poktan": sanitizeComponent(_f806d56a),"_register": sanitizeComponent(_2e8a6499),"_superadmin": sanitizeComponent(_82b6cdac),"_user": sanitizeComponent(_2d2a8cc1) }
 
 export default {
   render (h, props) {

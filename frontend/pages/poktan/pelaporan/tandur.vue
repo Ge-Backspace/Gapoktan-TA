@@ -34,6 +34,23 @@
               :data="tr"
             >
               <vs-td>
+                <el-tooltip content="Laporkan Stok Lumbung" placement="top-start" effect="dark">
+                  <el-button
+                    v-if="tr.stok_lumbung_id"
+                    size="mini"
+                    disabled
+                    type="primary"
+                    icon="el-icon-document"
+                  ></el-button>
+                  <el-button
+                    v-else
+                    size="mini"
+                    type="primary"
+                    @click="stok_lumbung(tr)"
+                    icon="el-icon-document"
+                  ></el-button>
+                </el-tooltip>
+
                 <el-tooltip content="Edit" placement="top-start" effect="dark">
                   <el-button
                     size="mini"
@@ -49,7 +66,7 @@
                 >
                   <el-button
                     size="mini"
-                    type="primary"
+                    type="danger"
                     @click="deleteData(tr.id)"
                     icon="fa fa-trash"
                   >
@@ -60,11 +77,6 @@
               <vs-td>{{ tr.luas_tandur }} Hektar</vs-td>
               <vs-td>{{ formatDate(tr.tanggal_tandur) }}</vs-td>
               <vs-td>{{ formatDate(tr.tanggal_panen) }}</vs-td>
-              <!-- <template #expand>
-                <div class="con-content">
-                  <p>Keterangan:<br />{{ tr.keterangan }}</p>
-                </div>
-              </template> -->
             </vs-tr>
           </template>
           <template #footer>
@@ -201,6 +213,161 @@
         </div>
       </template>
     </vs-dialog>
+
+    <vs-dialog
+      v-model="laporDialog"
+      :width="$store.state.drawer.mode === 'mobile' ? '80%' : '60%'"
+      @close="resetForm()"
+    >
+      <template #header>
+        <h1 class="not-margin">
+          {{ titleDialog }}
+        </h1>
+      </template>
+      <div class="con-form">
+        <vs-row>
+          <vs-col
+            vs-type="flex"
+            vs-justify="center"
+            vs-align="center"
+            w="6"
+            style="padding: 5px"
+          >
+            <label>Tanaman</label>
+            <p>{{form.tanaman}}</p>
+            <!-- <vs-input
+              type="text"
+              v-model="form.tanaman"
+              placeholder="Masukkan Tanaman ..."
+            ></vs-input> -->
+          </vs-col>
+          <vs-col
+            vs-type="flex"
+            vs-justify="center"
+            vs-align="center"
+            w="6"
+            style="padding: 5px"
+          >
+            <label>Luas Tandur (Hektar)</label>
+            <p>{{form.luas_tandur}}</p>
+            <!-- <vs-input
+              type="numer"
+              v-model="form.luas_tandur"
+              placeholder="Masukkan Luas ..."
+            ></vs-input> -->
+          </vs-col>
+          <vs-col
+            vs-type="flex"
+            vs-justify="center"
+            vs-align="center"
+            w="6"
+            style="padding: 5px"
+          >
+            <label>Tanggal Tandur</label>
+            <p>{{ formatDate(form.tanggal_tandur) }}</p>
+            <!-- <vs-input type="date" v-model="form.tanggal_tandur"/> -->
+          </vs-col>
+          <vs-col
+            vs-type="flex"
+            vs-justify="center"
+            vs-align="center"
+            w="6"
+            style="padding: 5px"
+          >
+            <label>Tanggal Panen</label>
+            <p>{{ formatDate(form.tanggal_panen) }}</p>
+            <!-- <vs-input type="date" v-model="form.tanggal_panen"/> -->
+          </vs-col>
+          <vs-col
+            vs-type="flex"
+            vs-justify="center"
+            vs-align="center"
+            w="6"
+            style="padding: 5px"
+          >
+            <label>Komoditas</label>
+            <vs-input
+              type="text"
+              v-model="form.komoditas"
+              placeholder="Masukkan Komoditas ..."
+            ></vs-input>
+          </vs-col>
+          <vs-col
+            vs-type="flex"
+            vs-justify="center"
+            vs-align="center"
+            w="6"
+            style="padding: 5px"
+          >
+            <label>Jumlah (Kilogram)</label>
+            <vs-input
+              type="numer"
+              v-model="form.jumlah"
+              placeholder="Masukkan Jumlah ..."
+            ></vs-input>
+          </vs-col>
+          <vs-col
+            vs-type="flex"
+            vs-justify="center"
+            vs-align="center"
+            w="6"
+            style="padding: 5px"
+          >
+            <label>Tanggal Lapor</label>
+            <vs-input type="date" v-model="form.tanggal_lapor"/>
+          </vs-col>
+          <vs-col
+            vs-type="flex"
+            vs-justify="center"
+            vs-align="center"
+            w="6"
+            style="padding: 5px"
+          >
+            <label>Tahun Banper</label>
+            <vs-select
+              placeholder="Pilih Poktan"
+              v-model="form.tahun_banper"
+            >
+              <vs-option
+                v-for="op in years"
+                :key="op.year"
+                :label="op.year"
+                :value="op.year"
+              >
+                {{ op.year }}
+              </vs-option>
+            </vs-select>
+          </vs-col>
+        </vs-row>
+      </div>
+
+      <template #footer>
+        <div class="footer-dialog">
+          <vs-row>
+            <vs-col w="6" style="padding: 5px">
+              <vs-button
+                block
+                :loading="btnLoader"
+                @click="onSubmitLapor()"
+                >Simpan</vs-button
+              >
+            </vs-col>
+            <vs-col w="6" style="padding: 5px">
+              <vs-button
+                block
+                border
+                @click="
+                  laporDialog = false;
+                  resetForm();
+                "
+                >Batal</vs-button
+              >
+            </vs-col>
+          </vs-row>
+          <div>&nbsp;</div>
+        </div>
+      </template>
+    </vs-dialog>
   </div>
 </template>
 
@@ -220,22 +387,35 @@ export default {
       search: "",
       titleDialog: "",
       isUpdate: false,
+      isStokLumbung: false,
       btnLoader: false,
       user_id: '',
       form: {
         id: "",
+        tandur_id: "",
         tanaman: "",
         luas_tandur: "",
         tanggal_tandur: "",
         tanggal_panen: "",
         poktan_id: "",
+        komoditas: "",
+        jumlah: "",
+        tahun_banper: "",
+        tanggal_lapor: "",
       },
       formDialog: false,
+      laporDialog: false,
+      years: []
     };
   },
   mounted() {
     this.user_id = JSON.parse(JSON.stringify(this.$auth.user.id))
     this.$store.dispatch("tandur/getAllPoktan", { user_id: this.user_id })
+    let y = [];
+    for (let index = 2019; index < 2031; index++) {
+      y.push({year: index})
+    }
+    this.years = y
   },
   computed: {
     ...mapGetters("tandur", ["getTandurs", "getLoader"])
@@ -253,10 +433,48 @@ export default {
         tanggal_panen: ""
       };
       this.isUpdate = false;
+      this.isStokLumbung = false;
     },
     handleCurrentChange(val) {
       this.$store.commit("tandur/setPage", val);
       this.$store.dispatch("tandur/getAllPoktan", { user_id: this.user_id });
+    },
+    onSubmitLapor() {
+      this.btnLoader = true;
+      let formData = new FormData();
+      formData.append("komoditas", this.form.komoditas);
+      formData.append("jumlah", this.form.jumlah);
+      formData.append("tahun_banper", this.form.tahun_banper);
+      formData.append("tanggal_lapor", this.form.tanggal_lapor);
+      formData.append("tandur_id", this.form.tandur_id);
+      let url = "/tambah_stok_lumbung";
+      this.$axios
+        .post(url, formData)
+        .then((resp) => {
+          if (resp.data.success) {
+            this.$notify.success({
+              title: "Success",
+              message: `Berhasil Menambahkan Stok Lumbung`,
+            });
+            this.resetForm();
+            this.laporDialog = false;
+            this.$store.dispatch("tandur/getAllPoktan", { user_id: this.user_id });
+          }
+        })
+        .finally(() => {
+          this.btnLoader = false;
+        })
+        .catch((err) => {
+          let error = err.response.data.data;
+          if (error) {
+            this.showErrorField(error);
+          } else {
+            this.$notify.error({
+              title: "Error",
+              message: err.response.data.message,
+            });
+          }
+        });
     },
     onSubmit(type = "store") {
       this.btnLoader = true;
@@ -300,6 +518,16 @@ export default {
             });
           }
         });
+    },
+    stok_lumbung(data) {
+      this.form.tandur_id = data.id;
+      this.form.tanaman = data.tanaman;
+      this.form.luas_tandur = data.luas_tandur;
+      this.form.tanggal_tandur = data.tanggal_tandur;
+      this.form.tanggal_panen = data.tanggal_panen;
+      this.laporDialog = true;
+      this.titleDialog = "Laporkan Stok Lumbung";
+      this.isStokLumbung = true;
     },
     edit(data) {
       this.form.id = data.id;
@@ -350,6 +578,12 @@ export default {
     formatDate(date) {
       return moment(date).format("DD MMMM YYYY");
     },
+  },
+  watch: {
+    page(newValue, oldValue) {
+      this.$store.commit('tandur/setPage', newValue)
+      this.$store.dispatch('tandur/getAllPoktan', {user_id: this.user_id});
+    }
   },
 };
 </script>

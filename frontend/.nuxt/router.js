@@ -7,6 +7,8 @@ import scrollBehavior from './router.scrollBehavior.js'
 const _2fd3d565 = () => interopDefault(import('..\\pages\\admin\\index.vue' /* webpackChunkName: "pages/admin/index" */))
 const _a17ae0a4 = () => interopDefault(import('..\\pages\\costumer\\index.vue' /* webpackChunkName: "pages/costumer/index" */))
 const _c473121e = () => interopDefault(import('..\\pages\\gapoktan\\index.vue' /* webpackChunkName: "pages/gapoktan/index" */))
+const _3daa2988 = () => interopDefault(import('..\\pages\\guest\\index.vue' /* webpackChunkName: "pages/guest/index" */))
+const _785ad9be = () => interopDefault(import('..\\pages\\home.vue' /* webpackChunkName: "pages/home" */))
 const _573690d2 = () => interopDefault(import('..\\pages\\login.vue' /* webpackChunkName: "pages/login" */))
 const _14e1220b = () => interopDefault(import('..\\pages\\poktan\\index.vue' /* webpackChunkName: "pages/poktan/index" */))
 const _49420457 = () => interopDefault(import('..\\pages\\profile.vue' /* webpackChunkName: "pages/profile" */))
@@ -61,6 +63,14 @@ export const routerOptions = {
     path: "/gapoktan",
     component: _c473121e,
     name: "gapoktan"
+  }, {
+    path: "/guest",
+    component: _3daa2988,
+    name: "guest"
+  }, {
+    path: "/home",
+    component: _785ad9be,
+    name: "home"
   }, {
     path: "/login",
     component: _573690d2,

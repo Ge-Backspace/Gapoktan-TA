@@ -18,6 +18,18 @@
     "chunkName": "pages/gapoktan/index"
   },
   {
+    "name": "guest",
+    "path": "/guest",
+    "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\guest\\\\index.vue",
+    "chunkName": "pages/guest/index"
+  },
+  {
+    "name": "home",
+    "path": "/home",
+    "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\home.vue",
+    "chunkName": "pages/home"
+  },
+  {
     "name": "login",
     "path": "/login",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\login.vue",

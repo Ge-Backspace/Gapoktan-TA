@@ -21,6 +21,9 @@
           <template #thead>
             <vs-tr>
               <vs-th>Action</vs-th>
+              <vs-th>Tanaman</vs-th>
+              <vs-th>Luas Tandur</vs-th>
+              <vs-th>Tanggal Panen</vs-th>
               <vs-th>Komoditas</vs-th>
               <vs-th>Jumlah</vs-th>
               <vs-th>Tahun Banper</vs-th>
@@ -57,6 +60,9 @@
                 </el-tooltip>
               </vs-td>
               <vs-td>{{ tr.komoditas }}</vs-td>
+              <vs-td>{{ tr.luas_tandur }}</vs-td>
+              <vs-td>{{ formatDate(tr.tanggal_panen) }}</vs-td>
+              <vs-td>{{ tr.tanaman }}</vs-td>
               <vs-td>{{ tr.jumlah }} Kg</vs-td>
               <vs-td>{{ formatYear(tr.tahun_banper) }}</vs-td>
               <vs-td>{{ formatDate(tr.tanggal_lapor) }}</vs-td>
@@ -80,7 +86,7 @@
     </div>
 
     <!-- Floating Button -->
-    <el-tooltip
+    <!-- <el-tooltip
       class="item"
       effect="dark"
       content="Tambah Stok Lumbung Baru"
@@ -95,7 +101,7 @@
       >
         <i class="el-icon-plus my-float"></i>
       </a>
-    </el-tooltip>
+    </el-tooltip> -->
     <!-- End floating button -->
 
     <vs-dialog
@@ -157,7 +163,7 @@
           >
             <label>Tahun Banper</label>
             <vs-select
-              placeholder="Pilih Poktan"
+              placeholder="Pilih Tahun Banper"
               v-model="form.tahun_banper"
             >
               <vs-option
@@ -170,29 +176,6 @@
               </vs-option>
             </vs-select>
           </vs-col>
-          <!-- <vs-col
-            vs-type="flex"
-            vs-justify="center"
-            vs-align="center"
-            w="6"
-            style="padding: 5px"
-          >
-            <label>Poktan</label>
-            <vs-select
-              filter
-              placeholder="Pilih Poktan"
-              v-model="form.poktan_id"
-            >
-              <vs-option
-                v-for="op in getOptionPoktans.data"
-                :key="op.id"
-                :label="op.nama"
-                :value="op.id"
-              >
-                {{ op.nama }}
-              </vs-option>
-            </vs-select>
-          </vs-col> -->
         </vs-row>
       </div>
 
@@ -235,6 +218,7 @@
 </template>
 
 <script>
+// import moment from "moment";
 import { mapMutations, mapGetters } from "vuex";
 import { config } from "../../../global.config";
 export default {
@@ -268,7 +252,7 @@ export default {
     this.$store.dispatch("stoklumbung/getAllPoktan", { user_id: this.user_id })
     // this.$store.dispatch("option/getPoktans", {})
     let y = [];
-    for (let index = 2000; index < 2031; index++) {
+    for (let index = 2019; index < 2031; index++) {
       y.push({year: index})
     }
     this.years = y

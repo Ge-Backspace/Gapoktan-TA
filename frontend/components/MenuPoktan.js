@@ -11,11 +11,6 @@ export const  menu = () => {
         icon: 'el-icon-document text-success',
         children: [
           {
-            text: "Stok Lumbung",
-            icon: 'el-icon-postcard',
-            route: '/poktan/pelaporan/stok_lumbung'
-          },
-          {
             text: "Kegiatan",
             icon: 'el-icon-postcard',
             route: '/poktan/pelaporan/kegiatan'
@@ -24,6 +19,11 @@ export const  menu = () => {
             text: "Tandur",
             icon: 'el-icon-postcard',
             route: '/poktan/pelaporan/tandur'
+          },
+          {
+            text: "Stok Lumbung",
+            icon: 'el-icon-postcard',
+            route: '/poktan/pelaporan/stok_lumbung'
           },
         ]
       },

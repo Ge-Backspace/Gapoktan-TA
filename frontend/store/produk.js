@@ -52,4 +52,16 @@ export const actions = {
         context.commit('setLoader')
     })
   },
+
+  getAllCostumer(context, {showall = 1, search = '', defaultPage = false}){
+    context.commit('setLoader')
+    let page = defaultPage ? 1 : context.state.produk.current_page
+    this.$axios.get(`/lihat_semua_produk_costumer?showall=${showall}&page=${page}&search=${search}`).then(resp => {
+        context.commit('setProduks', resp.data)
+    }).catch(e => {
+        console.log(e)
+    }).finally(() => {
+        context.commit('setLoader')
+    })
+  },
 }

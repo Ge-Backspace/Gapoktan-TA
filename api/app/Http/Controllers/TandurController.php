@@ -29,7 +29,8 @@ class TandurController extends Controller
         }
         $data = Tandur::where('poktan_id', $state ? $poktan->id : $request->poktan_id)
         ->join('poktans', 'poktans.id', '=', 'tandurs.poktan_id')
-        ->select(DB::raw('tandurs.*, poktans.*, poktans.nama as pengisi, tandurs.id as id'))
+        ->leftJoin('stok_lumbungs', 'stok_lumbungs.tandur_id', '=', 'tandurs.id')
+        ->select(DB::raw('tandurs.*, poktans.*, poktans.nama as pengisi, tandurs.id as id, stok_lumbungs.id as stok_lumbung_id'))
         ->orderBy('tandurs.id', 'DESC');
         return $this->getPaginate($data, $request, ['tandurs.tanaman', 'tandurs.luas_tandur', 'tandurs.tanggal_tandur', 'tandurs.tanggal_panen']);
     }

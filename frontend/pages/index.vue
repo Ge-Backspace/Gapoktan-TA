@@ -12,10 +12,6 @@
 <script>
 export default {
   mounted() {
-    this.$notify.success({
-      title: 'Berhasil Login',
-      message: 'Selamat Datang! :)'
-    });
     let user = JSON.parse(JSON.stringify(this.$auth.user))
     if (user) {
       console.log();
@@ -24,15 +20,19 @@ export default {
         console.log(resp.data.data);
         let account = resp.data.data
         if (account == 1) {
+          this.noticeLogin();
           this.$router.push('/admin/')
         } else if (account == 2) {
+          this.noticeLogin();
           this.$router.push('/gapoktan/')
         } else if (account == 3) {
+          this.noticeLogin();
           this.$router.push('/poktan/')
         } else if (account == 4) {
+          this.noticeLogin();
           this.$router.push('/costumer/')
         } else {
-          this.$router.push('/')
+          this.$router.push('/home')
         }
       })
       .catch((err) => {
@@ -47,7 +47,15 @@ export default {
         }
       })
     } else {
-      this.$router.push('/login')
+      this.$router.push('/home')
+    }
+  },
+  methods: {
+    noticeLogin() {
+      this.$notify.success({
+        title: 'Berhasil Login',
+        message: 'Selamat Datang! :)'
+      });
     }
   },
 };

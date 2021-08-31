@@ -8,7 +8,7 @@
             <div class="col-xl-12">
               <h1 class="mt-3 mb-0 text-sm">
                 <span class="text-nowrap" style="font-size: 40px; color:white"
-                  ><b>Hari yang bagus {{ getAccount.data.nama }} !</b>
+                  ><b>Hari yang bagus Mr.Guest!</b>
                 </span>
               </h1>
             </div>
@@ -28,8 +28,8 @@
             Produk yang Baru ditambahkan :
           </div>
         </div>
-        <vs-row style="justify-content: space-between; margin-top: 20px;">
-          <vs-col w="6"
+        <vs-row style="margin-top: 20px;">
+          <vs-col w="4"
             :key="i"
             v-for="(tr, i) in $vs.getSearch(getProduks.data, search)"
             :data="tr"
@@ -42,7 +42,7 @@
               </template>
               <template #img>
                 <img v-if="tr.nama_thumbnail" :src="api_url+'/storage/THUBNAILPRODUK/'+tr.nama_thumbnail" alt="" />
-                <img v-else src="../../assets/img/404.png" alt="" />
+                <img v-else src="../assets/img/404.png" alt="" />
               </template>
               <template #text>
                 <p>{{shortText(tr.deskripsi)}}</p>
@@ -58,7 +58,7 @@
               </template>
               <template #interactions>
                 <vs-tooltip>
-                  <vs-button @click="cartDetail(tr)" primary icon>
+                  <vs-button @click="$router.push('/login')" primary icon>
                     <i class="el-icon-shopping-cart-full"></i>
                   </vs-button>
                   <template #tooltip>
@@ -93,7 +93,7 @@
             style="padding: 5px"
           >
             <img v-if="form.nama_thumbnail" :src="api_url+'/storage/THUBNAILPRODUK/'+form.nama_thumbnail" width="400" alt="" />
-              <img v-else src="../../assets/img/404.png" width="400" alt="" />
+              <img v-else src="../assets/img/404.png" width="400" alt="" />
           </vs-col>
           <vs-col w="3"></vs-col>
           <vs-col
@@ -175,9 +175,9 @@
 
 <script>
   import { mapMutations, mapGetters } from "vuex";
-  import { config } from "../../global.config";
+  import { config } from "../global.config";
   export default {
-    layout: "costumer",
+    layout: "guest",
     data() {
       return {
         api_url: config.baseApiUrl,
@@ -199,8 +199,8 @@
       }
     },
     mounted () {
-      this.user_id = JSON.parse(JSON.stringify(this.$auth.user.id))
-      this.$store.dispatch("account/getUserAccount", { user_id: this.user_id });
+      // this.user_id = JSON.parse(JSON.stringify(this.$auth.user.id))
+      // this.$store.dispatch("account/getUserAccount", { user_id: this.user_id });
       this.$store.dispatch("produk/getAllCostumer", {});
     },
     computed: {

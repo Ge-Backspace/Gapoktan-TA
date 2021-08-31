@@ -10,12 +10,12 @@ export default async function ({ $auth, next }) {
         // Jika account gapoktan biarkan
       } else {
         // Akun bukan gapoktan, kembalikan ke index
-        next('/')
+        next('/home')
       }
     })
   } else {
     // User tidak ada, kembalikan ke index
-    next('/');
+    next('/home');
   }
 
 }

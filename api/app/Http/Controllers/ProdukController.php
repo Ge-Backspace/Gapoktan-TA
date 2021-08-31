@@ -55,6 +55,7 @@ class ProdukController extends Controller
     {
         $data = Produk::leftJoin('thubnail_produks', 'thubnail_produks.produk_id', '=', 'produks.id')
         ->leftJoin('gapoktans', 'gapoktans.id', '=', 'produks.gapoktan_id')
+        ->where('produks.status', 1)
         ->select(DB::raw('gapoktans.*, produks.*, produks.id as id, produks.nama as nama_produk, thubnail_produks.nama as nama_thumbnail, gapoktans.nama as nama_gapoktan'))
         ->orderBy('produks.id', 'DESC');
         return $this->getPaginate($data, $request, ['produks.nama']);

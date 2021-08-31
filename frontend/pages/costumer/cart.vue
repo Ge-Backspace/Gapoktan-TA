@@ -235,7 +235,7 @@
             w="12"
             style="padding: 5px"
           >
-            <label>Deskripsi / Catatan Order</label>
+            <label>Tambah Catatan Order</label>
             <el-input
               type="textarea"
               :rows="2"

@@ -10,12 +10,12 @@ export default async function ({ $auth, next }) {
         // Jika account admin biarkan
       } else {
         // Akun bukan admin, kembalikan ke index
-        next('/')
+        next('/home')
       }
     })
   } else {
     // User tidak ada, kembalikan ke index
-    next('/');
+    next('/home');
   }
 
 }

@@ -155,7 +155,7 @@
         <vs-row>
           <vs-col vs-type="flex" vs-justify="center" vs-align="center" w="12" style="padding:5px">
             <label>Foto Thumbnail Produk</label>
-            <el-upload :auto-upload="false" :on-change="handleChangeFile" list-type="picture-card" accept="image/*"
+            <el-upload :auto-upload="false" :on-change="handleChangeFile" action="https://jsonplaceholder.typicode.com/posts/" list-type="picture-card" accept="image/*"
               :file-list="fileList" :limit="1">
               <i class="el-icon-plus"></i>
             </el-upload>
@@ -308,6 +308,7 @@
           <vs-col vs-type="flex" vs-justify="center" vs-align="center" w="12" style="padding:5px">
             <el-upload
               multiple
+              action="https://jsonplaceholder.typicode.com/posts/"
               list-type="picture-card"
               :on-change="handleChangeGambars"
               :file-list="fileList"
@@ -533,15 +534,14 @@ import { config } from "../../../global.config";
         }).then((result) => {
           if (result.isConfirmed) {
             this.$axios
-              .delete(`/hapus_poktan/${id}`)
+              .delete(`/hapus_produk/${id}`)
               .then((resp) => {
                 if (resp.data.success) {
                   this.$notify.success({
                     title: "Success",
                     message: "Berhasil Menghapus Data",
                   });
-                  this.shiftDialog = false;
-                  this.$store.dispatch("user/getUserPoktan", { user_id: this.user_id });
+                  this.$store.dispatch("produk/getAll", { user_id: this.user_id });
                 }
               })
               .finally(() => {
@@ -559,6 +559,12 @@ import { config } from "../../../global.config";
       // formatDate(date) {
       //   return moment(date).format("DD MMMM YYYY");
       // },
+    },
+    watch: {
+      page(newValue, oldValue) {
+        this.$store.commit('produk/setPage', newValue)
+        this.$store.dispatch("produk/getAll", { user_id: this.user_id });
+      }
     },
   }
 </script>

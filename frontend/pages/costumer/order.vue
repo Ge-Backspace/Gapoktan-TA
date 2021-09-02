@@ -35,14 +35,6 @@
               @click="getOrderDetail(tr.id); setId(tr.id)"
             >
               <vs-td>
-                <el-tooltip content="Edit" placement="top-start" effect="dark">
-                  <el-button
-                    size="mini"
-                    @click="edit(tr)"
-                    icon="fa fa-edit"
-                  ></el-button>
-                </el-tooltip>
-
                 <el-tooltip
                   content="Delete"
                   placement="top-start"
@@ -58,7 +50,7 @@
                 </el-tooltip>
               </vs-td>
               <vs-td>{{ tr.kd_order }}</vs-td>
-              <vs-td>{{ tr.total_harga }}</vs-td>
+              <vs-td> RP. {{ tr.total_harga }}</vs-td>
               <vs-td>
                 <span class="badge badge-success" v-if="tr.status_payment"
                   >Sudah Upload</span
@@ -83,8 +75,6 @@
                       <template #thead>
                         <vs-tr>
                           <vs-th></vs-th>
-                          <vs-th></vs-th>
-                          <vs-th></vs-th>
                           <vs-th>Nama Produk</vs-th>
                           <vs-th>Harga</vs-th>
                           <vs-th>Jumlah</vs-th>
@@ -96,14 +86,12 @@
                           v-for="(el, i) in getODs.data"
                           :data="el"
                         >
-                          <vs-td></vs-td>
                           <vs-td>
-                            <img v-if="el.nama_thumbnail" :src="api_url+'/storage/THUBNAILPRODUK/'+el.nama_thumbnail" width="400" alt="">
-                            <img v-else src="../../assets/img/404.png" width="400" alt="" />
+                            <img v-if="el.nama_thumbnail" :src="api_url+'/storage/THUBNAILPRODUK/'+el.nama_thumbnail" width="30" alt="">
+                            <img v-else src="../../assets/img/404.png" width="30" alt="" />
                           </vs-td>
-                          <vs-td></vs-td>
                           <vs-td>{{ el.nama }}</vs-td>
-                          <vs-td>{{ el.harga }}</vs-td>
+                          <vs-td>RP. {{ el.harga }}</vs-td>
                           <vs-td>{{ el.jumlah }}</vs-td>
                         </vs-tr>
                       </template>
@@ -128,15 +116,23 @@
                   <p>{{formatDate(tr.tanggal_bayar) ? formatDate(tr.tanggal_bayar) : "-"}}</p>
                   <label><b>Bukti Pembayaran :</b></label>
                   <img v-if="tr.bukti_pembayaran" :src="api_url+'/storage/BUKTIPEMBAYARAN/'+tr.bukti_pembayaran" width="400" alt="">
+                  <label><b>Kurir :</b></label>
+                  <p>{{tr.kurir ? tr.kurir : "-"}}</p>
+                  <label><b>Service / Paket :</b></label>
+                  <p>{{tr.service ? tr.service : "-"}}</p>
+                  <label><b>Ongkir :</b></label>
+                  <p>{{tr.ongkir ? tr.ongkir : "-"}}</p>
+                  <label><b>Estimasi Hari :</b></label>
+                  <p>{{tr.etd ? tr.etd : "-"}}</p>
                 </el-card>
                 <hr>
                 <div>
                   <vs-button
                     relief
                     :active="active == 1"
-                    @click="gambarDialog = true; titleDialog = 'Upload Bukti Pembayaran';"
+                    @click="gambarDialog = true; titleDialog = 'Upload Bukti Pembayaran'; handleOngkir(getODs.data)"
                   >
-                    Tambah Gambar Produk
+                    Upload Pembayaran
                   </vs-button>
                 </div>
               </template>
@@ -183,99 +179,8 @@
     </el-tooltip> -->
     <!-- End floating button -->
 
-    <vs-dialog
-      v-model="formDialog"
-      :width="$store.state.drawer.mode === 'mobile' ? '80%' : '60%'"
-      @close="resetForm()"
-    >
-      <template #header>
-        <h1 class="not-margin">
-          {{ titleDialog }}
-        </h1>
-      </template>
-      <div class="con-form">
-        <vs-row>
-          <vs-col
-            vs-type="flex"
-            vs-justify="center"
-            vs-align="center"
-            w="6"
-            style="padding: 5px"
-          >
-            <label>Uraian</label>
-            <vs-input
-              type="text"
-              v-model="form.uraian"
-              placeholder="Masukkan Uraian ..."
-            ></vs-input>
-          </vs-col>
-          <vs-col
-            vs-type="flex"
-            vs-justify="center"
-            vs-align="center"
-            w="6"
-            style="padding: 5px"
-          >
-            <label>Tanggal Kegiatan</label>
-            <vs-input type="date" v-model="form.tanggal" />
-          </vs-col>
-          <vs-col
-            vs-type="flex"
-            vs-justify="center"
-            vs-align="center"
-            w="12"
-            style="padding: 5px"
-          >
-            <label>Keterangan</label>
-            <el-input
-              type="textarea"
-              :rows="2"
-              placeholder="Masukkan Keterangan ..."
-              v-model="form.keterangan"
-            >
-            </el-input>
-          </vs-col>
-        </vs-row>
-      </div>
-
-      <template #footer>
-        <div class="footer-dialog">
-          <vs-row>
-            <vs-col w="6" style="padding: 5px">
-              <vs-button
-                block
-                :loading="btnLoader"
-                @click="onSubmit('update')"
-                v-if="isUpdate"
-                >Update</vs-button
-              >
-              <vs-button
-                block
-                :loading="btnLoader"
-                @click="onSubmit('store')"
-                v-else
-                >Simpan</vs-button
-              >
-            </vs-col>
-            <vs-col w="6" style="padding: 5px">
-              <vs-button
-                block
-                border
-                @click="
-                  formDialog = false;
-                  resetForm();
-                "
-                >Batal</vs-button
-              >
-            </vs-col>
-          </vs-row>
-          <div>&nbsp;</div>
-        </div>
-      </template>
-    </vs-dialog>
-
-    <vs-dialog
-      v-model="gambarDialog"
+    <el-dialog
+      :visible.sync="gambarDialog"
       :width="$store.state.drawer.mode === 'mobile' ? '80%' : '60%'"
       @close="resetForm()"
     >
@@ -287,13 +192,9 @@
       <div class="con-form">
         <vs-row>
           <vs-col vs-type="flex" vs-justify="center" vs-align="center" w="12" style="padding:5px">
-            <el-upload
-              multiple
-              list-type="picture-card"
-              :on-change="handleChangeGambars"
-              :file-list="fileList"
-              :auto-upload="false"
-              >
+            <label>Foto Bukti Pembayaran</label>
+            <el-upload :auto-upload="false" :on-change="handleChangeFile" action="https://jsonplaceholder.typicode.com/posts/" list-type="picture-card" accept="image/*"
+              :file-list="fileList" :limit="1">
               <i class="el-icon-plus"></i>
             </el-upload>
           </vs-col>
@@ -335,6 +236,93 @@
             <label>Tanggal Bayar</label>
             <vs-input type="date" v-model="form.tanggal_bayar" />
           </vs-col>
+          <vs-col w="6"></vs-col>
+          <vs-col
+            vs-type="flex"
+            vs-justify="center"
+            vs-align="center"
+            w="6"
+            style="padding: 5px"
+          >
+            <label>Kurir</label>
+            <el-select
+              placeholder="Pilih Kurir"
+              v-model="form.courier"
+              @change="handleChangeCourier"
+            >
+              <el-option :value="'jne'" :label="'JNE'"></el-option>
+              <el-option :value="'pos'" :label="'POS Indonesia'"></el-option>
+            </el-select>
+          </vs-col>
+          <vs-col
+            v-loading="kurirLoader"
+            vs-type="flex"
+            vs-justify="center"
+            vs-align="center"
+            w="6"
+            style="padding: 5px"
+          >
+            <label>Service / Paket</label>
+            <!-- <vs-select
+              v-if="prosesKurir"
+              placeholder="Pilih Service"
+              v-model="form.cost"
+              @change="handleChangeService"
+            >
+              <vs-option
+                v-for="(op, i) in responOngkir"
+                :key="i"
+                :label="op.name+' '+op.service+' - RP. '+op.value+' ('+op.etd+')'"
+               :value="[op.code,op.name, op. service, op.description, op.value, op.etd, op.note,]"
+              >
+                {{ op.name+' '+op.service+' - RP. '+op.value+' ('+op.etd+')' }}
+              </vs-option>
+            </vs-select>
+            <vs-select
+              v-else
+              disabled
+              placeholder="Pilih Service"
+            ></vs-select> -->
+            <el-select v-if="prosesKurir" v-model="form.cost" placeholder="Pilih Service" @change="handleChangeService">
+              <el-option
+                v-for="(item, i) in responOngkir"
+                :key="i"
+                :label="item.name+' '+item.service+' - RP. '+item.value+' Estimasi hari : '+item.etd+')'"
+                :value="item">
+              </el-option>
+            </el-select>
+            <el-select v-else disabled v-model="form.cost" placeholder="Pilih Service" @change="handleChangeService">
+            </el-select>
+          </vs-col>
+          <!-- <vs-col
+            v-loading="kurirLoader"
+            vs-type="flex"
+            vs-justify="center"
+            vs-align="center"
+            w="6"
+            style="padding: 5px"
+          >
+            <label>Paket</label>
+            <vs-select
+              v-if="prosesPaket"
+              placeholder="Pilih Paket"
+              v-model="selectedPaket"
+            >
+              <vs-option
+                v-for="c in costs"
+                :key="c"
+                :label="c.service"
+                :value="c.cost"
+              >
+                {{ c.service }}
+              </vs-option>
+            </vs-select>
+            <vs-select
+              v-else
+              disabled
+              placeholder="Pilih Paket"
+            ></vs-select>
+          </vs-col> -->
         </vs-row>
       </div>
 
@@ -345,7 +333,7 @@
               <vs-button
                 block
                 :loading="btnLoader"
-                @click="onSubmitGambar()"
+                @click="onSubmit()"
                 >Simpan</vs-button
               >
             </vs-col>
@@ -364,7 +352,7 @@
           <div>&nbsp;</div>
         </div>
       </template>
-    </vs-dialog>
+    </el-dialog>
   </div>
 </template>
 
@@ -393,15 +381,34 @@ export default {
         atas_nama: "",
         no_rek: "",
         tanggal_bayar: "",
+        foto: "",
+        courier: "",
+        service: "",
+        ongkir: "",
+        etd: "",
+        berat: "",
+        cost: [],
       },
-      formDialog: false,
+      kurirLoader: false,
+      responOngkir: [],
+      prosesKurir: false,
+      prosesPaket: false,
+      selectedService: [],
+      costs:[],
+      selectedPaket: "",
+      // prosesgetPaketLoader: false,
+      // prosesgetPaket: false,
+      // services: [],
+      // selectedServices: [],
     };
   },
   mounted() {
     this.user_id = JSON.parse(JSON.stringify(this.$auth.user.id));
     this.$store.dispatch("order/getCostumer", { user_id: this.user_id });
+    // this.$store.dispatch("ongkir/getCosts", { berat: 0, courier: 'jne' });
   },
   computed: {
+    ...mapGetters("ongkir", ["getOngkirs", "getOngkirLoader"]),
     ...mapGetters("order", ["getOrders", "getLoader"]),
     ...mapGetters("orderdetail", ["getODs", "getODLoader"]),
   },
@@ -415,28 +422,76 @@ export default {
     resetForm() {
       this.form = {
         id: "",
-        uraian: "",
-        tanggal: "",
-        keterangan: "",
+        atas_nama: "",
+        no_rek: "",
+        tanggal_bayar: "",
+        foto: "",
       };
       this.cart = "",
       this.isUpdate = false;
     },
-    handleCurrentChange(val) {
-      this.$store.commit("kegiatan/setPage", val);
-      this.$store.dispatch("kegiatan/getAllPoktan", { user_id: this.user_id });
+    handleChangeFile(file, fileList) {
+      this.form.foto = file.raw
     },
-    onSubmit(type = "store") {
+    handleChangeService(data) {
+      this.form.service = data.service;
+      this.form.ongkir = data.value;
+      this.form.etd = data.etd;
+    },
+    handleChangeCourier(data){
+      this.kurirLoader = true
+      let formData = new FormData();
+      formData.append("weight", this.form.berat);
+      formData.append("courier", data);
+      formData.append("origin", 149);
+      formData.append("destination", 149);
+      this.$axios.post('/ongkir', formData)
+      .then(resp => {
+        let respon = resp.data.data.rajaongkir.results;
+        respon.forEach((element, index) => {
+          element.costs.forEach((el, i) => {
+            let r = []
+            r[i] = {
+              code: element.code,
+              name: element.name,
+              service: el.service,
+              description: el.description,
+              value: el.cost[0].value,
+              etd: el.cost[0].etd,
+              note: el.cost[0].note,
+            }
+            this.responOngkir = r
+          });
+        });
+        console.log(this.responOngkir);
+        this.prosesKurir = true;
+      }).catch(e => {
+          console.log(e)
+      }).finally(() => {
+        this.kurirLoader = false;
+      })
+    },
+    handleOngkir(data){
+      let berat = 0;
+      data.forEach((el, i) => {
+        berat = berat + el.berat;
+      });
+      this.form.berat = berat;
+    },
+    onSubmit() {
       this.btnLoader = true;
       let formData = new FormData();
-      formData.append("uraian", this.form.uraian);
-      formData.append("tanggal", this.form.tanggal);
-      formData.append("keterangan", this.form.keterangan);
-      formData.append("user_id", this.user_id);
-      let url = "/tambah_kegiatan";
-      if (type == "update") {
-        url = `/ubah_kegiatan/${this.form.id}`;
-      }
+      console.log(this.form.courier);
+      formData.append("atas_nama", this.form.atas_nama);
+      formData.append("no_rek", this.form.no_rek);
+      formData.append("tanggal_bayar", this.form.tanggal_bayar);
+      formData.append("bukti_pembayaran", this.form.foto);
+      formData.append("kurir", this.form.courier);
+      formData.append("service", this.form.service);
+      formData.append("ongkir", this.form.ongkir);
+      formData.append("etd", this.form.etd);
+      formData.append("web", true);
+      let url = url = `/ubah_order/${this.form.id}`;
 
       this.$axios
         .post(url, formData)
@@ -444,15 +499,11 @@ export default {
           if (resp.data.success) {
             this.$notify.success({
               title: "Success",
-              message: `Berhasil ${
-                type == "store" ? "Menambah" : "Mengubah"
-              } Kegiatan`,
+              message: `Berhasil Mengupload Bukti Pembayaran`,
             });
             this.resetForm();
-            this.formDialog = false;
-            this.$store.dispatch("kegiatan/getAllPoktan", {
-              user_id: this.user_id,
-            });
+            this.gambarDialog = false;
+            this.$store.dispatch("order/getCostumer", { user_id: this.user_id });
           }
         })
         .finally(() => {
@@ -469,54 +520,6 @@ export default {
             });
           }
         });
-    },
-    edit(data) {
-      this.form.id = data.id;
-      this.form.uraian = data.uraian;
-      this.form.tanggal = data.tanggal;
-      this.form.keterangan = data.keterangan;
-      this.formDialog = true;
-      this.titleDialog = "Edit Kegiatan";
-      this.isUpdate = true;
-    },
-    deleteData(id) {
-      this.$swal({
-        title: "Perhatian!",
-        text: "Yakin Menghapus Data Ini?",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Ya",
-        cancelButtonText: "Tidak",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          this.$axios
-            .delete(`/hapus_kegiatan/${id}`)
-            .then((resp) => {
-              if (resp.data.success) {
-                this.$notify.success({
-                  title: "Success",
-                  message: "Berhasil Menghapus Data",
-                });
-                this.shiftDialog = false;
-                this.$store.dispatch("kegiatan/getAllPoktan", {
-                  user_id: this.user_id,
-                  defaultPage: true,
-                });
-              }
-            })
-            .finally(() => {
-              //
-            })
-            .catch((err) => {
-              this.$notify.error({
-                title: "Error",
-                message: err.response.data.message,
-              });
-            });
-        }
-      });
     },
     formatDate(date) {
       if (date) {

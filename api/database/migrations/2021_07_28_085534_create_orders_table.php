@@ -26,6 +26,10 @@ class CreateOrdersTable extends Migration
             $table->string('no_rek')->nullable();
             $table->string('bukti_pembayaran')->nullable();
             $table->integer('status_order')->default(0);
+            $table->string('kurir')->nullable();
+            $table->integer('ongkir')->nullable();
+            $table->string('service')->nullable();
+            $table->string('etd')->nullable();
             $table->softDeletes();
             $table->timestamps();
 

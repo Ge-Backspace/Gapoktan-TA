@@ -102,6 +102,63 @@ class OrderController extends Controller
 
     public function ubahOrder(Request $request, $id)
     {
+        if ($request->web) {
+            $order = Order::find($id);
+            if (!$order) {
+                return $this->resp(null, Variable::NOT_FOUND, false, 406);
+            }
+            $input = $request->only([
+                'address_id',
+                'deskripsi',
+                'tanggal_bayar',
+                'no_rek',
+                'atas_nama',
+                'bukti_pembayaran',
+                'kurir',
+                'service',
+                'etd',
+                'ongkir'
+            ]);
+            $validator = Validator::make($input, [
+                'address_id' => 'numeric',
+                'deskripsi' => 'string',
+                'no_rek' => 'required|string',
+                'atas_nama' => 'required|string',
+                'tanggal_bayar' => 'required|date',
+                'kurir' => 'required|string',
+                'service' => 'required|string',
+                'etd' => 'required|string',
+                'ongkir' => 'required|numeric',
+                'bukti_pembayaran' => 'required|mimes:jpeg,png,jpg|max:5048',
+            ], Helper::messageValidation());
+            if ($validator->fails()) {
+                return $this->resp(Helper::generateErrorMsg($validator->errors()->getMessages()), Variable::FAILED, false, 406);
+            }
+            $file = $request->file('bukti_pembayaran');
+            if ($file) {
+                $basePath = base_path('storage/app/public/' . Variable::BPYR);
+                $extension = $file->getClientOriginalExtension();
+                if (empty($extension)) {
+                    $extension = $file->clientExtension();
+                }
+                $fileName = Variable::BPYR . '-' . time() . '.' . $extension;
+                $file->move($basePath, $fileName);
+            }
+            $order->update([
+                'address_id' => $request->address_id ? $input['address_id'] : $order->address_id,
+                'status_payment' => true,
+                'deskripsi' => $request->deskripsi ? $input['deskripsi'] : $order->deskripsi,
+                'no_rek' => $input['no_rek'],
+                'atas_nama' => $input['atas_nama'],
+                'tanggal_bayar' => $input['tanggal_bayar'],
+                'kurir' => strtoupper($input['kurir']),
+                'service' => $input['service'],
+                'ongkir' => $input['ongkir'],
+                'etd' => $input['etd'],
+                'bukti_pembayaran' => $file ? $fileName : null,
+            ]);
+            return $this->resp($order);
+        }
         $order = Order::find($id);
         if (!$order) {
             return $this->resp(null, Variable::NOT_FOUND, false, 406);
@@ -116,7 +173,7 @@ class OrderController extends Controller
         ]);
         $validator = Validator::make($input, [
             'address_id' => 'numeric',
-            'deskripsi' => 'required|string',
+            'deskripsi' => 'string',
             'no_rek' => 'required|string',
             'atas_nama' => 'required|string',
             'tanggal_bayar' => 'required|date',
@@ -138,7 +195,7 @@ class OrderController extends Controller
         $order->update([
             'address_id' => $request->address_id ? $input['address_id'] : $order->address_id,
             'status_payment' => true,
-            'deskripsi' => $input['deskripsi'],
+            'deskripsi' => $request->deskripsi ? $input['deskripsi'] : $order->deskripsi,
             'no_rek' => $input['no_rek'],
             'atas_nama' => $input['atas_nama'],
             'tanggal_bayar' => $input['tanggal_bayar'],

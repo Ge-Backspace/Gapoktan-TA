@@ -138,16 +138,80 @@
             vs-type="flex"
             vs-justify="center"
             vs-align="center"
+            w="6"
+            style="padding: 5px"
+          >
+            <label>Provinsi</label>
+            <el-select
+              placeholder="Pilih Provinsi"
+              v-model="form.provinsi"
+              @change="handleChangeProvinsi"
+            >
+              <el-option
+                v-for="(item, i) in optionProvinsi"
+                :key="i"
+                :label="item.province"
+                :value="item.province_id">
+              </el-option>
+            </el-select>
+          </vs-col>
+          <vs-col
+            v-loading="kotaLoader"
+            vs-type="flex"
+            vs-justify="center"
+            vs-align="center"
+            w="6"
+            style="padding: 5px"
+          >
+            <label>Kota / Kabupaten</label>
+            <el-select v-if="selectKota" v-model="form.city" placeholder="Pilih Kota / Kabupaten" @change="handleChangeKota">
+              <el-option
+                v-for="(item, i) in optionKota"
+                :key="i"
+                :label="item.type+' '+item.city_name+' '+item.postal_code"
+                :value="item">
+              </el-option>
+            </el-select>
+            <el-select v-else disabled v-model="form.city" placeholder="Pilih Kota / Kabupaten">
+            </el-select>
+          </vs-col>
+          <vs-col
+            vs-type="flex"
+            vs-justify="center"
+            vs-align="center"
             w="12"
             style="padding: 5px"
           >
-            <label>Alamat Lengkap (Beserta Kode Pos)</label>
-            <el-input
+            <label>Pilih Lokasi</label>
+            <!-- <el-input
               type="textarea"
               :rows="2"
               placeholder="Masukkan Alamat Lengkap ..."
               v-model="form.alamat">
-            </el-input>
+            </el-input> -->
+          </vs-col>
+          <vs-col vs-type="flex" vs-justify="center" vs-align="center" w="6" style="padding:5px">
+            <label>Latitude</label>
+            <vs-input type="number" v-model="form.lat" placeholder="Latitude"></vs-input>
+          </vs-col>
+          <vs-col vs-type="flex" vs-justify="center" vs-align="center" w="6" style="padding:5px">
+            <label>Longitude</label>
+            <vs-input type="number" v-model="form.lng" placeholder="Longitude"></vs-input>
+          </vs-col>
+          <vs-col vs-type="flex" vs-justify="center" vs-align="center" w="12" style="padding:5px">
+            <GmapMap
+            v-bind:center="center"
+            v-bind:zoom="10"
+            map-type-id="terrain"
+            style="height: 250px"
+            >
+            <GmapMarker
+              v-bind:position="{lat: form.lat, lng: form.lng}"
+              v-bind:clickable="true"
+              v-bind:draggable="true"
+              @drag="updateCoordinates"
+            />
+            </GmapMap>
           </vs-col>
         </vs-row>
       </div>
@@ -179,8 +243,7 @@
                   formDialog = false;
                   resetForm();
                 "
-                >Batal</vs-button
-              >
+                >Batal</vs-button>
             </vs-col>
           </vs-row>
           <div>&nbsp;</div>
@@ -208,18 +271,39 @@ export default {
       isUpdate: false,
       btnLoader: false,
       user_id: "",
+      optionProvinsi: [],
+      optionKota: [],
       form: {
         id: "",
         nama: "",
         nomor_hp: "",
         alamat: "",
+        provinsi: "",
+        city: [],
+        lat: -6.3473696,
+        lng: 108.2946503,
       },
+      kotaLoader: false,
+      selectKota: false,
+      center: {lat: -6.3473696, lng: 108.2946503},
       formDialog: false,
     };
   },
   mounted() {
     this.user_id = JSON.parse(JSON.stringify(this.$auth.user.id))
     this.$store.dispatch("address/getAll", { user_id: this.user_id })
+    this.$axios.get('/provinsi').then(resp => {
+      let reson = resp.data.data.rajaongkir.results
+      let r = []
+      reson.forEach(el => {
+        r.push({
+          province_id: el.province_id,
+          province: el.province,
+        })
+      });
+      this.optionProvinsi = r
+    })
+    console.log(this.optionProvinsi)
   },
   computed: {
     ...mapGetters("address", ["getAddresses", "getLoader"])
@@ -234,9 +318,28 @@ export default {
       };
       this.isUpdate = false;
     },
-    handleCurrentChange(val) {
-      this.$store.commit("kegiatan/setPage", val);
-      this.$store.dispatch("kegiatan/getAllPoktan", { user_id: this.user_id });
+    handleChangeProvinsi(data) {
+      this.kotaLoader = true
+      this.$axios.get(`/kota/${data}`)
+      .then(resp => {
+        let reson = resp.data.data.rajaongkir.results
+        let r = []
+        reson.forEach(el => {
+          r.push({
+            city_id: el.city_id,
+            province_id: el.province_id,
+            province: el.province,
+            type: el.type,
+            city_name: el.city_name,
+            postal_code: el.postal_code,
+          })
+        });
+        this.optionKota = r
+        this.selectKota = true
+      })
+    },
+    handleChangeKota(data) {
+      console.log(data)
     },
     onSubmit(type = "store") {
       this.btnLoader = true;
@@ -324,6 +427,16 @@ export default {
             });
         }
       });
+    },
+    updateCoordinates(location) {
+      this.form.lat = location.latLng.lat(),
+      this.form.lng = location.latLng.lng()
+    },
+    markers (location) {
+      return {lat: Number(location.lat), lng: Number(location.lng)}
+    },
+    markersDefault(location){
+      return {lat: Number(-6.3473696), lng: Number(108.2946503) }
     },
   },
   watch: {

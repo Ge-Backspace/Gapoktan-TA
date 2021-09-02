@@ -10,7 +10,7 @@
         "barryvdh/laravel-dompdf": "^0.8.7",
         "doctrine/dbal": "^2.12",
         "flipbox/lumen-generator": "^8.2",
-        "guzzlehttp/guzzle": "^7.2",
+        "guzzlehttp/guzzle": "^7.3",
         "illuminate/mail": "^8.19",
         "illuminate/notifications": "^8.19",
         "laravel/helpers": "^1.4",

@@ -19,7 +19,11 @@ class Order extends Model
         'atas_nama',
         'no_rek',
         'bukti_pembayaran',
-        'status_order'
+        'status_order',
+        'kurir',
+        'service',
+        'etd',
+        'ongkir'
     ];
 
     public function costumer()

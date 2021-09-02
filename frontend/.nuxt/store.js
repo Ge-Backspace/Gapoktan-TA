@@ -27,6 +27,7 @@ let store = {};
   resolveStoreModules(require('..\\store\\gambarproduk.js'), 'gambarproduk.js')
   resolveStoreModules(require('..\\store\\kategori.js'), 'kategori.js')
   resolveStoreModules(require('..\\store\\kegiatan.js'), 'kegiatan.js')
+  resolveStoreModules(require('..\\store\\ongkir.js'), 'ongkir.js')
   resolveStoreModules(require('..\\store\\option.js'), 'option.js')
   resolveStoreModules(require('..\\store\\order.js'), 'order.js')
   resolveStoreModules(require('..\\store\\orderdetail.js'), 'orderdetail.js')
@@ -49,6 +50,7 @@ let store = {};
       '..\\store\\index.js',
       '..\\store\\kategori.js',
       '..\\store\\kegiatan.js',
+      '..\\store\\ongkir.js',
       '..\\store\\option.js',
       '..\\store\\order.js',
       '..\\store\\orderdetail.js',

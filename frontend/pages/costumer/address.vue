@@ -24,6 +24,8 @@
               <vs-th>Nama Alamat</vs-th>
               <vs-th>Nomor Handphone</vs-th>
               <vs-th>Alamat Lengkap</vs-th>
+              <vs-th>Kota</vs-th>
+              <vs-th>Provinsi</vs-th>
             </vs-tr>
           </template>
           <template #tbody>
@@ -58,6 +60,8 @@
               <vs-td>{{ tr.nama }}</vs-td>
               <vs-td>{{ tr.nomor_hp }}</vs-td>
               <vs-td>{{ tr.alamat }}</vs-td>
+              <vs-td>{{ tr.type+' '+tr.kota }}</vs-td>
+              <vs-td>{{ tr.provinsi }}</vs-td>
             </vs-tr>
           </template>
           <template #footer>
@@ -96,8 +100,8 @@
     </el-tooltip>
     <!-- End floating button -->
 
-    <vs-dialog
-      v-model="formDialog"
+    <el-dialog
+      :visible.sync="formDialog"
       :width="$store.state.drawer.mode === 'mobile' ? '80%' : '60%'"
       @close="resetForm()"
     >
@@ -135,6 +139,7 @@
             v-model="form.nomor_hp"/>
           </vs-col>
           <vs-col
+            v-loading="provinsiLoader"
             vs-type="flex"
             vs-justify="center"
             vs-align="center"
@@ -168,7 +173,7 @@
               <el-option
                 v-for="(item, i) in optionKota"
                 :key="i"
-                :label="item.type+' '+item.city_name+' '+item.postal_code"
+                :label="item.type+' '+item.city_name+' - '+item.postal_code"
                 :value="item">
               </el-option>
             </el-select>
@@ -182,15 +187,15 @@
             w="12"
             style="padding: 5px"
           >
-            <label>Pilih Lokasi</label>
-            <!-- <el-input
+            <label>Alamat Lengkap (Jalan, RT, RW, Blok, Desa, Kecamatan, Kode Pos)</label>
+            <el-input
               type="textarea"
               :rows="2"
               placeholder="Masukkan Alamat Lengkap ..."
               v-model="form.alamat">
-            </el-input> -->
+            </el-input>
           </vs-col>
-          <vs-col vs-type="flex" vs-justify="center" vs-align="center" w="6" style="padding:5px">
+          <!-- <vs-col vs-type="flex" vs-justify="center" vs-align="center" w="6" style="padding:5px">
             <label>Latitude</label>
             <vs-input type="number" v-model="form.lat" placeholder="Latitude"></vs-input>
           </vs-col>
@@ -212,7 +217,7 @@
               @drag="updateCoordinates"
             />
             </GmapMap>
-          </vs-col>
+          </vs-col> -->
         </vs-row>
       </div>
 
@@ -249,7 +254,7 @@
           <div>&nbsp;</div>
         </div>
       </template>
-    </vs-dialog>
+    </el-dialog>
   </div>
 </template>
 
@@ -277,12 +282,18 @@ export default {
         id: "",
         nama: "",
         nomor_hp: "",
-        alamat: "",
+        provinsi_id: "",
         provinsi: "",
+        type: "",
+        kota_id: "",
+        kota: "",
+        postal_code: "",
+        alamat: "",
         city: [],
         lat: -6.3473696,
         lng: 108.2946503,
       },
+      provinsiLoader: true,
       kotaLoader: false,
       selectKota: false,
       center: {lat: -6.3473696, lng: 108.2946503},
@@ -292,31 +303,45 @@ export default {
   mounted() {
     this.user_id = JSON.parse(JSON.stringify(this.$auth.user.id))
     this.$store.dispatch("address/getAll", { user_id: this.user_id })
-    this.$axios.get('/provinsi').then(resp => {
-      let reson = resp.data.data.rajaongkir.results
-      let r = []
-      reson.forEach(el => {
-        r.push({
-          province_id: el.province_id,
-          province: el.province,
-        })
-      });
-      this.optionProvinsi = r
-    })
-    console.log(this.optionProvinsi)
+    this.getProvinsi()
   },
   computed: {
     ...mapGetters("address", ["getAddresses", "getLoader"])
   },
   methods: {
+    getProvinsi() {
+      this.$axios.get('/provinsi').then(resp => {
+        let reson = resp.data.data.rajaongkir.results
+        let r = []
+        reson.forEach(el => {
+          r.push({
+            province_id: el.province_id,
+            province: el.province,
+          })
+        });
+        this.optionProvinsi = r
+        this.provinsiLoader = false
+      })
+    },
     resetForm() {
       this.form = {
         id: "",
         nama: "",
         nomor_hp: "",
+        provinsi_id: "",
+        provinsi: "",
+        type: "",
+        kota_id: "",
+        kota: "",
+        postal_code: "",
         alamat: "",
+        city: [],
       };
-      this.isUpdate = false;
+      this.provinsiLoader = true
+      this.kotaLoader = false
+      this.selectKota = false
+      this.getProvinsi()
+      this.isUpdate = false
     },
     handleChangeProvinsi(data) {
       this.kotaLoader = true
@@ -336,16 +361,28 @@ export default {
         });
         this.optionKota = r
         this.selectKota = true
+        this.kotaLoader = false
       })
     },
     handleChangeKota(data) {
-      console.log(data)
+      this.form.provinsi_id = data.province_id,
+      this.form.provinsi = data.province,
+      this.form.type = data.type,
+      this.form.kota_id = data.city_id,
+      this.form.kota = data.city_name,
+      this.form.postal_code = data.postal_code
     },
     onSubmit(type = "store") {
       this.btnLoader = true;
       let formData = new FormData();
       formData.append("nama", this.form.nama);
       formData.append("nomor_hp", this.form.nomor_hp);
+      formData.append("provinsi_id", this.form.provinsi_id);
+      formData.append("provinsi", this.form.provinsi);
+      formData.append("type", this.form.type);
+      formData.append("kota_id", this.form.kota_id);
+      formData.append("kota", this.form.kota);
+      formData.append("postal_code", this.form.postal_code);
       formData.append("alamat", this.form.alamat);
       formData.append("user_id", this.user_id);
       let url = "/tambah_address";

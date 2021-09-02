@@ -3,210 +3,180 @@
     "name": "admin",
     "path": "/admin",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\admin\\\\index.vue",
-    "chunkName": "pages/admin/index",
-    "_name": "_2fd3d565"
+    "chunkName": "pages/admin/index"
   },
   {
     "name": "costumer",
     "path": "/costumer",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\costumer\\\\index.vue",
-    "chunkName": "pages/costumer/index",
-    "_name": "_a17ae0a4"
+    "chunkName": "pages/costumer/index"
   },
   {
     "name": "gapoktan",
     "path": "/gapoktan",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\gapoktan\\\\index.vue",
-    "chunkName": "pages/gapoktan/index",
-    "_name": "_c473121e"
+    "chunkName": "pages/gapoktan/index"
   },
   {
     "name": "guest",
     "path": "/guest",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\guest\\\\index.vue",
-    "chunkName": "pages/guest/index",
-    "_name": "_3daa2988"
+    "chunkName": "pages/guest/index"
   },
   {
     "name": "home",
     "path": "/home",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\home.vue",
-    "chunkName": "pages/home",
-    "_name": "_785ad9be"
+    "chunkName": "pages/home"
   },
   {
     "name": "login",
     "path": "/login",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\login.vue",
-    "chunkName": "pages/login",
-    "_name": "_573690d2"
+    "chunkName": "pages/login"
   },
   {
     "name": "poktan",
     "path": "/poktan",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\poktan\\\\index.vue",
-    "chunkName": "pages/poktan/index",
-    "_name": "_14e1220b"
+    "chunkName": "pages/poktan/index"
   },
   {
     "name": "profile",
     "path": "/profile",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\profile.vue",
-    "chunkName": "pages/profile",
-    "_name": "_49420457"
+    "chunkName": "pages/profile"
   },
   {
     "name": "register",
     "path": "/register",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\register.vue",
-    "chunkName": "pages/register",
-    "_name": "_32e1a5e5"
+    "chunkName": "pages/register"
   },
   {
     "name": "test",
     "path": "/test",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\test.vue",
-    "chunkName": "pages/test",
-    "_name": "_c71a5d58"
+    "chunkName": "pages/test"
   },
   {
     "name": "admin-order",
     "path": "/admin/order",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\admin\\\\order.vue",
-    "chunkName": "pages/admin/order",
-    "_name": "_489e95e1"
+    "chunkName": "pages/admin/order"
   },
   {
     "name": "admin-produk",
     "path": "/admin/produk",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\admin\\\\produk.vue",
-    "chunkName": "pages/admin/produk",
-    "_name": "_099db8aa"
+    "chunkName": "pages/admin/produk"
   },
   {
     "name": "costumer-address",
     "path": "/costumer/address",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\costumer\\\\address.vue",
-    "chunkName": "pages/costumer/address",
-    "_name": "_f4b33e60"
+    "chunkName": "pages/costumer/address"
   },
   {
     "name": "costumer-cart",
     "path": "/costumer/cart",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\costumer\\\\cart.vue",
-    "chunkName": "pages/costumer/cart",
-    "_name": "_499877f4"
+    "chunkName": "pages/costumer/cart"
   },
   {
     "name": "costumer-order",
     "path": "/costumer/order",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\costumer\\\\order.vue",
-    "chunkName": "pages/costumer/order",
-    "_name": "_6fe55fac"
+    "chunkName": "pages/costumer/order"
   },
   {
     "name": "gapoktan-artikel",
     "path": "/gapoktan/artikel",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\gapoktan\\\\artikel.vue",
-    "chunkName": "pages/gapoktan/artikel",
-    "_name": "_014cf58b"
+    "chunkName": "pages/gapoktan/artikel"
   },
   {
     "name": "gapoktan-user_poktan",
     "path": "/gapoktan/user_poktan",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\gapoktan\\\\user_poktan.vue",
-    "chunkName": "pages/gapoktan/user_poktan",
-    "_name": "_aedd4bb0"
+    "chunkName": "pages/gapoktan/user_poktan"
   },
   {
     "name": "admin-master-kategori",
     "path": "/admin/master/kategori",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\admin\\\\master\\\\kategori.vue",
-    "chunkName": "pages/admin/master/kategori",
-    "_name": "_336ac805"
+    "chunkName": "pages/admin/master/kategori"
   },
   {
     "name": "admin-user-admin",
     "path": "/admin/user/admin",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\admin\\\\user\\\\admin.vue",
-    "chunkName": "pages/admin/user/admin",
-    "_name": "_12fcfcf7"
+    "chunkName": "pages/admin/user/admin"
   },
   {
     "name": "admin-user-costumer",
     "path": "/admin/user/costumer",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\admin\\\\user\\\\costumer.vue",
-    "chunkName": "pages/admin/user/costumer",
-    "_name": "_0a21c0cc"
+    "chunkName": "pages/admin/user/costumer"
   },
   {
     "name": "admin-user-gapoktan",
     "path": "/admin/user/gapoktan",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\admin\\\\user\\\\gapoktan.vue",
-    "chunkName": "pages/admin/user/gapoktan",
-    "_name": "_e114e492"
+    "chunkName": "pages/admin/user/gapoktan"
   },
   {
     "name": "gapoktan-poktan-kegiatan",
     "path": "/gapoktan/poktan/kegiatan",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\gapoktan\\\\poktan\\\\kegiatan.vue",
-    "chunkName": "pages/gapoktan/poktan/kegiatan",
-    "_name": "_f48ed0bc"
+    "chunkName": "pages/gapoktan/poktan/kegiatan"
   },
   {
     "name": "gapoktan-poktan-stok_lumbung",
     "path": "/gapoktan/poktan/stok_lumbung",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\gapoktan\\\\poktan\\\\stok_lumbung.vue",
-    "chunkName": "pages/gapoktan/poktan/stok_lumbung",
-    "_name": "_22e5d754"
+    "chunkName": "pages/gapoktan/poktan/stok_lumbung"
   },
   {
     "name": "gapoktan-poktan-tandur",
     "path": "/gapoktan/poktan/tandur",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\gapoktan\\\\poktan\\\\tandur.vue",
-    "chunkName": "pages/gapoktan/poktan/tandur",
-    "_name": "_1025aa86"
+    "chunkName": "pages/gapoktan/poktan/tandur"
   },
   {
     "name": "gapoktan-produk-manage_produk",
     "path": "/gapoktan/produk/manage_produk",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\gapoktan\\\\produk\\\\manage_produk.vue",
-    "chunkName": "pages/gapoktan/produk/manage_produk",
-    "_name": "_d8dfb5ce"
+    "chunkName": "pages/gapoktan/produk/manage_produk"
   },
   {
     "name": "gapoktan-produk-orders",
     "path": "/gapoktan/produk/orders",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\gapoktan\\\\produk\\\\orders.vue",
-    "chunkName": "pages/gapoktan/produk/orders",
-    "_name": "_0eb612fa"
+    "chunkName": "pages/gapoktan/produk/orders"
   },
   {
     "name": "poktan-pelaporan-kegiatan",
     "path": "/poktan/pelaporan/kegiatan",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\poktan\\\\pelaporan\\\\kegiatan.vue",
-    "chunkName": "pages/poktan/pelaporan/kegiatan",
-    "_name": "_3f27a6ab"
+    "chunkName": "pages/poktan/pelaporan/kegiatan"
   },
   {
     "name": "poktan-pelaporan-stok_lumbung",
     "path": "/poktan/pelaporan/stok_lumbung",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\poktan\\\\pelaporan\\\\stok_lumbung.vue",
-    "chunkName": "pages/poktan/pelaporan/stok_lumbung",
-    "_name": "_60b439dd"
+    "chunkName": "pages/poktan/pelaporan/stok_lumbung"
   },
   {
     "name": "poktan-pelaporan-tandur",
     "path": "/poktan/pelaporan/tandur",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\poktan\\\\pelaporan\\\\tandur.vue",
-    "chunkName": "pages/poktan/pelaporan/tandur",
-    "_name": "_56eee7cf"
+    "chunkName": "pages/poktan/pelaporan/tandur"
   },
   {
     "name": "index",
     "path": "/",
     "component": "D:\\\\TA\\\\App\\\\frontend\\\\pages\\\\index.vue",
-    "chunkName": "pages/index",
-    "_name": "_0abd1480"
+    "chunkName": "pages/index"
   }
 ]

@@ -9,7 +9,7 @@ class Address extends Model
 {
     use SoftDeletes;
     protected $fillable = [
-        'costumer_id', 'nama', 'nomor_hp', 'alamat'
+        'costumer_id', 'nama', 'nomor_hp', 'provinsi_id', 'provinsi', 'type', 'kota_id', 'kota', 'postal_code', 'alamat'
     ];
 
     public function costumer()

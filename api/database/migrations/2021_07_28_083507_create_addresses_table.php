@@ -18,6 +18,12 @@ class CreateAddressesTable extends Migration
             $table->integer('costumer_id')->unsigned();
             $table->string('nama');
             $table->string('nomor_hp');
+            $table->integer('provinsi_id');
+            $table->string('provinsi');
+            $table->string('type');
+            $table->integer('kota_id');
+            $table->string('kota');
+            $table->string('postal_code');
             $table->string('alamat');
             $table->softDeletes();
             $table->timestamps();

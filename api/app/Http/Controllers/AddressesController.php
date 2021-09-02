@@ -29,30 +29,39 @@ class AddressesController extends Controller
     public function tambahAddress(Request $request)
     {
         $input = $request->only([
-            'nama', 'nomor_hp', 'alamat', 'costumer_id'
+            'nama', 'nomor_hp', 'provinsi_id', 'provinsi', 'type', 'kota_id', 'kota', 'postal_code', 'alamat'
         ]);
         $validator = Validator::make($input, [
-            'nama' => 'required',
-            'nomor_hp' => 'required',
+            'nama' => 'required|string',
+            'nomor_hp' => 'required|numeric',
+            'provinsi_id' => 'required|numeric',
+            'provinsi' => 'required|string',
+            'type' => 'required|string',
+            'kota_id' => 'required|numeric',
+            'kota' => 'required|string',
+            'postal_code' => 'required|string',
             'alamat' => 'required',
-            'costumer_id' => 'numeric'
         ], Helper::messageValidation());
         if ($validator->fails()) {
             return $this->resp(Helper::generateErrorMsg($validator->errors()->getMessages()), Variable::FAILED, false, 406);
         }
-        $state = false;
         if ($request->user_id) {
             $costumer = Costumer::where('user_id', $request->user_id)->first();
             if(!$costumer) {
                 return $this->resp(null, Variable::NOT_FOUND, false, 406);
             }
-            $state = true;
         }
         $add = Address::create([
             'nama' => $input['nama'],
             'nomor_hp' => $input['nomor_hp'],
+            'provinsi_id' => $input['provinsi_id'],
+            'provinsi' => ucfirst(trans($input['provinsi'])),
+            'type' => ucfirst($input['type']),
+            'kota_id' => $input['kota_id'],
+            'kota' => ucfirst(trans($input['kota'])),
+            'postal_code' => $input['postal_code'],
             'alamat' => $input['alamat'],
-            'costumer_id' => $state ? $costumer->id : $input['costumer_id']
+            'costumer_id' => $costumer->id
         ]);
         return $this->resp($add);
     }
